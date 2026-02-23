@@ -1,909 +1,2213 @@
-﻿<!DOCTYPE html>
+﻿<!doctype html>
 <html lang="fa" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Lexo</title>
-  <style>
-    :root {
-      --bg: #f4f7fb;
-      --card: #ffffff;
-      --text: #1f2a37;
-      --muted: #6b7280;
-      --primary: #0b6bcb;
-      --primary-dark: #08509a;
-      --success: #0f8a4b;
-      --danger: #c0392b;
-      --border: #dbe3ee;
-      --warn-bg: #fff7e8;
-      --warn-border: #f0c674;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: "Times New Roman", Times, serif;
-      background: linear-gradient(180deg, #eef3fa 0%, #f8fbff 100%);
-      color: var(--text);
-      min-height: 100vh;
-      padding: 24px;
-    }
-
-    .container {
-      max-width: 980px;
-      margin: 0 auto;
-    }
-
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 20px;
-      box-shadow: 0 8px 24px rgba(26, 60, 92, 0.08);
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 30px;
-    }
-
-    .sub {
-      margin: 8px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .main-menu {
-      margin-top: 18px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    .menu-btn {
-      border: 1px solid var(--border);
-      background: #fff;
-      color: #1d4f8a;
-      padding: 10px 16px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 15px;
-      font-weight: 700;
-    }
-
-    .menu-btn.active {
-      background: var(--primary);
-      color: #fff;
-      border-color: var(--primary);
-    }
-
-    .section {
-      margin-top: 18px;
-    }
-
-    .hidden { display: none !important; }
-
-    .topbar {
-      display: flex;
-      gap: 12px;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      margin-top: 16px;
-    }
-
-    .pill {
-      border: 1px solid var(--border);
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: #f8fbff;
-      font-size: 14px;
-    }
-
-    .timer {
-      font-weight: 700;
-      color: var(--danger);
-    }
-
-    .progress-wrap {
-      margin-top: 14px;
-      width: 100%;
-      height: 10px;
-      border-radius: 999px;
-      background: #e8eef7;
-      overflow: hidden;
-    }
-
-    .progress {
-      height: 100%;
-      width: 0%;
-      background: var(--primary);
-      transition: width 0.25s ease;
-    }
-
-    .question {
-      margin-top: 20px;
-      line-height: 1.8;
-      font-size: 20px;
-      font-weight: 600;
-      direction: ltr;
-      text-align: left;
-      unicode-bidi: plaintext;
-    }
-
-    .explain-wrap {
-      margin-top: 16px;
-      direction: ltr;
-      text-align: left;
-    }
-
-    .hint-btn {
-      border: 1px solid #f4d27d;
-      background: #fff8dd;
-      color: #7a5a00;
-      border-radius: 999px;
-      padding: 6px 12px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-    }
-
-    .hint-btn:hover {
-      background: #fff1bf;
-    }
-
-    .hint-box {
-      margin-top: 10px;
-      border: 1px solid #f4d27d;
-      background: #fffdf2;
-      border-radius: 10px;
-      padding: 10px 12px;
-      color: #5c4500;
-      font-size: 15px;
-      line-height: 1.7;
-      display: none;
-    }
-
-    .choices {
-      display: grid;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .choice {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px;
-      cursor: pointer;
-      background: #fff;
-      transition: border-color 0.2s, background 0.2s;
-      direction: ltr;
-      text-align: left;
-    }
-
-    .choice:hover {
-      border-color: #9bbbe6;
-      background: #f4f9ff;
-    }
-
-    .choice.correct {
-      border-color: #27ae60;
-      background: #eafaf0;
-    }
-
-    .choice.wrong {
-      border-color: #d64545;
-      background: #fdecec;
-    }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      justify-content: space-between;
-      margin-top: 20px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      border: none;
-      border-radius: 10px;
-      padding: 11px 16px;
-      cursor: pointer;
-      font-size: 14px;
-      font-weight: 700;
-      font-family: inherit;
-    }
-
-    .btn-primary {
-      background: var(--primary);
-      color: #fff;
-    }
-
-    .btn-primary:hover { background: var(--primary-dark); }
-
-    .btn-light {
-      background: #edf4ff;
-      color: #1d4f8a;
-    }
-
-    .btn-light:hover { background: #dfeeff; }
-
-    .result {
-      margin-top: 18px;
-      border: 1px solid #cde7d7;
-      background: #f1fbf5;
-      border-radius: 12px;
-      padding: 14px;
-      display: none;
-    }
-
-    .result h2 {
-      margin: 0 0 8px;
-      color: var(--success);
-      font-size: 22px;
-    }
-
-    .result p { margin: 6px 0; }
-
-    .vocab-config {
-      display: grid;
-      gap: 10px;
-      margin-top: 16px;
-    }
-
-    .vocab-config label {
-      font-size: 14px;
-      color: var(--muted);
-    }
-
-    .vocab-config input {
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 10px;
-      font-size: 14px;
-      font-family: inherit;
-      direction: ltr;
-      text-align: left;
-    }
-
-    .warn {
-      margin-top: 12px;
-      border: 1px solid var(--warn-border);
-      background: var(--warn-bg);
-      border-radius: 10px;
-      padding: 10px 12px;
-      font-size: 14px;
-      color: #7a5a00;
-    }
-
-    .vocab-question {
-      margin-top: 18px;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 14px;
-      background: #fcfdff;
-      display: none;
-    }
-
-    .word-head {
-      display: flex;
-      justify-content: space-between;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .word {
-      font-size: 32px;
-      font-weight: 700;
-      direction: ltr;
-      text-align: left;
-      color: #0d3f73;
-    }
-
-    .vocab-status {
-      margin-top: 10px;
-      font-size: 14px;
-      color: var(--muted);
-    }
-
-    .vocab-choices {
-      display: grid;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    .vocab-choice {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 12px;
-      cursor: pointer;
-      background: #fff;
-      direction: rtl;
-      text-align: right;
-    }
-
-    .vocab-choice:hover {
-      border-color: #9bbbe6;
-      background: #f4f9ff;
-    }
-
-    .vocab-result {
-      margin-top: 14px;
-      border: 1px solid #cde7d7;
-      background: #f1fbf5;
-      border-radius: 10px;
-      padding: 12px;
-      display: none;
-    }
-
-    .vocab-loading {
-      margin-top: 12px;
-      color: #5d6f85;
-      font-size: 14px;
-      display: none;
-    }
-
-    @media (max-width: 700px) {
-      body { padding: 12px; }
-      h1 { font-size: 24px; }
-      .actions { flex-direction: column; }
-      button { width: 100%; }
-      .word { font-size: 26px; }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <div class="card">
-      <h1>Lexo</h1>
-      <p class="sub">انتخاب ماژول آزمون: تعیین سطح گرامر/درک زبان یا تعیین دامنه لغت</p>
-
-      <div class="main-menu">
-        <button class="menu-btn active" id="menuPlacement" type="button">تعیین سطح زبان</button>
-        <button class="menu-btn" id="menuVocab" type="button">تعیین دامنه لغت</button>
-      </div>
-
-      <section class="section" id="placementSection">
-        <p class="sub">۴۰ سوال چهارگزینه‌ای - مدت آزمون: ۳۰ دقیقه</p>
-
-        <div class="topbar">
-          <div class="pill" id="questionCounter">سوال 1 از 40</div>
-          <div class="pill timer" id="timer">30:00</div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>lexi</title>
+    <style>
+      :root {
+        --bg: #f4f7fb;
+        --card: #ffffff;
+        --text: #1f2a37;
+        --muted: #6b7280;
+        --primary: #0b6bcb;
+        --primary-dark: #08509a;
+        --success: #0f8a4b;
+        --danger: #c0392b;
+        --border: #dbe3ee;
+        --warn-bg: #fff7e8;
+        --warn-border: #f0c674;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: "Times New Roman", Times, serif;
+        background: linear-gradient(180deg, #eef3fa 0%, #f8fbff 100%);
+        color: var(--text);
+        min-height: 100vh;
+        padding: 24px;
+      }
+      .container {
+        max-width: 980px;
+        margin: 0 auto;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 20px;
+        box-shadow: 0 8px 24px rgba(26, 60, 92, 0.08);
+      }
+      h1 {
+        margin: 0;
+        font-size: 30px;
+        text-align: center;
+        font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+        letter-spacing: 1px;
+        font-weight: 800;
+      }
+      .sub {
+        margin: 8px 0 0;
+        color: var(--muted);
+        font-size: 14px;
+      }
+      .main-menu {
+        margin-top: 18px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        background: linear-gradient(135deg, #f5f9ff 0%, #edf4ff 100%);
+        border: 1px solid #d4e2f3;
+        border-radius: 12px;
+        padding: 8px;
+      }
+      .menu-btn {
+        border: 1px solid transparent;
+        background: transparent;
+        color: #234a7a;
+        padding: 10px 16px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 15px;
+        font-weight: 700;
+        transition:
+          background 0.2s ease,
+          color 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .menu-btn:hover {
+        background: #ffffff;
+        box-shadow: 0 2px 8px rgba(13, 63, 115, 0.08);
+      }
+      .menu-btn.active {
+        background: linear-gradient(135deg, #0b6bcb 0%, #0d5fb2 100%);
+        color: #fff;
+        border-color: #0d5fb2;
+        box-shadow: 0 4px 12px rgba(11, 107, 203, 0.22);
+      }
+      .home-panel {
+        margin-top: 18px;
+        border: 1px solid #d8e5f5;
+        border-radius: 12px;
+        background: linear-gradient(180deg, #fbfdff 0%, #f3f8ff 100%);
+        padding: 16px;
+      }
+      .home-panel h2 {
+        margin: 0 0 8px;
+        font-size: 20px;
+        color: #153b68;
+      }
+      .home-panel p {
+        margin: 0;
+        color: #4f637c;
+        line-height: 1.8;
+      }
+      .section {
+        margin-top: 18px;
+      }
+      .hidden {
+        display: none !important;
+      }
+      .topbar {
+        display: flex;
+        gap: 12px;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 16px;
+      }
+      .pill {
+        border: 1px solid var(--border);
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: #f8fbff;
+        font-size: 14px;
+      }
+      .timer {
+        font-weight: 700;
+        color: var(--danger);
+      }
+      .progress-wrap {
+        margin-top: 14px;
+        width: 100%;
+        height: 10px;
+        border-radius: 999px;
+        background: #e8eef7;
+        overflow: hidden;
+      }
+      .progress {
+        height: 100%;
+        width: 0%;
+        background: var(--primary);
+        transition: width 0.25s ease;
+      }
+      .question {
+        margin-top: 20px;
+        line-height: 1.8;
+        font-size: 20px;
+        font-weight: 600;
+        direction: ltr;
+        text-align: left;
+        unicode-bidi: plaintext;
+      }
+      .explain-wrap {
+        margin-top: 16px;
+        direction: ltr;
+        text-align: left;
+      }
+      .hint-btn {
+        border: 1px solid #f4d27d;
+        background: #fff8dd;
+        color: #7a5a00;
+        border-radius: 999px;
+        padding: 6px 12px;
+        font-size: 14px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .hint-btn:hover {
+        background: #fff1bf;
+      }
+      .hint-box {
+        margin-top: 10px;
+        border: 1px solid #f4d27d;
+        background: #fffdf2;
+        border-radius: 10px;
+        padding: 10px 12px;
+        color: #5c4500;
+        font-size: 15px;
+        line-height: 1.7;
+        direction: rtl;
+        text-align: right;
+        unicode-bidi: plaintext;
+        display: none;
+      }
+      .choices {
+        display: grid;
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .choice {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px;
+        cursor: pointer;
+        background: #fff;
+        transition:
+          border-color 0.2s,
+          background 0.2s;
+        direction: ltr;
+        text-align: left;
+      }
+      .choice:hover {
+        border-color: #9bbbe6;
+        background: #f4f9ff;
+      }
+      .choice.correct {
+        border-color: #27ae60;
+        background: #eafaf0;
+      }
+      .choice.wrong {
+        border-color: #d64545;
+        background: #fdecec;
+      }
+      .actions {
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+        margin-top: 20px;
+        flex-wrap: wrap;
+      }
+      button {
+        border: none;
+        border-radius: 10px;
+        padding: 11px 16px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 700;
+        font-family: inherit;
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: #fff;
+      }
+      .btn-primary:hover {
+        background: var(--primary-dark);
+      }
+      .btn-light {
+        background: #edf4ff;
+        color: #1d4f8a;
+      }
+      .btn-light:hover {
+        background: #dfeeff;
+      }
+      .result {
+        margin-top: 18px;
+        border: 1px solid #cde7d7;
+        background: #f1fbf5;
+        border-radius: 12px;
+        padding: 14px;
+        display: none;
+      }
+      .result h2 {
+        margin: 0 0 8px;
+        color: var(--success);
+        font-size: 22px;
+      }
+      .result p {
+        margin: 6px 0;
+      }
+      .vocab-config {
+        display: grid;
+        gap: 10px;
+        margin-top: 16px;
+      }
+      .vocab-config label {
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .vocab-config input {
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 14px;
+        font-family: inherit;
+        direction: ltr;
+        text-align: left;
+      }
+      .warn {
+        margin-top: 12px;
+        border: 1px solid var(--warn-border);
+        background: var(--warn-bg);
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 14px;
+        color: #7a5a00;
+      }
+      .vocab-question {
+        margin-top: 18px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px;
+        background: #fcfdff;
+        display: none;
+      }
+      .word-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+      }
+      .word {
+        font-size: 32px;
+        font-weight: 700;
+        direction: ltr;
+        text-align: left;
+        color: #0d3f73;
+      }
+      .vocab-status {
+        margin-top: 10px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .vocab-choices {
+        display: grid;
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .vocab-choice {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px;
+        cursor: pointer;
+        background: #fff;
+        direction: rtl;
+        text-align: right;
+      }
+      .vocab-choice:hover {
+        border-color: #9bbbe6;
+        background: #f4f9ff;
+      }
+      .vocab-result {
+        margin-top: 14px;
+        border: 1px solid #cde7d7;
+        background: #f1fbf5;
+        border-radius: 10px;
+        padding: 12px;
+        display: none;
+      }
+      .vocab-loading {
+        margin-top: 12px;
+        color: #5d6f85;
+        font-size: 14px;
+        display: none;
+      }
+      .report-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(14, 30, 48, 0.48);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        z-index: 999;
+      }
+      .report-card {
+        width: min(900px, 100%);
+        max-height: 90vh;
+        overflow: auto;
+        background: #ffffff;
+        border: 1px solid #d5e4f5;
+        border-radius: 18px;
+        box-shadow: 0 16px 36px rgba(15, 49, 84, 0.22);
+        padding: 18px 18px 14px;
+        font-family: "Vazirmatn", "Segoe UI", Tahoma, sans-serif;
+      }
+      .report-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      .report-head-actions {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .report-title {
+        margin: 0;
+        font-size: 24px;
+        color: #16487d;
+      }
+      .report-close {
+        border: 1px solid #d3e0f0;
+        background: #f3f8ff;
+        color: #184777;
+        border-radius: 10px;
+        padding: 8px 12px;
+        font-weight: 700;
+      }
+      .report-action {
+        border: 1px solid #d3e0f0;
+        background: #f3f8ff;
+        color: #184777;
+        border-radius: 10px;
+        padding: 8px 12px;
+        font-weight: 700;
+      }
+      .report-summary {
+        border: 1px solid #d6e4f5;
+        border-radius: 12px;
+        background: linear-gradient(180deg, #fbfdff 0%, #f3f8ff 100%);
+        padding: 12px;
+        margin-bottom: 12px;
+        line-height: 1.9;
+        color: #294462;
+      }
+      .report-level-grid {
+        display: grid;
+        gap: 10px;
+      }
+      .level-block {
+        border: 1px solid #dbe7f5;
+        border-radius: 12px;
+        background: #fcfeff;
+        padding: 12px;
+      }
+      .level-block h3 {
+        margin: 0 0 8px;
+        color: #104072;
+        font-size: 18px;
+      }
+      .level-row {
+        margin: 0 0 6px;
+        color: #314d69;
+        line-height: 1.8;
+      }
+      .topic-chip {
+        display: inline-block;
+        background: #eef5ff;
+        border: 1px solid #cfe0f5;
+        border-radius: 999px;
+        padding: 2px 10px;
+        margin: 2px 4px 2px 0;
+        font-size: 13px;
+      }
+      @media (max-width: 700px) {
+        body {
+          padding: 12px;
+        }
+        h1 {
+          font-size: 24px;
+        }
+        .actions {
+          flex-direction: column;
+        }
+        button {
+          width: 100%;
+        }
+        .word {
+          font-size: 26px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="card">
+        <h1>lexi</h1>
+        <p class="sub">
+          جهت تعیین سطح زبان و یا تخمین دامنه لغت یکی از دکمه های زیر رو انتخاب کنید.
+        </p>
+        <div class="main-menu">
+          <button class="menu-btn active" id="menuHome" type="button">
+            خانه
+          </button>
+          <button class="menu-btn" id="menuPlacement" type="button">
+            تعیین سطح زبان
+          </button>
+          <button class="menu-btn" id="menuVocab" type="button">
+            تعیین دامنه لغت
+          </button>
         </div>
-
-        <div class="progress-wrap">
-          <div class="progress" id="progressBar"></div>
-        </div>
-
-        <div class="explain-wrap">
-          <button class="hint-btn hidden" id="hintBtn" type="button">💡 توضیح پاسخ</button>
-          <div class="hint-box" id="hintBox"></div>
-        </div>
-
-        <div class="question" id="questionText"></div>
-        <div class="choices" id="choices"></div>
-
-        <div class="actions">
-          <button class="btn-light" id="prevBtn" type="button">سوال قبلی</button>
-          <button class="btn-primary" id="nextBtn" type="button">سوال بعدی</button>
-          <button class="btn-primary" id="submitBtn" type="button">ثبت آزمون</button>
-        </div>
-
-        <div class="result" id="resultBox">
-          <h2>نتیجه آزمون</h2>
-          <p id="scoreLine"></p>
-          <p id="levelLine"></p>
-        </div>
-      </section>
-
-      <section class="section hidden" id="vocabSection">
-        <p class="sub">در این بخش ۲۰ لغت انگلیسی نمایش داده می‌شود و شما معنی درست را از بین ۴ گزینه انتخاب می‌کنید.</p>
-
-        <div class="warn">
-          این بخش به‌صورت آفلاین کار می‌کند و نیازی به اتصال چت‌جی‌پی‌تی یا اینترنت ندارد.
-        </div>
-
-        <div class="vocab-config">
-          <button class="btn-primary" id="startVocabBtn" type="button">شروع تست دامنه لغت (20 کلمه)</button>
-        </div>
-
-        <div class="vocab-loading" id="vocabLoading">در حال آماده‌سازی تست دامنه لغت...</div>
-
-        <div class="vocab-question" id="vocabQuestionBox">
-          <div class="word-head">
-            <div class="word" id="vocabWord">word</div>
-            <div class="pill" id="vocabCounter">1 / 20</div>
+        <section class="section" id="homeSection">
+        </section>
+        <section class="section hidden" id="placementSection">
+          <div class="vocab-config">
+            <button class="btn-primary" id="startPlacementBtn" type="button">
+              شروع آزمون تعیین سطح
+            </button>
           </div>
-          <div class="vocab-choices" id="vocabChoices"></div>
-          <div class="vocab-status" id="vocabStatus"></div>
+          <div class="topbar">
+            <div class="pill" id="questionCounter">سوال 1 از 40</div>
+            <div class="pill timer" id="timer">30:00</div>
+          </div>
+          <div class="progress-wrap">
+            <div class="progress" id="progressBar"></div>
+          </div>
+          <div class="explain-wrap">
+            <button class="hint-btn hidden" id="hintBtn" type="button">
+              💡 توضیح پاسخ
+            </button>
+            <div class="hint-box" id="hintBox"></div>
+          </div>
+          <div class="question" id="questionText"></div>
+          <div class="choices" id="choices"></div>
           <div class="actions">
-            <button class="btn-primary" id="nextVocabBtn" type="button">کلمه بعدی</button>
-            <button class="btn-primary" id="finishVocabBtn" type="button">پایان و محاسبه دامنه لغت</button>
+            <button class="btn-light" id="prevBtn" type="button">
+              سوال قبلی
+            </button>
+            <button class="btn-primary" id="nextBtn" type="button">
+              سوال بعدی
+            </button>
+            <button class="btn-primary" id="submitBtn" type="button">
+              ثبت آزمون
+            </button>
+          </div>
+          <div class="result" id="resultBox">
+            <h2>نتیجه آزمون</h2>
+            <p id="scoreLine"></p>
+            <p id="levelLine"></p>
+          </div>
+        </section>
+        <section class="section hidden" id="vocabSection">
+          <p class="sub">
+            در این بخش ۲۰ لغت انگلیسی نمایش داده می‌شود و شما معنی درست را از
+            بین ۴ گزینه انتخاب می‌کنید.
+          </p>
+          <div class="vocab-config">
+            <button class="btn-primary" id="startVocabBtn" type="button">
+              شروع تست دامنه لغت (20 کلمه)
+            </button>
+          </div>
+          <div class="vocab-loading" id="vocabLoading">
+            در حال آماده‌سازی تست دامنه لغت...
+          </div>
+          <div class="vocab-question" id="vocabQuestionBox">
+            <div class="word-head">
+              <div class="word" id="vocabWord">word</div>
+              <div class="pill" id="vocabCounter">1 / 20</div>
+            </div>
+            <div class="vocab-choices" id="vocabChoices"></div>
+            <div class="vocab-status" id="vocabStatus"></div>
+            <div class="actions">
+              <button class="btn-primary" id="nextVocabBtn" type="button">
+                کلمه بعدی
+              </button>
+              <button class="btn-primary" id="finishVocabBtn" type="button">
+                پایان و محاسبه دامنه لغت
+              </button>
+            </div>
+          </div>
+          <div class="vocab-result" id="vocabResultBox">
+            <h2 style="margin: 0 0 8px; color: #0f8a4b">نتیجه دامنه لغت</h2>
+            <p id="vocabScoreLine"></p>
+            <p id="vocabRangeLine"></p>
+            <p id="vocabHintLine"></p>
+          </div>
+        </section>
+        <div class="report-overlay hidden" id="reportOverlay">
+          <div class="report-card">
+            <div class="report-head">
+              <h2 class="report-title">کارنامه آزمون تعیین سطح</h2>
+              <div class="report-head-actions">
+                <button class="report-action" id="copyReportBtn" type="button">
+                  کپی
+                </button>
+                <button class="report-action" id="shareReportBtn" type="button">
+                  اشتراک‌گذاری
+                </button>
+                <button class="report-close" id="closeReportBtn" type="button">
+                  بستن
+                </button>
+              </div>
+            </div>
+            <div class="report-summary" id="reportSummary"></div>
+            <div class="report-level-grid" id="reportLevelGrid"></div>
           </div>
         </div>
-
-        <div class="vocab-result" id="vocabResultBox">
-          <h2 style="margin:0 0 8px; color:#0f8a4b;">نتیجه دامنه لغت</h2>
-          <p id="vocabScoreLine"></p>
-          <p id="vocabRangeLine"></p>
-          <p id="vocabHintLine"></p>
-        </div>
-      </section>
+      </div>
     </div>
-  </div>
-
-  <script>
-    const placementQuestions = [
-      { q: "I ___ a student.", options: ["am", "is", "are", "be"], answer: 0 },
-      { q: "She ___ from Iran.", options: ["are", "is", "am", "be"], answer: 1 },
-      { q: "They ___ in class now.", options: ["is", "am", "are", "be"], answer: 2 },
-      { q: "Choose the correct word: ___ name is Ali.", options: ["I", "My", "Me", "Mine"], answer: 1 },
-      { q: "We ___ English every day.", options: ["study", "studies", "studying", "studied"], answer: 0 },
-      { q: "He usually ___ to school by bus.", options: ["go", "goes", "going", "gone"], answer: 1 },
-      { q: "There ___ two books on the table.", options: ["is", "am", "are", "be"], answer: 2 },
-      { q: "I don't have ___ money.", options: ["some", "any", "many", "a"], answer: 1 },
-      { q: "___ you like coffee?", options: ["Do", "Does", "Are", "Is"], answer: 0 },
-      { q: "This bag is ___ than that one.", options: ["cheap", "cheaper", "cheapest", "more cheap"], answer: 1 },
-      { q: "I ___ TV when she called.", options: ["watch", "watched", "was watching", "am watching"], answer: 2 },
-      { q: "If it rains, we ___ at home.", options: ["stay", "stayed", "will stay", "staying"], answer: 2 },
-      { q: "He has lived here ___ 2019.", options: ["for", "since", "from", "at"], answer: 1 },
-      { q: "I have ___ finished my homework.", options: ["yet", "already", "still", "just now"], answer: 1 },
-      { q: "She can speak English very ___.", options: ["good", "well", "best", "better"], answer: 1 },
-      { q: "By the time we arrived, they ___ dinner.", options: ["finish", "finished", "had finished", "have finished"], answer: 2 },
-      { q: "I wish I ___ more free time.", options: ["have", "had", "will have", "having"], answer: 1 },
-      { q: "This is the man ___ helped me.", options: ["which", "whose", "who", "whom"], answer: 2 },
-      { q: "If I ___ you, I would take that job.", options: ["am", "was", "were", "be"], answer: 2 },
-      { q: "Neither Ali nor his friends ___ coming.", options: ["is", "are", "was", "be"], answer: 1 },
-      { q: "The project must ___ by Friday.", options: ["complete", "completed", "be completed", "be completing"], answer: 2 },
-      { q: "Hardly ___ when the phone rang.", options: ["I sat down", "had I sat down", "did I sit down", "I had sat down"], answer: 1 },
-      { q: "No sooner had we left ___ it started to rain.", options: ["than", "when", "that", "then"], answer: 0 },
-      { q: "She behaves as if she ___ the manager.", options: ["is", "was", "were", "has been"], answer: 2 },
-      { q: "The book, ___ was published last year, became a bestseller.", options: ["that", "which", "who", "what"], answer: 1 },
-      { q: "Despite ___ very tired, he kept working.", options: ["to be", "being", "be", "been"], answer: 1 },
-      { q: "It's high time you ___ more responsibility.", options: ["take", "took", "have taken", "will take"], answer: 1 },
-      { q: "Seldom ___ such dedication from a team.", options: ["we see", "do we see", "we have seen", "did we saw"], answer: 1 },
-      { q: "He denied ___ the confidential file.", options: ["to steal", "stealing", "steal", "stolen"], answer: 1 },
-      { q: "Not only ___ late, but he also forgot the documents.", options: ["he arrived", "did he arrive", "arrived he", "he did arrive"], answer: 1 },
-      { q: "Had she known the truth, she ___ differently.", options: ["would act", "would have acted", "acted", "had acted"], answer: 1 },
-      { q: "The proposal was rejected, ___ surprised everyone.", options: ["that", "which", "what", "whom"], answer: 1 },
-      { q: "He is believed ___ abroad for several years.", options: ["to live", "to have lived", "living", "to be living"], answer: 1 },
-      { q: "Scarcely had the meeting begun ___ the fire alarm went off.", options: ["than", "when", "while", "as"], answer: 1 },
-      { q: "She spoke quietly lest she ___ anyone.", options: ["disturbs", "disturbed", "disturb", "should disturb"], answer: 3 },
-      { q: "Little ___ that the decision would change the company forever.", options: ["they knew", "did they know", "they did know", "knew they"], answer: 1 },
-      { q: "All things considered, the plan is worth ___.", options: ["to try", "trying", "try", "tried"], answer: 1 },
-      { q: "Were it not for your help, we ___ the deadline.", options: ["miss", "would miss", "would have missed", "had missed"], answer: 2 },
-      { q: "He has an excellent command ___ academic writing.", options: ["in", "at", "of", "for"], answer: 2 },
-      { q: "Only after reviewing the data ___ the flaw.", options: ["we noticed", "did we notice", "we did noticed", "noticed we"], answer: 1 }
-    ];
-
-    const placementExplanations = [
-      "فاعل I با فعل am می‌آید.",
-      "فاعل مفرد سوم‌شخص (She) با is می‌آید.",
-      "فاعل They جمع است، پس are درست است.",
-      "قبل از name باید صفت ملکی My بیاید.",
-      "فاعل We با شکل ساده فعل study می‌آید.",
-      "در حال ساده برای he فعل s می‌گیرد: goes.",
-      "برای اسم جمع two books از are استفاده می‌کنیم.",
-      "در جمله منفی معمولاً any می‌آید.",
-      "برای سوال حال ساده با فاعل you از Do استفاده می‌شود.",
-      "برای مقایسه دو چیز از cheaper استفاده می‌کنیم.",
-      "کار در حال انجام در گذشته با was watching می‌آید.",
-      "شرط نوع اول: If + حال ساده، نتیجه will + فعل.",
-      "از since با یک نقطه شروع زمان (2019) استفاده می‌شود.",
-      "already برای کاری است که تا الان انجام شده.",
-      "بعد از فعل speak به قید نیاز داریم: well.",
-      "عملی که قبل از رسیدن ما تمام شده بود: had finished.",
-      "بعد از wish برای حال از گذشته ساده استفاده می‌شود: had.",
-      "برای فاعل انسان در جمله موصولی: who.",
-      "در شرط غیرواقعی حال می‌گوییم If I were you.",
-      "در neither...nor فعل با نزدیک‌ترین فاعل (friends) هماهنگ می‌شود: are.",
-      "در مجهول با must: must be completed.",
-      "ساختار Hardly...when با وارونگی: had I sat down.",
-      "ساختار ثابت No sooner...than است.",
-      "بعد از as if برای حالت فرضی از were استفاده می‌شود.",
-      "برای توضیح اضافه با ویرگول از which استفاده می‌شود.",
-      "بعد از despite از اسم/gerund می‌آید: being.",
-      "ساختار ثابت It's high time + گذشته ساده: took.",
-      "بعد از Seldom وارونگی می‌آید: do we see.",
-      "بعد از deny فعل ing می‌آید: stealing.",
-      "در Not only...but also وارونگی لازم است: did he arrive.",
-      "شرط گذشته غیرواقعی: would have acted.",
-      "کل جمله قبل را توضیح می‌دهد، پس which درست است.",
-      "برای گذشته کامل در ساختار مجهول/باور: to have lived.",
-      "ساختار Scarcely...when درست است.",
-      "بعد از lest شکل should + فعل پایه رایج است.",
-      "بعد از Little وارونگی می‌آید: did they know.",
-      "بعد از worth معمولاً gerund می‌آید: trying.",
-      "Were it not for نشان‌دهنده شرط غیرواقعی گذشته: would have missed.",
-      "ترکیب درست: command of something.",
-      "بعد از Only after وارونگی می‌آید: did we notice."
-    ];
-
-    const placementState = {
-      currentIndex: 0,
-      answers: Array(placementQuestions.length).fill(null),
-      timeLeft: 30 * 60,
-      timerId: null,
-      submitted: false,
-      hintOpen: false
-    };
-
-    const menuPlacement = document.getElementById("menuPlacement");
-    const menuVocab = document.getElementById("menuVocab");
-    const placementSection = document.getElementById("placementSection");
-    const vocabSection = document.getElementById("vocabSection");
-
-    const questionCounter = document.getElementById("questionCounter");
-    const timerEl = document.getElementById("timer");
-    const progressBar = document.getElementById("progressBar");
-    const hintBtn = document.getElementById("hintBtn");
-    const hintBox = document.getElementById("hintBox");
-    const questionText = document.getElementById("questionText");
-    const choicesEl = document.getElementById("choices");
-    const prevBtn = document.getElementById("prevBtn");
-    const nextBtn = document.getElementById("nextBtn");
-    const submitBtn = document.getElementById("submitBtn");
-    const resultBox = document.getElementById("resultBox");
-    const scoreLine = document.getElementById("scoreLine");
-    const levelLine = document.getElementById("levelLine");
-
-    const startVocabBtn = document.getElementById("startVocabBtn");
-    const vocabLoading = document.getElementById("vocabLoading");
-    const vocabQuestionBox = document.getElementById("vocabQuestionBox");
-    const vocabWord = document.getElementById("vocabWord");
-    const vocabCounter = document.getElementById("vocabCounter");
-    const vocabChoices = document.getElementById("vocabChoices");
-    const vocabStatus = document.getElementById("vocabStatus");
-    const nextVocabBtn = document.getElementById("nextVocabBtn");
-    const finishVocabBtn = document.getElementById("finishVocabBtn");
-    const vocabResultBox = document.getElementById("vocabResultBox");
-    const vocabScoreLine = document.getElementById("vocabScoreLine");
-    const vocabRangeLine = document.getElementById("vocabRangeLine");
-    const vocabHintLine = document.getElementById("vocabHintLine");
-
-    const OFFLINE_WORD_BANK = [
-      { word: "book", meanings: ["کتاب"], weight: 1, band: 1 },
-      { word: "happy", meanings: ["خوشحال", "شاد"], weight: 1, band: 1 },
-      { word: "house", meanings: ["خانه"], weight: 1, band: 1 },
-      { word: "water", meanings: ["آب"], weight: 1, band: 1 },
-      { word: "quick", meanings: ["سریع", "تند"], weight: 1, band: 1 },
-      { word: "teacher", meanings: ["معلم", "دبیر"], weight: 1, band: 1 },
-      { word: "decide", meanings: ["تصمیم گرفتن", "تصمیم"], weight: 2, band: 2 },
-      { word: "improve", meanings: ["بهبود دادن", "بهبود یافتن", "بهبود"], weight: 2, band: 2 },
-      { word: "despite", meanings: ["با وجود", "علی رغم", "علی‌رغم"], weight: 2, band: 2 },
-      { word: "available", meanings: ["در دسترس", "موجود"], weight: 2, band: 2 },
-      { word: "increase", meanings: ["افزایش", "افزایش دادن", "زیاد شدن"], weight: 2, band: 2 },
-      { word: "consider", meanings: ["در نظر گرفتن", "بررسی کردن"], weight: 2, band: 2 },
-      { word: "accurate", meanings: ["دقیق"], weight: 3, band: 3 },
-      { word: "attempt", meanings: ["تلاش", "تلاش کردن"], weight: 3, band: 3 },
-      { word: "beneficial", meanings: ["مفید", "سودمند"], weight: 3, band: 3 },
-      { word: "maintain", meanings: ["حفظ کردن", "نگهداری کردن"], weight: 3, band: 3 },
-      { word: "complex", meanings: ["پیچیده"], weight: 3, band: 3 },
-      { word: "requirement", meanings: ["نیاز", "الزام", "شرط"], weight: 3, band: 3 },
-      { word: "substantial", meanings: ["قابل توجه", "چشمگیر", "اساسی"], weight: 4, band: 4 },
-      { word: "nevertheless", meanings: ["با این حال", "بااین حال"], weight: 4, band: 4 },
-      { word: "consequently", meanings: ["در نتیجه", "بنابراین"], weight: 4, band: 4 },
-      { word: "comprehensive", meanings: ["جامع", "کامل"], weight: 4, band: 4 },
-      { word: "implement", meanings: ["اجرا کردن", "پیاده سازی", "پیاده‌سازی"], weight: 4, band: 4 },
-      { word: "sufficient", meanings: ["کافی"], weight: 4, band: 4 },
-      { word: "meticulous", meanings: ["بسیار دقیق", "موشکاف", "موشکافانه"], weight: 5, band: 5 },
-      { word: "ambiguous", meanings: ["مبهم", "دوپهلو"], weight: 5, band: 5 },
-      { word: "coherent", meanings: ["منسجم"], weight: 5, band: 5 },
-      { word: "feasible", meanings: ["عملی", "شدنی", "امکان پذیر", "امکان‌پذیر"], weight: 5, band: 5 },
-      { word: "intricate", meanings: ["پیچیده", "دشوار"], weight: 5, band: 5 },
-      { word: "hypothesis", meanings: ["فرضیه"], weight: 5, band: 5 }
-    ];
-
-    const vocabState = {
-      words: [],
-      answers: Array(20).fill(null),
-      index: 0,
-      started: false,
-      finished: false,
-      isBusy: false
-    };
-
-    function showSection(section) {
-      const isPlacement = section === "placement";
-      placementSection.classList.toggle("hidden", !isPlacement);
-      vocabSection.classList.toggle("hidden", isPlacement);
-      menuPlacement.classList.toggle("active", isPlacement);
-      menuVocab.classList.toggle("active", !isPlacement);
-    }
-
-    menuPlacement.addEventListener("click", () => showSection("placement"));
-    menuVocab.addEventListener("click", () => showSection("vocab"));
-
-    function formatTime(seconds) {
-      const m = Math.floor(seconds / 60).toString().padStart(2, "0");
-      const s = (seconds % 60).toString().padStart(2, "0");
-      return `${m}:${s}`;
-    }
-
-    function updatePlacementProgress() {
-      const total = placementQuestions.length;
-      const percent = ((placementState.currentIndex + 1) / total) * 100;
-      progressBar.style.width = `${percent}%`;
-    }
-
-    function determineLevel(score) {
-      if (score <= 8) return "A1";
-      if (score <= 16) return "A2";
-      if (score <= 24) return "B1";
-      if (score <= 32) return "B2";
-      return "C1";
-    }
-
-    function renderPlacementQuestion() {
-      const idx = placementState.currentIndex;
-      const item = placementQuestions[idx];
-      questionCounter.textContent = `سوال ${idx + 1} از ${placementQuestions.length}`;
-      questionText.textContent = item.q;
-      choicesEl.innerHTML = "";
-
-      item.options.forEach((opt, optionIndex) => {
-        const label = document.createElement("label");
-        label.className = "choice";
-
-        const input = document.createElement("input");
-        input.type = "radio";
-        input.name = "choice";
-        input.value = String(optionIndex);
-        input.checked = placementState.answers[idx] === optionIndex;
-        input.disabled = placementState.submitted;
-
-        input.addEventListener("change", () => {
-          placementState.answers[idx] = optionIndex;
-        });
-
-        const span = document.createElement("span");
-        span.textContent = opt;
-
-        label.appendChild(input);
-        label.appendChild(span);
-
-        if (placementState.submitted) {
-          if (optionIndex === item.answer) {
-            label.classList.add("correct");
-          } else if (placementState.answers[idx] === optionIndex && optionIndex !== item.answer) {
-            label.classList.add("wrong");
-          }
-        }
-
-        choicesEl.appendChild(label);
-      });
-
-      prevBtn.disabled = idx === 0;
-      nextBtn.disabled = idx === placementQuestions.length - 1;
-      submitBtn.disabled = placementState.submitted;
-
-      if (placementState.submitted) {
-        hintBtn.classList.remove("hidden");
-        hintBox.textContent = placementExplanations[idx] || "توضیحی ثبت نشده است.";
-        hintBox.style.display = placementState.hintOpen ? "block" : "none";
-      } else {
-        hintBtn.classList.add("hidden");
-        hintBox.style.display = "none";
+    <script>
+            const QUESTION_SOURCES = {
+              A1: [
+                {
+                  q: "I ___ a student.",
+                  options: ["am", "is", "are", "be"],
+                  answer: 0,
+                },
+                {
+                  q: "She ___ my sister.",
+                  options: ["am", "is", "are", "be"],
+                  answer: 1,
+                },
+                {
+                  q: "They ___ in class.",
+                  options: ["is", "am", "are", "be"],
+                  answer: 2,
+                },
+                {
+                  q: "My name ___ Ali.",
+                  options: ["am", "is", "are", "be"],
+                  answer: 1,
+                },
+                {
+                  q: "We ___ English every day.",
+                  options: ["study", "studies", "studying", "studied"],
+                  answer: 0,
+                },
+                {
+                  q: "He ___ to school by bus.",
+                  options: ["go", "goes", "going", "gone"],
+                  answer: 1,
+                },
+                {
+                  q: "There ___ two books here.",
+                  options: ["is", "am", "are", "be"],
+                  answer: 2,
+                },
+                {
+                  q: "I don't have ___ money.",
+                  options: ["some", "any", "many", "a"],
+                  answer: 1,
+                },
+                {
+                  q: "___ you like coffee?",
+                  options: ["Do", "Does", "Are", "Is"],
+                  answer: 0,
+                },
+                {
+                  q: "This is ___ pen.",
+                  options: ["I", "me", "my", "mine"],
+                  answer: 2,
+                },
+                {
+                  q: "The cat is ___ the table.",
+                  options: ["on", "in", "at", "to"],
+                  answer: 0,
+                },
+                {
+                  q: "He can ___ fast.",
+                  options: ["run", "runs", "running", "ran"],
+                  answer: 0,
+                },
+                {
+                  q: "Open ___ book.",
+                  options: ["you", "your", "yours", "you're"],
+                  answer: 1,
+                },
+                {
+                  q: "___ is your teacher?",
+                  options: ["What", "Who", "Where", "How"],
+                  answer: 1,
+                },
+                {
+                  q: "I ___ 18 years old.",
+                  options: ["is", "are", "am", "be"],
+                  answer: 2,
+                },
+                {
+                  q: "She has ___ car.",
+                  options: ["a", "an", "the", "-"],
+                  answer: 0,
+                },
+                {
+                  q: "They ___ at home now.",
+                  options: ["is", "are", "am", "be"],
+                  answer: 1,
+                },
+                {
+                  q: "This bag is very ___.",
+                  options: ["cheap", "cheaper", "cheapest", "more cheap"],
+                  answer: 0,
+                },
+                {
+                  q: "We live ___ Tehran.",
+                  options: ["on", "in", "at", "to"],
+                  answer: 1,
+                },
+                {
+                  q: "I ___ from Iran.",
+                  options: ["am", "is", "are", "be"],
+                  answer: 0,
+                },
+              ],
+              A2: [
+                {
+                  q: "Yesterday, I ___ to the park.",
+                  options: ["go", "went", "gone", "going"],
+                  answer: 1,
+                },
+                {
+                  q: "She ___ TV when I called.",
+                  options: ["watched", "was watching", "is watching", "watch"],
+                  answer: 1,
+                },
+                {
+                  q: "We ___ this movie before.",
+                  options: ["saw", "have seen", "see", "seeing"],
+                  answer: 1,
+                },
+                {
+                  q: "How ___ water do you drink?",
+                  options: ["many", "much", "few", "little"],
+                  answer: 1,
+                },
+                {
+                  q: "I need ___ apples.",
+                  options: ["a little", "a few", "much", "any"],
+                  answer: 1,
+                },
+                {
+                  q: "My car is ___ than yours.",
+                  options: ["fast", "faster", "fastest", "more fast"],
+                  answer: 1,
+                },
+                {
+                  q: "If it rains, we ___ home.",
+                  options: ["stay", "stayed", "will stay", "staying"],
+                  answer: 2,
+                },
+                {
+                  q: "He has lived here ___ 2021.",
+                  options: ["for", "since", "from", "at"],
+                  answer: 1,
+                },
+                {
+                  q: "There isn't ___ milk.",
+                  options: ["some", "many", "any", "a"],
+                  answer: 2,
+                },
+                {
+                  q: "Let's go, ___?",
+                  options: ["shall we", "do we", "will we", "aren't we"],
+                  answer: 0,
+                },
+                {
+                  q: "I ___ to Shiraz last year.",
+                  options: ["went", "have gone", "go", "am going"],
+                  answer: 0,
+                },
+                {
+                  q: "The train ___ at 9 tomorrow.",
+                  options: ["leaves", "leave", "left", "leaving"],
+                  answer: 0,
+                },
+                {
+                  q: "Can you ___ me?",
+                  options: ["help", "helps", "helping", "helped"],
+                  answer: 0,
+                },
+                {
+                  q: "She is interested ___ music.",
+                  options: ["on", "at", "in", "for"],
+                  answer: 2,
+                },
+                {
+                  q: "I prefer tea ___ coffee.",
+                  options: ["than", "to", "from", "over"],
+                  answer: 1,
+                },
+                {
+                  q: "He was tired ___ he slept early.",
+                  options: ["because", "so", "but", "or"],
+                  answer: 1,
+                },
+                {
+                  q: "What were you doing ___ 8 pm?",
+                  options: ["in", "on", "at", "to"],
+                  answer: 2,
+                },
+                {
+                  q: "This is the ___ dress in the shop.",
+                  options: ["good", "better", "best", "well"],
+                  answer: 2,
+                },
+                {
+                  q: "We haven't finished ___ .",
+                  options: ["already", "yet", "still", "just"],
+                  answer: 1,
+                },
+                {
+                  q: "She ___ her homework every day.",
+                  options: ["do", "does", "did", "done"],
+                  answer: 1,
+                },
+              ],
+              B1: [
+                {
+                  q: "I ___ this book before.",
+                  options: ["read", "have read", "am reading", "had read"],
+                  answer: 1,
+                },
+                {
+                  q: "By the time we arrived, they ___.",
+                  options: ["left", "have left", "had left", "leave"],
+                  answer: 2,
+                },
+                {
+                  q: "If I ___ more money, I'd travel.",
+                  options: ["have", "had", "will have", "had had"],
+                  answer: 1,
+                },
+                {
+                  q: "The woman ___ called me is my aunt.",
+                  options: ["which", "who", "whose", "where"],
+                  answer: 1,
+                },
+                {
+                  q: "You ___ smoke here.",
+                  options: ["mustn't", "don't have", "can't to", "should to"],
+                  answer: 0,
+                },
+                {
+                  q: "I wish I ___ more time.",
+                  options: ["have", "had", "will have", "am having"],
+                  answer: 1,
+                },
+                {
+                  q: "Neither Ali nor his friends ___ ready.",
+                  options: ["is", "are", "was", "be"],
+                  answer: 1,
+                },
+                {
+                  q: "He denied ___ the file.",
+                  options: ["to take", "taking", "take", "taken"],
+                  answer: 1,
+                },
+                {
+                  q: "I am used to ___ early.",
+                  options: ["wake", "woke", "waking", "to wake"],
+                  answer: 2,
+                },
+                {
+                  q: "The movie was ___ boring that we left.",
+                  options: ["too", "so", "such", "enough"],
+                  answer: 1,
+                },
+                {
+                  q: "I don't know what ___ now.",
+                  options: ["do", "to do", "doing", "did"],
+                  answer: 1,
+                },
+                {
+                  q: "Had I known, I ___ earlier.",
+                  options: ["came", "would come", "would have come", "had come"],
+                  answer: 2,
+                },
+                {
+                  q: "This is the city ___ I was born.",
+                  options: ["which", "who", "where", "whose"],
+                  answer: 2,
+                },
+                {
+                  q: "She promised ___ me.",
+                  options: ["call", "to call", "calling", "called"],
+                  answer: 1,
+                },
+                {
+                  q: "I would rather you ___ home.",
+                  options: ["stay", "stayed", "will stay", "have stayed"],
+                  answer: 1,
+                },
+                {
+                  q: "The meeting was called ___.",
+                  options: ["off", "up", "out", "away"],
+                  answer: 0,
+                },
+                {
+                  q: "He asked where I ___ from.",
+                  options: ["am", "was", "were", "be"],
+                  answer: 1,
+                },
+                {
+                  q: "She speaks English ___ than before.",
+                  options: ["fluent", "more fluently", "most fluently", "fluency"],
+                  answer: 1,
+                },
+                {
+                  q: "Not only ___ late, but he forgot his card.",
+                  options: ["he was", "was he", "he is", "is he"],
+                  answer: 1,
+                },
+                {
+                  q: "This task needs ___.",
+                  options: ["finish", "to finish", "finishing", "finished"],
+                  answer: 2,
+                },
+              ],
+              B2: [
+                {
+                  q: "Hardly ___ when the phone rang.",
+                  options: [
+                    "I sat down",
+                    "had I sat down",
+                    "did I sit down",
+                    "I had sat down",
+                  ],
+                  answer: 1,
+                },
+                {
+                  q: "No sooner had we arrived ___ it began to rain.",
+                  options: ["when", "than", "that", "then"],
+                  answer: 1,
+                },
+                {
+                  q: "He is believed ___ abroad for years.",
+                  options: ["to live", "to have lived", "living", "to be live"],
+                  answer: 1,
+                },
+                {
+                  q: "The book, ___ was published last year, sold well.",
+                  options: ["that", "which", "who", "what"],
+                  answer: 1,
+                },
+                {
+                  q: "Despite ___ tired, she kept working.",
+                  options: ["to be", "being", "be", "been"],
+                  answer: 1,
+                },
+                {
+                  q: "It's high time you ___ more responsibility.",
+                  options: ["take", "took", "have taken", "will take"],
+                  answer: 1,
+                },
+                {
+                  q: "Scarcely had the meeting started ___ the alarm rang.",
+                  options: ["than", "when", "while", "as"],
+                  answer: 1,
+                },
+                {
+                  q: "He talks as if he ___ everything.",
+                  options: ["knows", "knew", "has known", "know"],
+                  answer: 1,
+                },
+                {
+                  q: "Only after checking the data ___ the mistake.",
+                  options: [
+                    "we noticed",
+                    "did we notice",
+                    "we did noticed",
+                    "noticed we",
+                  ],
+                  answer: 1,
+                },
+                {
+                  q: "By next June, I ___ here for ten years.",
+                  options: ["work", "will work", "will have worked", "have worked"],
+                  answer: 2,
+                },
+                {
+                  q: "She was accused ___ leaking documents.",
+                  options: ["for", "with", "of", "to"],
+                  answer: 2,
+                },
+                {
+                  q: "Little ___ that the plan would fail.",
+                  options: [
+                    "they knew",
+                    "did they know",
+                    "they did know",
+                    "knew they",
+                  ],
+                  answer: 1,
+                },
+                {
+                  q: "The policy resulted ___ major changes.",
+                  options: ["to", "in", "from", "for"],
+                  answer: 1,
+                },
+                {
+                  q: "He objected ___ treated unfairly.",
+                  options: ["to being", "to be", "being", "for being"],
+                  answer: 0,
+                },
+                {
+                  q: "Were he more careful, he ___ fewer errors.",
+                  options: ["makes", "would make", "will make", "made"],
+                  answer: 1,
+                },
+                {
+                  q: "The room needs ___ before guests arrive.",
+                  options: ["clean", "to clean", "cleaning", "cleaned"],
+                  answer: 2,
+                },
+                {
+                  q: "I would rather not ___ this now.",
+                  options: ["discuss", "to discuss", "discussing", "discussed"],
+                  answer: 0,
+                },
+                {
+                  q: "The company is on the verge of ___ a deal.",
+                  options: ["sign", "to sign", "signing", "signed"],
+                  answer: 2,
+                },
+                {
+                  q: "So convincing ___ that everyone agreed.",
+                  options: ["he was", "was he", "he did", "did he"],
+                  answer: 1,
+                },
+                {
+                  q: "He would have passed if he ___ harder.",
+                  options: ["studied", "had studied", "would study", "has studied"],
+                  answer: 1,
+                },
+              ],
+              C1: [
+                {
+                  q: "Had it not been for your help, we ___ the project.",
+                  options: ["lose", "would lose", "would have lost", "had lost"],
+                  answer: 2,
+                },
+                {
+                  q: "The proposal was rejected, ___ surprised everyone.",
+                  options: ["that", "which", "what", "as"],
+                  answer: 1,
+                },
+                {
+                  q: "Not until the audit ended ___ the problem.",
+                  options: [
+                    "we understood",
+                    "did we understand",
+                    "we did understand",
+                    "understood we",
+                  ],
+                  answer: 1,
+                },
+                {
+                  q: "She demanded that he ___ immediately.",
+                  options: ["apologizes", "apologize", "apologized", "to apologize"],
+                  answer: 1,
+                },
+                {
+                  q: "Seldom ___ such dedication.",
+                  options: ["we see", "do we see", "we have seen", "did we sees"],
+                  answer: 1,
+                },
+                {
+                  q: "Under no circumstances ___ confidential data.",
+                  options: [
+                    "share staff",
+                    "staff share",
+                    "should staff share",
+                    "staff should",
+                  ],
+                  answer: 2,
+                },
+                {
+                  q: "The candidate appears ___ all criteria.",
+                  options: ["to meet", "to have met", "meeting", "meet"],
+                  answer: 1,
+                },
+                {
+                  q: "What he said was not only wrong ___ misleading.",
+                  options: ["and", "but also", "as well", "too"],
+                  answer: 1,
+                },
+                {
+                  q: "The report is expected ___ tomorrow.",
+                  options: ["submit", "to submit", "to be submitted", "submitted"],
+                  answer: 2,
+                },
+                {
+                  q: "All things considered, this plan is worth ___.",
+                  options: ["to try", "trying", "try", "tried"],
+                  answer: 1,
+                },
+                {
+                  q: "Rarely ___ such a clear explanation.",
+                  options: ["I have heard", "have I heard", "I heard", "did I heard"],
+                  answer: 1,
+                },
+                {
+                  q: "He spoke quietly lest he ___ anyone.",
+                  options: ["disturbs", "disturb", "disturbed", "should disturb"],
+                  answer: 3,
+                },
+                {
+                  q: "No matter how hard he tried, he couldn't ___ the target.",
+                  options: ["reach", "to reach", "reaching", "reached"],
+                  answer: 0,
+                },
+                {
+                  q: "She made it clear that no exceptions ___.",
+                  options: ["will make", "would be made", "were making", "make"],
+                  answer: 1,
+                },
+                {
+                  q: "His explanation was clear enough ___ us.",
+                  options: ["for", "to", "with", "at"],
+                  answer: 0,
+                },
+                {
+                  q: "The CEO, along with advisors, ___ attending.",
+                  options: ["are", "is", "were", "be"],
+                  answer: 1,
+                },
+                {
+                  q: "Had she told us earlier, we ___ the risk.",
+                  options: [
+                    "mitigate",
+                    "could mitigate",
+                    "could have mitigated",
+                    "had mitigated",
+                  ],
+                  answer: 2,
+                },
+                {
+                  q: "The findings call ___ immediate action.",
+                  options: ["for", "in", "up", "on"],
+                  answer: 0,
+                },
+                {
+                  q: "She is by far the most suitable person ___ the role.",
+                  options: ["for", "to", "in", "at"],
+                  answer: 0,
+                },
+                {
+                  q: "The issues are too complex ___ quickly.",
+                  options: ["to solve", "for solving", "that solve", "solving"],
+                  answer: 0,
+                },
+              ],
+              C2: [
+                {
+                  q: "So intricate ___ that experts disagreed.",
+                  options: [
+                    "the issue was",
+                    "was the issue",
+                    "the issue is",
+                    "is the issue",
+                  ],
+                  answer: 1,
+                },
+                {
+                  q: "Were it not for intervention, the merger ___ .",
+                  options: ["fails", "would fail", "would have failed", "had failed"],
+                  answer: 2,
+                },
+                {
+                  q: "No sooner ___ the decision than protests began.",
+                  options: [
+                    "had they announced",
+                    "they had announced",
+                    "did they announce",
+                    "they announced",
+                  ],
+                  answer: 0,
+                },
+                {
+                  q: "The argument hinges ___ a subtle distinction.",
+                  options: ["at", "on", "to", "for"],
+                  answer: 1,
+                },
+                {
+                  q: "Hardly ever ___ such negligence.",
+                  options: [
+                    "we encounter",
+                    "do we encounter",
+                    "we do encounter",
+                    "encounter we",
+                  ],
+                  answer: 1,
+                },
+                {
+                  q: "Her account was ___ with inconsistencies.",
+                  options: ["fraught", "packed", "loaded", "filled up"],
+                  answer: 0,
+                },
+                {
+                  q: "Only by revisiting first principles ___ coherence emerge.",
+                  options: ["can", "a can", "does", "a does"],
+                  answer: 0,
+                },
+                {
+                  q: "He was not so much mistaken ___ evasive.",
+                  options: ["than", "as", "that", "but"],
+                  answer: 1,
+                },
+                {
+                  q: "The committee insisted that each proposal ___ independently.",
+                  options: [
+                    "be evaluated",
+                    "is evaluated",
+                    "was evaluated",
+                    "to evaluate",
+                  ],
+                  answer: 0,
+                },
+                {
+                  q: "Scarcely ___ the implications when markets reacted.",
+                  options: [
+                    "had they grasped",
+                    "they had grasped",
+                    "did they grasp",
+                    "they grasped",
+                  ],
+                  answer: 0,
+                },
+                {
+                  q: "Her remarks were couched ___ ambiguous terms.",
+                  options: ["in", "on", "at", "with"],
+                  answer: 0,
+                },
+                {
+                  q: "To what extent it was inevitable remains ___ question.",
+                  options: ["an open", "open", "opened", "the opened"],
+                  answer: 0,
+                },
+                {
+                  q: "Little did they realize it would ___ the floodgates.",
+                  options: ["open", "opened", "to open", "opening"],
+                  answer: 0,
+                },
+                {
+                  q: "Such ___ the complexity that precedent helped little.",
+                  options: ["was", "were", "is", "be"],
+                  answer: 0,
+                },
+                {
+                  q: "Had the data been released earlier, fallout might ___ mitigated.",
+                  options: ["be", "have", "have been", "been"],
+                  answer: 2,
+                },
+                {
+                  q: "She has an uncanny ability to ___ complex ideas succinctly.",
+                  options: [
+                    "articulate",
+                    "articulating",
+                    "to articulate",
+                    "articulated",
+                  ],
+                  answer: 0,
+                },
+                {
+                  q: "The novel is widely regarded as ___ of modern satire.",
+                  options: ["a paragon", "paragons", "the paragon", "paragon"],
+                  answer: 0,
+                },
+                {
+                  q: "Notwithstanding ___ objections, the motion passed.",
+                  options: ["few", "a few", "the few", "those few"],
+                  answer: 1,
+                },
+                {
+                  q: "He speaks as though he ___ on the board for years.",
+                  options: ["served", "had served", "has served", "serves"],
+                  answer: 1,
+                },
+                {
+                  q: "The policy is pragmatic but ___ short-sighted.",
+                  options: [
+                    "profoundly",
+                    "profound",
+                    "profoundness",
+                    "more profoundly",
+                  ],
+                  answer: 0,
+                },
+              ],
+            };
+            let placementQuestions = [];
+                  const DOCX_EXPLANATION_TAILS = {
+          "A1-01":  "amچون فاعل «I» است، تنها شکل درست فعل to be برای آن «am» می‌باشد.",
+          "A1-02":  "isچون «She» سوم‌شخص مفرد است، فعل to be باید «is» باشد.",
+          "A1-03":  "areچون «They» جمع است، فعل مناسب آن «are» است.",
+          "A1-04":  "isچون «My name» مفرد محسوب می‌شود، فعل درست «is» است.",
+          "A1-05":  "studyچون «We» جمع است، فعل در حال ساده بدون s می‌آید.",
+          "A1-06":  "goesچون «He» سوم‌شخص مفرد است، فعل باید s/es بگیرد",
+          "A1-07":  "areچون «two books» جمع است، از «are» استفاده می‌کنیم.",
+          "A1-08":  "anyدر جملات منفی معمولاً از «any» (هیچ / مقداری) استفاده می‌کنیم.",
+          "A1-09":  "Doبرای ساخت سوال در حال ساده با «you» از «Do» استفاده می‌شود.",
+          "A1-10":  "myبرای نشان دادن مالکیت از «my» (مال من) استفاده می‌کنیم.",
+          "A1-11":  "on«On» یعنی «روی»، گربه روی میز است.",
+          "A1-12":  "runبعد از «can» همیشه فعل سادهبدون s یا ing می‌آید.",
+          "A1-13":  "yourچون مخاطب را خطاب می‌کنیم، «your» (کتاب تو) درست است.",
+          "A1-14":  "Who«Who» برای پرسیدن درباره شخص (چه کسی) به کار می‌رود.",
+          "A1-15":  "amبرای بیان سن با «I» از «am» استفاده می‌کنیم.",
+          "A1-16":  "aچون «car» مفرد و قابل شمارش است، «a»مناسب است.",
+          "A1-17":  "areچون «They» جمع است، فعل درست «are» می‌باشد.",
+          "A1-18":  "cheapبعد از «very» معمولاً صفت می‌آید. Cheapیعنی ارزان",
+          "A1-19":  "inبرای شهرها و کشورها از «in» استفاده می‌کنیم.",
+          "A1-20":  "amبرای معرفی ملیت یا محل تولد با «I» از «am» استفاده می‌شود.",
+          "A2-01":  "wentچون «Yesterday» گذشته را نشان می‌دهد و گذشته go می‌شود went.",
+          "A2-02":  "was watchingبرای عملی که در گذشته در حال انجام بوده از گذشته استمراری استفاده می‌کنیم.",
+          "A2-03":  "have seenچون تجربه تا زمان حال است، Present Perfectمناسب است.",
+          "A2-04":  "muchچون water غیرقابل شمارش است، از «much» استفاده می‌کنیم.",
+          "A2-05":  "a fewچون apples قابل شمارش جمع است، «a few»یعنی چند تا",
+          "A2-06":  "fasterبرای مقایسه از حالت comparative استفاده می‌کنیم.",
+          "A2-07":  "will stayاین ساختار شرطی نوع اول است (احتمال واقعی).",
+          "A2-08":  "since«Since» برای نقطه زمانی مشخص استفاده می‌شود.",
+          "A2-09":  "anyدر جملات منفی معمولاً «any» به کار می‌رود.",
+          "A2-10":  "shall weبرای Let’s در question tag از «shall we» استفاده می‌کنیم.",
+          "A2-11":  "wentچون زمان گذشته مشخص شده، فعل گذشته لازم است.",
+          "A2-12":  "leavesبرای برنامه‌های زمانی ثابت از حال ساده استفاده می‌کنیم.",
+          "A2-13":  "helpبعد از can فعل ساده می‌آید و help یعنی کمک کردن.",
+          "A2-14":  "inعبارت ثابت «interested in» به معنی علاقه‌مند بودن به چیزی",
+          "A2-15":  "toعبارت ثابت prefer X to Y یعنی ترجیح دادن.",
+          "A2-16":  "so«So»رابطه علت و نتیجه را نشان می‌دهد.",
+          "A2-17":  "atبرای ساعت مشخص از «at» استفاده می‌کنیم.",
+          "A2-18":  "best (superlative) چون بهترین را بیان می‌کند",
+          "A2-19":  "yet«Yet» معمولاً در جملات منفی Present Perfect می‌آید.",
+          "A2-20":  "doesچون سوم‌شخص مفرد است، do → does.",
+          "B1-01":  "have readچون تجربه‌ای را بیان می‌کند که تا زمان حال مرتبط است، Present Perfectاستفاده می‌کنیم.",
+          "B1-02":  "had leftچون ترک کردن قبل از رسیدن ما اتفاق افتاده، Past Perfectلازم است.",
+          "B1-03":  "hadچون شرطی نوع دوم است و درباره موقعیت فرضی صحبت می‌کند.",
+          "B1-04":  "whoچون برای توصیف شخص از «who» استفاده می‌کنیم.",
+          "B1-05":  "mustn\u0027tMustn’tبرای بیان ممنوعیت یا منع شدید به کار می‌رود.",
+          "B1-06":  "hadبعد از «wish» برای بیان حسرت، معمولاً گذشته ساده می‌آید.",
+          "B1-07":  "areفعل با نزدیک‌ترین فاعل هماهنگ می‌شود که اینجا «friends» جمع است.",
+          "B1-08":  "takingبعد از «deny» فعل به صورت ing می‌آید.",
+          "B1-09":  "wakingدر ساختار «used to» وقتی to حرف اضافه باشد، فعل ing می‌آید.",
+          "B1-10":  "soساختار so…that برای بیان شدت و نتیجه استفاده می‌شود.",
+          "B1-11":  "to doبعد از wh-word اغلب از «to + verb» استفاده می‌کنیم.",
+          "B1-12":  "would have comeچون شرطی نوع سوم است و درباره گذشته غیرواقعی صحبت می‌کند.",
+          "B1-13":  "whereWhereبرای اشاره به مکان استفاده می‌شود.",
+          "B1-14":  "to callبعد از «promise» معمولاً مصدر با to می‌آید.",
+          "B1-15":  "stayedبعد از would rather، فعل در گذشته ساده می‌آید.",
+          "B1-16":  "offCall offیک عبارت ثابت به معنی «لغو کردن» است.",
+          "B1-17":  "wasدر reported speech زمان فعل معمولاً یک مرحله به عقب می‌رود.",
+          "B1-18":  "more fluentlyبرای مقایسه قیدها از more + adverb استفاده می‌کنیم؛ fluently یعنی روان",
+          "B1-19":  "was heبعد از Not only ساختار جمله وارونه (inversion) می‌شود.",
+          "B1-20":  "finishingبعد از need در این ساختار معمولاً فعل ing می‌آید.",
+          "B2-01":  "had I sat downبعد از Hardly ساختار جمله وارونه می‌شود و از Past Perfect استفاده می‌کنیم.",
+          "B2-02":  "thanساختار ثابت No sooner … than است.",
+          "B2-03":  "to have livedچون عمل در گذشته کامل شده، perfect infinitive می‌آید.",
+          "B2-04":  "whichWhichبرای non-defining clause استفاده می‌شود.",
+          "B2-05":  "beingبعد از despite فعل ing می‌آید.",
+          "B2-06":  "tookبعد از It’s high time فعل گذشته ساده می‌آید.",
+          "B2-07":  "whenساختار ثابت Scarcely … when است.",
+          "B2-08":  "knewAs ifبرای موقعیت غیرواقعی → گذشته ساده.",
+          "B2-09":  "did we noticeبعد از Only ساختار inversion داریم.",
+          "B2-10":  "will have workedچون زمان مشخص در آینده داریم → Future Perfect.",
+          "B2-11":  "ofعبارت ثابتaccused ofبه معنی متهم شدن به",
+          "B2-12":  "did they knowبعد از Little جمله وارونه می‌شود.",
+          "B2-13":  "inعبارت ثابت result in به معنی منجر شدن به",
+          "B2-14":  "to beingچون object to با ing می‌آید.",
+          "B2-15":  "would makeاین ساختار شرطی رسمی نوع دوم است.",
+          "B2-16":  "cleaningNeed + gerundدر این ساختار رایج است.",
+          "B2-17":  "discussبعد از rather فعل ساده می‌آید.",
+          "B2-18":  "signingبعد از of فعل ing می‌آید.",
+          "B2-19":  "was heبعد از So ساختار وارونه داریم.",
+          "B2-20":  "had studiedچون شرطی نوع سوم است.",
+          "C1-01":  "would have lostاین جمله یک شرطی نوع سوم با ساختار وارونه است و نتیجه‌ی یک موقعیت غیرواقعی در گذشته را بیان می‌کند.",
+          "C1-02":  "which«Which» به کل جمله قبل اشاره می‌کند و نتیجه یا اثر آن را توضیح می‌دهد.",
+          "C1-03":  "did we understandوقتی جمله با عبارت منفی مثل Not until شروع شود، فعل کمکی قبل از فاعل می‌آید (inversion).",
+          "C1-04":  "apologizeبعد از افعال دستوری مثل demand از subjunctive استفاده می‌کنیم و فعل به شکل ساده می‌آید.",
+          "C1-05":  "do we seeعبارات منفی یا محدودکننده در ابتدای جمله باعث وارونگی ساختار جمله می‌شوند.",
+          "C1-06":  "should staff shareاین عبارت تأکیدی منفی است و به همین دلیل ساختار inversion لازم است.",
+          "C1-07":  "to have metچون کامل شدن عمل قبل از زمان حال را نشان می‌دهد، perfect infinitive استفاده می‌شود.",
+          "C1-08":  "but alsoاین یک ساختار ثابت برای اضافه کردن تأکید و اطلاعات دوم است.",
+          "C1-09":  "to be submittedچون گزارش دریافت‌کننده عمل است، ساختار مصدر مجهول (passive infinitive) لازم است.",
+          "C1-10":  "tryingبعد از «worth» همیشه فعل به صورت ing می‌آید.",
+          "C1-11":  "have I heardوقتی Rarely در ابتدای جمله بیاید، ساختار جمله وارونه می‌شود.",
+          "C1-12":  "should disturb«Lest» برای بیان جلوگیری از یک اتفاق به کار می‌رود و معمولاً با should می‌آید.",
+          "C1-13":  "reachبعد از modal verbs مثل could، فعل به شکل ساده (base form) استفاده می‌شود.",
+          "C1-14":  "would be madeچون درباره آینده از دیدگاه گذشته صحبت می‌کند، future in the past + passive داریم.",
+          "C1-15":  "forدر ساختار enough از «for» برای معرفی شخص یا گروه استفاده می‌کنیم.",
+          "C1-16":  "isفاعل اصلی «CEO» است و عبارت along with فقط اطلاعات اضافه می‌دهد.",
+          "C1-17":  "could have mitigatedاین جمله شرطی نوع سوم است و درباره نتیجه‌ی فرضی در گذشته صحبت می‌کند.",
+          "C1-18":  "forCall for یک عبارت ثابت به معنی «نیاز داشتن به / درخواست کردن» است.",
+          "C1-19":  "forSuitable for یک ترکیب رایج برای بیان تناسب یا شایستگی است.",
+          "C1-20":  "to solveساختار too … to برای بیان «بیش از حد برای انجام کاری» استفاده می‌شود.",
+          "C2-01":  "was the issueدر ساختار So + adjectiveاگر جمله با آن شروع شود، باید inversion  (وارونگی) انجام شود؛ یعنی verbقبل ازsubjectمی‌آید.",
+          "C2-02":  "would have failedاین شکل رسمی و معکوس Third Conditionalاست. نتیجه درباره گذشته با ساختار would have + past participleبیان می‌شود.",
+          "C2-03":  "had they announcedبعد از No soonerازpast perfect + inversionاستفاده می‌شود.الگوNo sooner + had + subject + pp + than",
+          "C2-04":  "onفعل hinge onیکfixed collocationبه معنی «وابسته بودن به» است.",
+          "C2-05":  "do we encounterوقتی جمله با negative adverbشروع شود، باید inversionانجام شود. چون زمان جمله present simpleاست، از doاستفاده می‌کنیم.",
+          "C2-06":  "fraughtعبارت fraught withیک ترکیب ثابت به معنی «آکنده از» (معمولاً با بار منفی) است.",
+          "C2-07":  "canوقتی جمله با Only + phraseشروع شود، ساختار جمله به صورت inversionمی‌آید و modal verbقبل از فاعل قرار می‌گیرد.",
+          "C2-08":  "asساختار not so much A as Bبرای مقایسه تأکیدی استفاده می‌شود؛ یعنی نه آن‌قدر A بلکه بیشتر B",
+          "C2-09":  "be evaluatedبعد از افعالی مانند insist / suggest / demandازsubjunctive formاستفاده می‌شود؛ یعنی فعل به شکل پایه (base form) می‌آید.",
+          "C2-10":  "had they graspedبعد از Scarcelyازpast perfect + inversionاستفاده می‌شود.الگوScarcely + had + subject + pp + when",
+          "C2-11":  "inعبارت couched inیکعبارت ثابت به معنی «بیان شدن در قالبِ» است.",
+          "C2-12":  "an openعبارت an open questionیعنی موضوعی که هنوز پاسخ قطعی ندارد.",
+          "C2-13":  "openعبارت open the floodgatesیکidiomبه معنی «باعث شروع گسترده چیزی شدن» است. وجود Littleدر ابتدای جمله باعث inversionشده است.",
+          "C2-14":  "wasدر ساختار Such + verb + subject + that-clauseاز وارونگی برای تأکید استفاده می‌شود.",
+          "C2-15":  "have beenاین جمله شکل معکوس Third Conditionalاست(if  حذفشده )نتیجه با might have been + ppساخته می‌شود.",
+          "C2-16":  "articulateبعد از ability toفعل به صورت base formمی‌آید.Articulateیعنی «شفاف و دقیق بیان کردن».",
+          "C2-17":  "a paragonعبارت a paragon ofیک ترکیب رسمی به معنی «نمونه کامل / الگوی عالیِ» است.",
+          "C2-18":  "a fewNotwithstandingبه معنی «با وجودِ» است و بعد از آن noun phraseمی‌آید.",
+          "C2-19":  "had servedبعد از as though / as ifبرای بیان حالت غیرواقعی در گذشته از past perfectاستفاده می‌شود.",
+          "C2-20":  "profoundlyProfoundlyیکintensifying adverbاست که شدت صفت را تقویت می‌کند."
       }
+      ;
+            const CEFR_LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
+            const QUESTIONS_PER_LEVEL = 4;
 
-      updatePlacementProgress();
-    }
+            function generateQuestionExplanation(item) {
+              const q = item.q.toLowerCase();
+              const correct = item.options[item.answer];
+              const parts = item.q.split("___");
+              const left = (parts[0] || "").trim();
+              const right = (parts[1] || "").trim();
+              const leftWords = left
+                .toLowerCase()
+                .replace(/[^a-z'\s]/g, " ")
+                .split(/\s+/)
+                .filter(Boolean);
+              const subject = leftWords[leftWords.length - 1] || "";
 
-    function startPlacementTimer() {
-      timerEl.textContent = formatTime(placementState.timeLeft);
-      placementState.timerId = setInterval(() => {
-        placementState.timeLeft -= 1;
-        timerEl.textContent = formatTime(Math.max(placementState.timeLeft, 0));
-        if (placementState.timeLeft <= 0) {
-          submitPlacementExam(true);
-        }
-      }, 1000);
-    }
+              if (["am", "is", "are"].includes(correct.toLowerCase())) {
+                if (subject === "i") return "چون فاعل جمله I است، شکل درست فعل to be برابر am است.";
+                if (["he", "she", "it", "name"].includes(subject)) {
+                  return "چون فاعل جمله مفرد است، فعل to be باید به صورت مفرد یعنی is بیاید.";
+                }
+                if (["we", "they", "you"].includes(subject) || left.includes(" and ")) {
+                  return "چون فاعل جمله جمع است، فعل to be باید به صورت جمع یعنی are بیاید.";
+                }
+                return `گزینه «${correct}» درست است چون با نوع فاعل جمله، فرم درست فعل to be همین گزینه است.`;
+              }
 
-    function submitPlacementExam(isTimeout = false) {
-      if (placementState.submitted) return;
-      placementState.submitted = true;
-      clearInterval(placementState.timerId);
+              if (["has", "have"].includes(correct.toLowerCase())) {
+                if (["he", "she", "it"].includes(subject)) {
+                  return "چون فاعل سوم‌شخص مفرد است، شکل درست have برابر has می‌شود.";
+                }
+                return "چون فاعل مفرد سوم‌شخص نیست، شکل درست have همان have است.";
+              }
 
-      let correct = 0;
-      placementQuestions.forEach((item, i) => {
-        if (placementState.answers[i] === item.answer) correct += 1;
-      });
+              if (["does", "do"].includes(correct.toLowerCase())) {
+                if (["he", "she", "it"].includes(subject)) {
+                  return "در حال ساده برای فاعل سوم‌شخص مفرد، فعل کمکی درست does است.";
+                }
+                return "در حال ساده برای فاعل غیرسوم‌شخص مفرد، فعل کمکی درست do است.";
+              }
 
-      const answered = placementState.answers.filter((v) => v !== null).length;
-      const level = determineLevel(correct);
+              if (
+                q.includes("hardly") ||
+                q.includes("no sooner") ||
+                q.includes("scarcely") ||
+                q.includes("seldom") ||
+                q.includes("little ")
+              ) {
+                return `گزینه «${correct}» درست است چون این ساختار به وارونگی (inversion) نیاز دارد و فقط این گزینه آن الگو را درست می‌سازد.`;
+              }
 
-      scoreLine.textContent = `امتیاز شما: ${correct} از ${placementQuestions.length} | پاسخ داده‌شده: ${answered}`;
-      levelLine.textContent = `سطح تقریبی شما: ${level}${isTimeout ? " (پایان زمان آزمون)" : ""}`;
-      resultBox.style.display = "block";
-      placementState.hintOpen = false;
-      renderPlacementQuestion();
-    }
+              return `گزینه «${correct}» درست است چون در بافت «${left} ... ${right}» هم از نظر نقش دستوری با جای خالی سازگار است و هم معنی طبیعی و کامل جمله را می‌سازد.`;
+            }
 
-    prevBtn.addEventListener("click", () => {
-      if (placementState.currentIndex > 0) {
-        placementState.currentIndex -= 1;
-        renderPlacementQuestion();
-      }
-    });
+            function getQuestionId(level, index) {
+              return `${level}-${String(index + 1).padStart(2, "0")}`;
+            }
 
-    nextBtn.addEventListener("click", () => {
-      if (placementState.currentIndex < placementQuestions.length - 1) {
-        placementState.currentIndex += 1;
-        renderPlacementQuestion();
-      }
-    });
+            function resolveDocxMeta(item, level, index) {
+              const id = getQuestionId(level, index);
+              const rawTail = DOCX_EXPLANATION_TAILS[id];
+              if (!rawTail) {
+                return { answer: item.answer, explanation: generateQuestionExplanation(item) };
+              }
 
-    submitBtn.addEventListener("click", () => submitPlacementExam(false));
+              const optionMatches = item.options
+                .map((optionText, optionIndex) => ({ optionText, optionIndex }))
+                .sort((a, b) => b.optionText.length - a.optionText.length);
 
-    hintBtn.addEventListener("click", () => {
-      if (!placementState.submitted) return;
-      placementState.hintOpen = !placementState.hintOpen;
-      hintBox.style.display = placementState.hintOpen ? "block" : "none";
-    });
+              const matched = optionMatches.find(({ optionText }) => rawTail.startsWith(optionText));
+              if (!matched) {
+                return { answer: item.answer, explanation: rawTail.trim() || generateQuestionExplanation(item) };
+              }
 
-    function renderVocabQuestion() {
-      if (!vocabState.started || vocabState.words.length === 0) return;
-      const idx = vocabState.index;
-      const item = vocabState.words[idx];
-      vocabWord.textContent = item.word;
-      vocabCounter.textContent = `${idx + 1} / 20`;
-      vocabChoices.innerHTML = "";
+              const explanation = rawTail.slice(matched.optionText.length).trim();
+              return {
+                answer: matched.optionIndex,
+                explanation: explanation || generateQuestionExplanation(item),
+              };
+            }
 
-      item.options.forEach((opt, optionIndex) => {
-        const label = document.createElement("label");
-        label.className = "vocab-choice";
-
-        const input = document.createElement("input");
-        input.type = "radio";
-        input.name = "vocabChoice";
-        input.value = String(optionIndex);
-        input.checked = vocabState.answers[idx] === optionIndex;
-        input.disabled = vocabState.isBusy;
-        input.addEventListener("change", () => {
-          vocabState.answers[idx] = optionIndex;
-          renderVocabQuestion();
-        });
-
-        const span = document.createElement("span");
-        span.textContent = opt;
-
-        label.appendChild(input);
-        label.appendChild(span);
-        vocabChoices.appendChild(label);
-      });
-
-      vocabStatus.textContent = `پاسخ‌های ثبت‌شده: ${vocabState.answers.filter((x) => x !== null).length} از 20`;
-      nextVocabBtn.disabled = idx === 19;
-      finishVocabBtn.disabled = vocabState.isBusy;
-    }
-
-    function shuffle(array) {
-      const copy = array.slice();
-      for (let i = copy.length - 1; i > 0; i -= 1) {
-        const j = Math.floor(Math.random() * (i + 1));
-        const temp = copy[i];
-        copy[i] = copy[j];
-        copy[j] = temp;
-      }
-      return copy;
-    }
-
-    function pickOfflineWords() {
-      const chosen = [];
-      for (let band = 1; band <= 5; band += 1) {
-        const pool = OFFLINE_WORD_BANK.filter((item) => item.band === band);
-        chosen.push(...shuffle(pool).slice(0, 4));
-      }
-      return shuffle(chosen);
-    }
-
-    function buildVocabQuestions(words) {
-      return words.map((item) => {
-        const correct = item.meanings[0];
-        const distractorPool = OFFLINE_WORD_BANK
-          .filter((w) => w.word !== item.word)
-          .map((w) => w.meanings[0]);
-        const distractors = shuffle(distractorPool).slice(0, 3);
-        const options = shuffle([correct, ...distractors]);
-        return {
-          word: item.word,
-          weight: item.weight,
-          options,
-          correctIndex: options.indexOf(correct)
-        };
-      });
-    }
-
-    function evaluateOfflineAnswers() {
-      let correctCount = 0;
-      let weightedScore = 0;
-      let maxScore = 0;
-
-      vocabState.words.forEach((item, i) => {
-        maxScore += item.weight;
-        if (vocabState.answers[i] === item.correctIndex) {
-          correctCount += 1;
-          weightedScore += item.weight;
-        }
-      });
-
-      return { correctCount, weightedScore, maxScore };
-    }
-
-    function estimateVocabularySize(weightedScore, maxScore) {
-      const ratio = maxScore > 0 ? weightedScore / maxScore : 0;
-      const estimated = Math.round(500 + (ratio * 7500));
-      const low = Math.max(0, estimated - 100);
-      const high = estimated + 100;
-      return { estimated, low, high };
-    }
-
-    startVocabBtn.addEventListener("click", () => {
-      if (vocabState.isBusy) return;
-      vocabState.isBusy = true;
-      vocabLoading.style.display = "block";
-      vocabResultBox.style.display = "none";
-
-      try {
-        vocabState.words = buildVocabQuestions(pickOfflineWords());
-        vocabState.answers = Array(20).fill(null);
-        vocabState.index = 0;
-        vocabState.started = true;
-        vocabState.finished = false;
-        vocabQuestionBox.style.display = "block";
-        renderVocabQuestion();
-      } catch (err) {
-        alert(`خطا در شروع تست دامنه لغت:\n${err.message}`);
-      } finally {
-        vocabState.isBusy = false;
-        vocabLoading.style.display = "none";
-      }
-    });
-
-    nextVocabBtn.addEventListener("click", () => {
-      if (vocabState.index < 19) {
-        vocabState.index += 1;
-        renderVocabQuestion();
-      }
-    });
-
-    finishVocabBtn.addEventListener("click", () => {
-      if (!vocabState.started || vocabState.isBusy) return;
-
-      vocabState.isBusy = true;
-      vocabLoading.textContent = "در حال ارزیابی پاسخ‌ها...";
-      vocabLoading.style.display = "block";
-
-      try {
-        const evalData = evaluateOfflineAnswers();
-        const { correctCount, weightedScore, maxScore } = evalData;
-        const { estimated, low, high } = estimateVocabularySize(weightedScore, maxScore);
-        vocabScoreLine.textContent = `تعداد پاسخ درست: ${correctCount} از 20`;
-        vocabRangeLine.textContent = `دامنه تقریبی واژگان: حدود ${estimated} کلمه (بازه: ${low} تا ${high})`;
-        vocabHintLine.textContent = "این عدد تخمینی آفلاین است و با توجه به 20 لغت نمونه محاسبه شده است.";
-        vocabResultBox.style.display = "block";
-        vocabState.finished = true;
-      } catch (err) {
-        alert(`خطا در ارزیابی پاسخ‌ها:\n${err.message}`);
-      } finally {
-        vocabState.isBusy = false;
-        vocabLoading.textContent = "در حال آماده‌سازی تست دامنه لغت...";
-        vocabLoading.style.display = "none";
-        renderVocabQuestion();
-      }
-    });
-
-    renderPlacementQuestion();
-    startPlacementTimer();
-  </script>
-</body>
+            const QUESTION_BANK = (() => {
+              const bank = {};
+              CEFR_LEVELS.forEach((level) => {
+                bank[level] = QUESTION_SOURCES[level].map((item, index) => {
+                  const meta = resolveDocxMeta(item, level, index);
+                  return {
+                    ...item,
+                    level,
+                    topic: inferGrammarTopic(item),
+                    answer: meta.answer,
+                    explanation: meta.explanation,
+                  };
+                });
+              });
+              return bank;
+            })();
+            function buildPlacementExam() {
+              const selected = [];
+              CEFR_LEVELS.forEach((level) => {
+                selected.push(
+                  ...shuffle(QUESTION_BANK[level]).slice(0, QUESTIONS_PER_LEVEL),
+                );
+              });
+              return selected;
+            }
+            function preparePlacementExam() {
+              placementQuestions = buildPlacementExam();
+              placementState.currentIndex = 0;
+              placementState.answers = Array(placementQuestions.length).fill(null);
+              placementState.timeLeft = 30 * 60;
+              placementState.submitted = false;
+              placementState.hintOpen = false;
+              placementState.started = true;
+              clearInterval(placementState.timerId);
+              placementState.timerId = null;
+              resultBox.style.display = "none";
+              hintBtn.classList.add("hidden");
+              hintBox.style.display = "none";
+              reportOverlay.classList.add("hidden");
+            }
+            function determineLevelFromStats(levelStats) {
+              let estimated = "A1";
+              CEFR_LEVELS.forEach((level) => {
+                const stat = levelStats[level];
+                if (!stat || stat.total === 0) return;
+                if (stat.correct / stat.total >= 0.65) estimated = level;
+              });
+              return estimated;
+            }
+            function getEarlyStopLevel() {
+              let wrongStreak = 0;
+              for (let i = 0; i < placementQuestions.length; i += 1) {
+                const selected = placementState.answers[i];
+                if (selected === null) break;
+                if (selected === placementQuestions[i].answer) {
+                  wrongStreak = 0;
+                  continue;
+                }
+                wrongStreak += 1;
+                if (wrongStreak >= 3) return placementQuestions[i].level;
+              }
+              return null;
+            }
+            const placementState = {
+              currentIndex: 0,
+              answers: Array(placementQuestions.length).fill(null),
+              timeLeft: 30 * 60,
+              timerId: null,
+              started: false,
+              submitted: false,
+              hintOpen: false,
+            };
+            const menuHome = document.getElementById("menuHome");
+            const menuPlacement = document.getElementById("menuPlacement");
+            const menuVocab = document.getElementById("menuVocab");
+            const homeSection = document.getElementById("homeSection");
+            const placementSection = document.getElementById("placementSection");
+            const vocabSection = document.getElementById("vocabSection");
+            const questionCounter = document.getElementById("questionCounter");
+            const timerEl = document.getElementById("timer");
+            const progressBar = document.getElementById("progressBar");
+            const startPlacementBtn = document.getElementById("startPlacementBtn");
+            const hintBtn = document.getElementById("hintBtn");
+            const hintBox = document.getElementById("hintBox");
+            const questionText = document.getElementById("questionText");
+            const choicesEl = document.getElementById("choices");
+            const prevBtn = document.getElementById("prevBtn");
+            const nextBtn = document.getElementById("nextBtn");
+            const submitBtn = document.getElementById("submitBtn");
+            const resultBox = document.getElementById("resultBox");
+            const scoreLine = document.getElementById("scoreLine");
+            const levelLine = document.getElementById("levelLine");
+            const reportOverlay = document.getElementById("reportOverlay");
+            const reportSummary = document.getElementById("reportSummary");
+            const reportLevelGrid = document.getElementById("reportLevelGrid");
+            const copyReportBtn = document.getElementById("copyReportBtn");
+            const shareReportBtn = document.getElementById("shareReportBtn");
+            const closeReportBtn = document.getElementById("closeReportBtn");
+            let lastReportText = "";
+            const startVocabBtn = document.getElementById("startVocabBtn");
+            const vocabLoading = document.getElementById("vocabLoading");
+            const vocabQuestionBox = document.getElementById("vocabQuestionBox");
+            const vocabWord = document.getElementById("vocabWord");
+            const vocabCounter = document.getElementById("vocabCounter");
+            const vocabChoices = document.getElementById("vocabChoices");
+            const vocabStatus = document.getElementById("vocabStatus");
+            const nextVocabBtn = document.getElementById("nextVocabBtn");
+            const finishVocabBtn = document.getElementById("finishVocabBtn");
+            const vocabResultBox = document.getElementById("vocabResultBox");
+            const vocabScoreLine = document.getElementById("vocabScoreLine");
+            const vocabRangeLine = document.getElementById("vocabRangeLine");
+            const vocabHintLine = document.getElementById("vocabHintLine");
+            const OFFLINE_WORD_BANK = [
+              { word: "book", meanings: ["کتاب"], weight: 1, band: 1 },
+              { word: "happy", meanings: ["خوشحال", "شاد"], weight: 1, band: 1 },
+              { word: "house", meanings: ["خانه"], weight: 1, band: 1 },
+              { word: "water", meanings: ["آب"], weight: 1, band: 1 },
+              { word: "quick", meanings: ["سریع", "تند"], weight: 1, band: 1 },
+              { word: "teacher", meanings: ["معلم", "دبیر"], weight: 1, band: 1 },
+              {
+                word: "decide",
+                meanings: ["تصمیم گرفتن", "تصمیم"],
+                weight: 2,
+                band: 2,
+              },
+              {
+                word: "improve",
+                meanings: ["بهبود دادن", "بهبود یافتن", "بهبود"],
+                weight: 2,
+                band: 2,
+              },
+              {
+                word: "despite",
+                meanings: ["با وجود", "علی رغم", "علی‌رغم"],
+                weight: 2,
+                band: 2,
+              },
+              {
+                word: "available",
+                meanings: ["در دسترس", "موجود"],
+                weight: 2,
+                band: 2,
+              },
+              {
+                word: "increase",
+                meanings: ["افزایش", "افزایش دادن", "زیاد شدن"],
+                weight: 2,
+                band: 2,
+              },
+              {
+                word: "consider",
+                meanings: ["در نظر گرفتن", "بررسی کردن"],
+                weight: 2,
+                band: 2,
+              },
+              { word: "accurate", meanings: ["دقیق"], weight: 3, band: 3 },
+              {
+                word: "attempt",
+                meanings: ["تلاش", "تلاش کردن"],
+                weight: 3,
+                band: 3,
+              },
+              {
+                word: "beneficial",
+                meanings: ["مفید", "سودمند"],
+                weight: 3,
+                band: 3,
+              },
+              {
+                word: "maintain",
+                meanings: ["حفظ کردن", "نگهداری کردن"],
+                weight: 3,
+                band: 3,
+              },
+              { word: "complex", meanings: ["پیچیده"], weight: 3, band: 3 },
+              {
+                word: "requirement",
+                meanings: ["نیاز", "الزام", "شرط"],
+                weight: 3,
+                band: 3,
+              },
+              {
+                word: "substantial",
+                meanings: ["قابل توجه", "چشمگیر", "اساسی"],
+                weight: 4,
+                band: 4,
+              },
+              {
+                word: "nevertheless",
+                meanings: ["با این حال", "بااین حال"],
+                weight: 4,
+                band: 4,
+              },
+              {
+                word: "consequently",
+                meanings: ["در نتیجه", "بنابراین"],
+                weight: 4,
+                band: 4,
+              },
+              {
+                word: "comprehensive",
+                meanings: ["جامع", "کامل"],
+                weight: 4,
+                band: 4,
+              },
+              {
+                word: "implement",
+                meanings: ["اجرا کردن", "پیاده سازی", "پیاده‌سازی"],
+                weight: 4,
+                band: 4,
+              },
+              { word: "sufficient", meanings: ["کافی"], weight: 4, band: 4 },
+              {
+                word: "meticulous",
+                meanings: ["بسیار دقیق", "موشکاف", "موشکافانه"],
+                weight: 5,
+                band: 5,
+              },
+              { word: "ambiguous", meanings: ["مبهم", "دوپهلو"], weight: 5, band: 5 },
+              { word: "coherent", meanings: ["منسجم"], weight: 5, band: 5 },
+              {
+                word: "feasible",
+                meanings: ["عملی", "شدنی", "امکان پذیر", "امکان‌پذیر"],
+                weight: 5,
+                band: 5,
+              },
+              {
+                word: "intricate",
+                meanings: ["پیچیده", "دشوار"],
+                weight: 5,
+                band: 5,
+              },
+              { word: "hypothesis", meanings: ["فرضیه"], weight: 5, band: 5 },
+            ];
+            const vocabState = {
+              words: [],
+              answers: Array(20).fill(null),
+              index: 0,
+              started: false,
+              finished: false,
+              isBusy: false,
+            };
+            function showSection(section) {
+              const isHome = section === "home";
+              const isPlacement = section === "placement";
+              const isVocab = section === "vocab";
+              homeSection.classList.toggle("hidden", !isHome);
+              placementSection.classList.toggle("hidden", !isPlacement);
+              vocabSection.classList.toggle("hidden", !isVocab);
+              menuHome.classList.toggle("active", isHome);
+              menuPlacement.classList.toggle("active", isPlacement);
+              menuVocab.classList.toggle("active", isVocab);
+            }
+            function inferGrammarTopic(item) {
+              const q = item.q.toLowerCase();
+              const answerText = (item.options[item.answer] || "").toLowerCase();
+              if (["am", "is", "are", "was", "were", "be", "been", "being"].includes(answerText)) {
+                return "افعال to be و تطابق فاعل-فعل";
+              }
+              if (q.includes("if ") || q.includes("had ") || q.includes("were ")) {
+                return "جملات شرطی";
+              }
+              if (
+                q.includes("hardly") ||
+                q.includes("scarcely") ||
+                q.includes("no sooner") ||
+                q.includes("rarely") ||
+                q.includes("seldom") ||
+                q.includes("little ")
+              ) {
+                return "وارونگی (Inversion)";
+              }
+              if (
+                q.includes("who") ||
+                q.includes("which") ||
+                q.includes("where") ||
+                q.includes("whose")
+              ) {
+                return "جملات موصولی";
+              }
+              if (q.includes("since") || q.includes("for") || q.includes("already") || q.includes("yet")) {
+                return "زمان‌های کامل (Perfect)";
+              }
+              if (q.includes("yesterday") || q.includes("last year") || q.includes("when i called")) {
+                return "زمان گذشته";
+              }
+              if (q.includes("than") || q.includes("most") || q.includes("best")) {
+                return "مقایسه‌ای و عالی";
+              }
+              if (q.includes("must") || q.includes("can ") || q.includes("could") || q.includes("should")) {
+                return "افعال وجهی (Modals)";
+              }
+              if (
+                q.includes("interested") ||
+                q.includes("prefer") ||
+                q.includes("resulted") ||
+                q.includes("accused") ||
+                q.includes("call ")
+              ) {
+                return "حروف اضافه و ترکیب‌های ثابت";
+              }
+              if (q.includes("to ") || q.includes("ing") || q.includes("used to") || q.includes("worth")) {
+                return "مصدر و gerund";
+              }
+              return "کاربرد عمومی گرامر";
+            }
+            function buildTopicBadges(topics) {
+              if (!topics.length) {
+                return "پاسخ کافی برای تحلیل این بخش ثبت نشده است.";
+              }
+              return topics
+                .map((t) => `<span class="topic-chip">${t}</span>`)
+                .join("");
+            }
+            function summarizeTopicPerformance(topicStats) {
+              const rows = Object.keys(topicStats).map((topic) => {
+                const stat = topicStats[topic];
+                const acc = stat.total > 0 ? stat.correct / stat.total : 0;
+                return { topic, ...stat, acc };
+              });
+              const strengths = rows
+                .filter((r) => r.total > 0 && r.acc >= 0.7)
+                .sort((a, b) => b.acc - a.acc || b.total - a.total)
+                .slice(0, 3)
+                .map((r) => r.topic);
+              const weaknesses = rows
+                .filter((r) => r.wrong > 0)
+                .sort((a, b) => a.acc - b.acc || b.wrong - a.wrong)
+                .slice(0, 3)
+                .map((r) => r.topic);
+              return { strengths, weaknesses };
+            }
+            function buildReportText(payload) {
+              const { correct, wrong, answered, level, endReason, levelStats, levelTopicStats } =
+                payload;
+              const lines = [
+                "کارنامه آزمون تعیین سطح lexi",
+                `پاسخ داده‌شده: ${answered}`,
+                `تعداد درست: ${correct}`,
+                `تعداد غلط: ${wrong}`,
+                `سطح تقریبی: ${level}${endReason}`,
+                "",
+              ];
+              CEFR_LEVELS.forEach((lvl) => {
+                const stats = levelStats[lvl];
+                if (!stats || stats.total === 0) return;
+                const analysis = summarizeTopicPerformance(levelTopicStats[lvl] || {});
+                const weaknessText = analysis.weaknesses.length
+                  ? analysis.weaknesses.join("، ")
+                  : "مورد شاخصی ثبت نشد";
+                const strengthText = analysis.strengths.length
+                  ? analysis.strengths.join("، ")
+                  : "مورد شاخصی ثبت نشد";
+                lines.push(`سطح ${lvl} (${stats.correct}/${stats.total})`);
+                lines.push(`- ضعف‌ها: ${weaknessText}`);
+                lines.push(`- قوت‌ها: ${strengthText}`);
+                lines.push("");
+              });
+              return lines.join("\n").trim();
+            }
+            function renderPlacementReport(payload) {
+              const { correct, wrong, answered, level, endReason, levelStats, levelTopicStats } =
+                payload;
+              reportSummary.textContent =
+                `پاسخ داده‌شده: ${answered} | درست: ${correct} | غلط: ${wrong} | سطح تقریبی: ${level}${endReason}`;
+              reportLevelGrid.innerHTML = "";
+              CEFR_LEVELS.forEach((lvl) => {
+                const stats = levelStats[lvl];
+                if (!stats || stats.total === 0) return;
+                const analysis = summarizeTopicPerformance(levelTopicStats[lvl] || {});
+                const block = document.createElement("div");
+                block.className = "level-block";
+                const title = document.createElement("h3");
+                title.textContent = `سطح ${lvl} - عملکرد ${stats.correct}/${stats.total}`;
+                const weakness = document.createElement("p");
+                weakness.className = "level-row";
+                weakness.innerHTML = `ضعف‌های گرامری: ${buildTopicBadges(analysis.weaknesses)}`;
+                const strength = document.createElement("p");
+                strength.className = "level-row";
+                strength.innerHTML = `نقاط قوت گرامری: ${buildTopicBadges(analysis.strengths)}`;
+                block.appendChild(title);
+                block.appendChild(weakness);
+                block.appendChild(strength);
+                reportLevelGrid.appendChild(block);
+              });
+              lastReportText = buildReportText(payload);
+              reportOverlay.classList.remove("hidden");
+            }
+            menuHome.addEventListener("click", () => showSection("home"));
+            menuPlacement.addEventListener("click", () => showSection("placement"));
+            menuVocab.addEventListener("click", () => showSection("vocab"));
+            function formatTime(seconds) {
+              const m = Math.floor(seconds / 60)
+                .toString()
+                .padStart(2, "0");
+              const s = (seconds % 60).toString().padStart(2, "0");
+              return `${m}:${s}`;
+            }
+            function updatePlacementProgress() {
+              const total = placementQuestions.length || 1;
+              const percent = ((placementState.currentIndex + 1) / total) * 100;
+              progressBar.style.width = `${percent}%`;
+            }
+            function renderPlacementQuestion() {
+              if (!placementState.started) {
+                questionCounter.textContent = `سوال 0 از ${CEFR_LEVELS.length * QUESTIONS_PER_LEVEL}`;
+                questionText.textContent =
+                  "برای شروع آزمون روی دکمه «شروع آزمون تعیین سطح» بزنید.";
+                choicesEl.innerHTML = "";
+                prevBtn.disabled = true;
+                nextBtn.disabled = true;
+                submitBtn.disabled = true;
+                hintBtn.classList.add("hidden");
+                hintBox.style.display = "none";
+                progressBar.style.width = "0%";
+                timerEl.textContent = formatTime(placementState.timeLeft);
+                return;
+              }
+              const idx = placementState.currentIndex;
+              const item = placementQuestions[idx];
+              questionCounter.textContent = `سوال ${idx + 1} از ${placementQuestions.length}`;
+              questionText.textContent = item.q;
+              choicesEl.innerHTML = "";
+              item.options.forEach((opt, optionIndex) => {
+                const label = document.createElement("label");
+                label.className = "choice";
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = "choice";
+                input.value = String(optionIndex);
+                input.checked = placementState.answers[idx] === optionIndex;
+                input.disabled = placementState.submitted || !placementState.started;
+                input.addEventListener("change", () => {
+                  placementState.answers[idx] = optionIndex;
+                  const earlyStopLevel = getEarlyStopLevel();
+                  if (earlyStopLevel) {
+                    submitPlacementExam(false, earlyStopLevel);
+                  }
+                });
+                const span = document.createElement("span");
+                span.textContent = opt;
+                label.appendChild(input);
+                label.appendChild(span);
+                if (placementState.submitted) {
+                  if (optionIndex === item.answer) {
+                    label.classList.add("correct");
+                  } else if (
+                    placementState.answers[idx] === optionIndex &&
+                    optionIndex !== item.answer
+                  ) {
+                    label.classList.add("wrong");
+                  }
+                }
+                choicesEl.appendChild(label);
+              });
+              prevBtn.disabled = idx === 0;
+              nextBtn.disabled = idx === placementQuestions.length - 1;
+              submitBtn.disabled =
+                placementState.submitted || !placementState.started;
+              if (placementState.submitted) {
+                hintBtn.classList.remove("hidden");
+                hintBox.textContent = item.explanation || "توضیحی برای این سوال ثبت نشده است.";
+                hintBox.style.display = placementState.hintOpen ? "block" : "none";
+              } else {
+                hintBtn.classList.add("hidden");
+                hintBox.style.display = "none";
+              }
+              updatePlacementProgress();
+            }
+            function startPlacementTimer() {
+              if (placementState.timerId) return;
+              timerEl.textContent = formatTime(placementState.timeLeft);
+              placementState.timerId = setInterval(() => {
+                placementState.timeLeft -= 1;
+                timerEl.textContent = formatTime(
+                  Math.max(placementState.timeLeft, 0),
+                );
+                if (placementState.timeLeft <= 0) {
+                  submitPlacementExam(true);
+                }
+              }, 1000);
+            }
+            function submitPlacementExam(isTimeout = false, earlyStopLevel = null) {
+              if (!placementState.started || placementState.submitted) return;
+              placementState.submitted = true;
+              clearInterval(placementState.timerId);
+              placementState.timerId = null;
+              let correct = 0;
+              let wrong = 0;
+              const levelStats = CEFR_LEVELS.reduce((acc, level) => {
+                acc[level] = { correct: 0, total: 0 };
+                return acc;
+              }, {});
+              const levelTopicStats = CEFR_LEVELS.reduce((acc, level) => {
+                acc[level] = {};
+                return acc;
+              }, {});
+              placementQuestions.forEach((item, i) => {
+                levelStats[item.level].total += 1;
+                const selectedAnswer = placementState.answers[i];
+                if (selectedAnswer === null) return;
+                const topic = item.topic || inferGrammarTopic(item);
+                if (!levelTopicStats[item.level][topic]) {
+                  levelTopicStats[item.level][topic] = { total: 0, correct: 0, wrong: 0 };
+                }
+                levelTopicStats[item.level][topic].total += 1;
+                if (selectedAnswer === item.answer) {
+                  correct += 1;
+                  levelStats[item.level].correct += 1;
+                  levelTopicStats[item.level][topic].correct += 1;
+                } else {
+                  wrong += 1;
+                  levelTopicStats[item.level][topic].wrong += 1;
+                }
+              });
+              const answered = placementState.answers.filter(
+                (v) => v !== null,
+              ).length;
+              const level = earlyStopLevel || determineLevelFromStats(levelStats);
+              const endReason = isTimeout
+                ? " (پایان زمان آزمون)"
+                : earlyStopLevel
+                  ? " (پایان زودهنگام: 3 پاسخ غلط پشت‌سرهم)"
+                  : "";
+              const breakdown = CEFR_LEVELS.map(
+                (lvl) =>
+                  `${lvl}: ${levelStats[lvl].correct}/${levelStats[lvl].total}`,
+              ).join(" | ");
+              scoreLine.textContent = `امتیاز شما: ${correct} از ${placementQuestions.length} | پاسخ داده‌شده: ${answered}`;
+              levelLine.textContent = `سطح تقریبی شما: ${level}${endReason} | ${breakdown}`;
+              resultBox.style.display = "none";
+              renderPlacementReport({
+                correct,
+                wrong,
+                answered,
+                level,
+                endReason,
+                levelStats,
+                levelTopicStats,
+              });
+              placementState.hintOpen = false;
+              renderPlacementQuestion();
+            }
+            prevBtn.addEventListener("click", () => {
+              if (placementState.currentIndex > 0) {
+                placementState.currentIndex -= 1;
+                renderPlacementQuestion();
+              }
+            });
+            nextBtn.addEventListener("click", () => {
+              if (placementState.currentIndex < placementQuestions.length - 1) {
+                placementState.currentIndex += 1;
+                renderPlacementQuestion();
+              }
+            });
+            submitBtn.addEventListener("click", () => submitPlacementExam(false));
+            startPlacementBtn.addEventListener("click", () => {
+              preparePlacementExam();
+              startPlacementBtn.textContent = "شروع آزمون جدید";
+              renderPlacementQuestion();
+              startPlacementTimer();
+            });
+            hintBtn.addEventListener("click", () => {
+              if (!placementState.submitted) return;
+              placementState.hintOpen = !placementState.hintOpen;
+              hintBox.style.display = placementState.hintOpen ? "block" : "none";
+            });
+            closeReportBtn.addEventListener("click", () => {
+              reportOverlay.classList.add("hidden");
+            });
+            copyReportBtn.addEventListener("click", async () => {
+              if (!lastReportText) return;
+              try {
+                await navigator.clipboard.writeText(lastReportText);
+                copyReportBtn.textContent = "کپی شد";
+                setTimeout(() => {
+                  copyReportBtn.textContent = "کپی";
+                }, 1200);
+              } catch (err) {
+                alert("امکان کپی خودکار وجود ندارد. لطفاً دستی کپی کنید.");
+              }
+            });
+            shareReportBtn.addEventListener("click", async () => {
+              if (!lastReportText) return;
+              try {
+                if (navigator.share) {
+                  await navigator.share({
+                    title: "کارنامه آزمون تعیین سطح lexi",
+                    text: lastReportText,
+                  });
+                  return;
+                }
+                if (navigator.clipboard) {
+                  await navigator.clipboard.writeText(lastReportText);
+                  alert("اشتراک‌گذاری مستقیم پشتیبانی نشد. متن کارنامه کپی شد.");
+                  return;
+                }
+                alert("اشتراک‌گذاری در این مرورگر پشتیبانی نمی‌شود.");
+              } catch (err) {
+                alert("اشتراک‌گذاری انجام نشد.");
+              }
+            });
+            reportOverlay.addEventListener("click", (event) => {
+              if (event.target === reportOverlay) {
+                reportOverlay.classList.add("hidden");
+              }
+            });
+            function renderVocabQuestion() {
+              if (!vocabState.started || vocabState.words.length === 0) return;
+              const idx = vocabState.index;
+              const item = vocabState.words[idx];
+              vocabWord.textContent = item.word;
+              vocabCounter.textContent = `${idx + 1} / 20`;
+              vocabChoices.innerHTML = "";
+              item.options.forEach((opt, optionIndex) => {
+                const label = document.createElement("label");
+                label.className = "vocab-choice";
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = "vocabChoice";
+                input.value = String(optionIndex);
+                input.checked = vocabState.answers[idx] === optionIndex;
+                input.disabled = vocabState.isBusy;
+                input.addEventListener("change", () => {
+                  vocabState.answers[idx] = optionIndex;
+                  renderVocabQuestion();
+                });
+                const span = document.createElement("span");
+                span.textContent = opt;
+                label.appendChild(input);
+                label.appendChild(span);
+                vocabChoices.appendChild(label);
+              });
+              vocabStatus.textContent = `پاسخ‌های ثبت‌شده: ${vocabState.answers.filter((x) => x !== null).length} از 20`;
+              nextVocabBtn.disabled = idx === 19;
+              finishVocabBtn.disabled = vocabState.isBusy;
+            }
+            function shuffle(array) {
+              const copy = array.slice();
+              for (let i = copy.length - 1; i > 0; i -= 1) {
+                const j = Math.floor(Math.random() * (i + 1));
+                const temp = copy[i];
+                copy[i] = copy[j];
+                copy[j] = temp;
+              }
+              return copy;
+            }
+            function pickOfflineWords() {
+              const chosen = [];
+              for (let band = 1; band <= 5; band += 1) {
+                const pool = OFFLINE_WORD_BANK.filter((item) => item.band === band);
+                chosen.push(...shuffle(pool).slice(0, 4));
+              }
+              return shuffle(chosen);
+            }
+            function buildVocabQuestions(words) {
+              return words.map((item) => {
+                const correct = item.meanings[0];
+                const distractorPool = OFFLINE_WORD_BANK.filter(
+                  (w) => w.word !== item.word,
+                ).map((w) => w.meanings[0]);
+                const distractors = shuffle(distractorPool).slice(0, 3);
+                const options = shuffle([correct, ...distractors]);
+                return {
+                  word: item.word,
+                  weight: item.weight,
+                  options,
+                  correctIndex: options.indexOf(correct),
+                };
+              });
+            }
+            function evaluateOfflineAnswers() {
+              let correctCount = 0;
+              let weightedScore = 0;
+              let maxScore = 0;
+              vocabState.words.forEach((item, i) => {
+                maxScore += item.weight;
+                if (vocabState.answers[i] === item.correctIndex) {
+                  correctCount += 1;
+                  weightedScore += item.weight;
+                }
+              });
+              return { correctCount, weightedScore, maxScore };
+            }
+            function estimateVocabularySize(weightedScore, maxScore) {
+              const ratio = maxScore > 0 ? weightedScore / maxScore : 0;
+              const estimated = Math.round(500 + ratio * 7500);
+              const low = Math.max(0, estimated - 100);
+              const high = estimated + 100;
+              return { estimated, low, high };
+            }
+            startVocabBtn.addEventListener("click", () => {
+              if (vocabState.isBusy) return;
+              vocabState.isBusy = true;
+              vocabLoading.style.display = "block";
+              vocabResultBox.style.display = "none";
+              try {
+                vocabState.words = buildVocabQuestions(pickOfflineWords());
+                vocabState.answers = Array(20).fill(null);
+                vocabState.index = 0;
+                vocabState.started = true;
+                vocabState.finished = false;
+                vocabQuestionBox.style.display = "block";
+                renderVocabQuestion();
+              } catch (err) {
+                alert(`خطا در شروع تست دامنه لغت:\n${err.message}`);
+              } finally {
+                vocabState.isBusy = false;
+                vocabLoading.style.display = "none";
+              }
+            });
+            nextVocabBtn.addEventListener("click", () => {
+              if (vocabState.index < 19) {
+                vocabState.index += 1;
+                renderVocabQuestion();
+              }
+            });
+            finishVocabBtn.addEventListener("click", () => {
+              if (!vocabState.started || vocabState.isBusy) return;
+              vocabState.isBusy = true;
+              vocabLoading.textContent = "در حال ارزیابی پاسخ‌ها...";
+              vocabLoading.style.display = "block";
+              try {
+                const evalData = evaluateOfflineAnswers();
+                const { correctCount, weightedScore, maxScore } = evalData;
+                const { estimated, low, high } = estimateVocabularySize(
+                  weightedScore,
+                  maxScore,
+                );
+                vocabScoreLine.textContent = `تعداد پاسخ درست: ${correctCount} از 20`;
+                vocabRangeLine.textContent = `دامنه تقریبی واژگان: حدود ${estimated} کلمه (بازه: ${low} تا ${high})`;
+                vocabHintLine.textContent =
+                  "این عدد تخمینی آفلاین است و با توجه به 20 لغت نمونه محاسبه شده است.";
+                vocabResultBox.style.display = "block";
+                vocabState.finished = true;
+              } catch (err) {
+                alert(`خطا در ارزیابی پاسخ‌ها:\n${err.message}`);
+              } finally {
+                vocabState.isBusy = false;
+                vocabLoading.textContent = "در حال آماده‌سازی تست دامنه لغت...";
+                vocabLoading.style.display = "none";
+                renderVocabQuestion();
+              }
+            });
+            renderPlacementQuestion();
+    </script>
+  </body>
 </html>
