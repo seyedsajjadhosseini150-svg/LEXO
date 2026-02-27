@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>lexi</title>
     <style>
+      @import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;800&display=swap");
       :root {
         --bg: #f4f7fb;
         --card: #ffffff;
@@ -23,7 +24,7 @@
       }
       body {
         margin: 0;
-        font-family: "Times New Roman", Times, serif;
+        font-family: "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
         background: linear-gradient(180deg, #eef3fa 0%, #f8fbff 100%);
         color: var(--text);
         min-height: 100vh;
@@ -39,6 +40,7 @@
         border-radius: 14px;
         padding: 20px;
         box-shadow: 0 8px 24px rgba(26, 60, 92, 0.08);
+        position: relative;
       }
       h1 {
         margin: 0;
@@ -103,6 +105,62 @@
         margin: 0;
         color: #4f637c;
         line-height: 1.8;
+      }
+      .home-grid {
+        margin-top: 12px;
+        display: grid;
+        gap: 12px;
+      }
+      .home-card {
+        border: 1px solid #d8e5f5;
+        border-radius: 12px;
+        background: #fbfdff;
+        padding: 12px;
+      }
+      .home-card h3 {
+        margin: 0 0 8px;
+        color: #16426f;
+        font-size: 17px;
+      }
+      .home-card p {
+        margin: 0;
+        color: #4e6580;
+        line-height: 1.9;
+      }
+      .home-points {
+        margin: 0;
+        padding-right: 18px;
+        color: #2e547b;
+        line-height: 1.9;
+      }
+      .home-points li {
+        margin-bottom: 4px;
+      }
+      .home-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 8px;
+      }
+      .home-actions button {
+        width: auto;
+      }
+      .home-steps {
+        display: grid;
+        gap: 6px;
+      }
+      .home-step {
+        border: 1px solid #d5e3f5;
+        border-radius: 10px;
+        padding: 8px 10px;
+        background: #f6faff;
+        color: #274b72;
+        font-size: 14px;
+      }
+      .home-status-line {
+        margin: 4px 0;
+        color: #34597d;
+        font-size: 14px;
       }
       .section {
         margin-top: 18px;
@@ -266,6 +324,11 @@
         display: grid;
         gap: 10px;
         margin-top: 16px;
+      }
+      .btn-compact {
+        width: fit-content;
+        padding: 9px 12px;
+        font-size: 13px;
       }
       .vocab-config label {
         font-size: 14px;
@@ -443,12 +506,690 @@
         margin: 2px 4px 2px 0;
         font-size: 13px;
       }
+      .intro-shell {
+        width: min(860px, 100%);
+        margin: 0 auto 20px;
+      }
+      .intro-card {
+        border: 1px solid #d7e5f7;
+        border-radius: 22px;
+        padding: 30px;
+        background:
+          radial-gradient(circle at 88% 15%, rgba(14, 105, 198, 0.2), transparent 42%),
+          linear-gradient(160deg, #f7fbff 0%, #edf4ff 100%);
+        box-shadow: 0 14px 30px rgba(13, 59, 107, 0.11);
+      }
+      .intro-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+        align-items: start;
+      }
+      .lexi-brand {
+        display: flex;
+        direction: ltr;
+        align-items: center;
+        gap: 10px;
+        width: fit-content;
+        margin: 0 auto 14px;
+        padding: 9px 14px;
+        border-radius: 999px;
+        border: 1px solid #cfe0f4;
+        background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
+        box-shadow: 0 6px 16px rgba(17, 65, 112, 0.1);
+      }
+      .lexi-brand-mark {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        background: linear-gradient(145deg, #2a8df0 0%, #0d5fb2 100%);
+      }
+      .lexi-face-eye {
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        background: #ffffff;
+        top: 11px;
+      }
+      .lexi-face-eye.left {
+        right: 10px;
+      }
+      .lexi-face-eye.right {
+        left: 10px;
+      }
+      .lexi-face-smile {
+        position: absolute;
+        width: 14px;
+        height: 7px;
+        border: 2px solid #ffffff;
+        border-top: 0;
+        border-radius: 0 0 14px 14px;
+        bottom: 8px;
+      }
+      .lexi-brand-word {
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        color: #134273;
+        font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+      }
+      .lexi-brand-note {
+        direction: rtl;
+        font-size: 12px;
+        color: #4a6787;
+        margin-right: 4px;
+      }
+      .intro-title {
+        margin: 0;
+        font-size: 38px;
+        line-height: 1.6;
+        color: #113a69;
+        text-align: center;
+        font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+      }
+      .intro-kicker {
+        margin: 10px 0 0;
+        color: #1d5a91;
+        font-weight: 700;
+        font-size: 15px;
+      }
+      .intro-trust {
+        margin: 8px 0 0;
+        color: #3f5f81;
+        font-size: 14px;
+        line-height: 1.9;
+      }
+      .intro-cefr-map {
+        margin-top: 8px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .intro-cefr-item {
+        border: 1px solid #d4e2f4;
+        background: #f7fbff;
+        color: #295076;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .intro-badges {
+        margin-top: 10px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .intro-badge {
+        border: 1px solid #cfe0f4;
+        background: #f3f8ff;
+        color: #1d4d7e;
+        border-radius: 999px;
+        padding: 5px 10px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .intro-desc {
+        margin: 14px 0 0;
+        color: #3d6085;
+        font-size: 16px;
+        line-height: 2;
+      }
+      .intro-cta-wrap {
+        margin-top: 18px;
+        border: 1px solid #cfe0f5;
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.85);
+        padding: 12px;
+      }
+      .intro-list {
+        margin: 18px 0 0;
+        padding-right: 20px;
+        color: #20476f;
+        line-height: 2;
+        font-size: 15px;
+      }
+      .intro-list li {
+        margin-bottom: 6px;
+      }
+      .intro-audience {
+        margin-top: 16px;
+        border: 1px solid #d6e4f5;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.78);
+        padding: 12px 14px;
+      }
+      .intro-test-card {
+        border: 1px solid #d6e4f5;
+        border-radius: 10px;
+        background: #fbfdff;
+        padding: 10px;
+      }
+      .intro-test-card h4 {
+        margin: 0;
+        color: #1c4f81;
+        font-size: 16px;
+      }
+      .intro-test-meta {
+        margin: 6px 0 0;
+        color: #3e6184;
+        font-size: 13px;
+      }
+      .intro-test-points {
+        margin: 8px 0 0;
+        padding-right: 18px;
+        color: #2d5278;
+        font-size: 14px;
+        line-height: 1.85;
+      }
+      .intro-test-points li {
+        margin-bottom: 4px;
+      }
+      .exam-start-row {
+        display: grid;
+        grid-template-columns: minmax(210px, 260px) 1fr;
+        gap: 10px;
+        align-items: start;
+      }
+      .exam-start-actions {
+        display: grid;
+        gap: 8px;
+      }
+      .exam-start-actions .btn-compact {
+        width: 100%;
+      }
+      .exam-intro-card h3 {
+        margin: 0;
+        color: #1c4f81;
+        font-size: 16px;
+      }
+      .intro-flow {
+        margin-top: 16px;
+        border: 1px solid #d6e4f5;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.82);
+        padding: 12px 14px;
+      }
+      .intro-flow h3 {
+        margin: 0 0 10px;
+        font-size: 18px;
+        color: #16426f;
+      }
+      .intro-flow-steps {
+        margin: 0;
+        padding-right: 18px;
+        color: #2d5278;
+        line-height: 1.9;
+        font-size: 14px;
+      }
+      .intro-flow-steps li {
+        margin-bottom: 4px;
+      }
+      .intro-flow-meta {
+        margin-top: 10px;
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .intro-flow-chip {
+        border: 1px solid #d4e2f4;
+        background: #f7fbff;
+        color: #295076;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 12px;
+        font-weight: 700;
+      }
+      .intro-flow-note {
+        margin-top: 10px;
+        border: 1px dashed #cddff4;
+        border-radius: 10px;
+        background: #f9fcff;
+        padding: 8px 10px;
+        color: #2e557c;
+        font-size: 13px;
+      }
+      .intro-audience h3 {
+        margin: 0 0 8px;
+        font-size: 18px;
+        color: #16426f;
+      }
+      .intro-audience ul {
+        margin: 0;
+        padding-right: 18px;
+        color: #2b4f74;
+        line-height: 2;
+        font-size: 14px;
+      }
+      .intro-cta {
+        margin-top: 0;
+        padding: 14px 22px;
+        font-size: 16px;
+        border-radius: 12px;
+        width: 100%;
+      }
+      .intro-secondary-cta {
+        width: 100%;
+        margin-top: 8px;
+      }
+      .entry-options {
+        margin-top: 14px;
+        border: 1px solid #cfe0f5;
+        border-radius: 12px;
+        background: rgba(255, 255, 255, 0.86);
+        padding: 12px;
+      }
+      .entry-options p {
+        margin: 0 0 10px;
+        color: #31577e;
+        font-size: 14px;
+      }
+      .entry-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .entry-actions button {
+        width: auto;
+      }
+      .intro-sample-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(10, 32, 55, 0.42);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        z-index: 1100;
+      }
+      .intro-sample-card {
+        width: min(520px, 100%);
+        border: 1px solid #d3e2f5;
+        border-radius: 16px;
+        background: #ffffff;
+        padding: 14px;
+        box-shadow: 0 16px 38px rgba(17, 65, 112, 0.2);
+      }
+      .intro-sample-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+      .intro-sample-head h3 {
+        margin: 0;
+        color: #16426f;
+        font-size: 18px;
+      }
+      .intro-sample-close {
+        border: 1px solid #d2e0f4;
+        background: #f4f9ff;
+        color: #1f4e82;
+        border-radius: 9px;
+        padding: 7px 10px;
+      }
+      .intro-proof-top {
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+      }
+      .intro-cefr {
+        font-size: 30px;
+        font-weight: 800;
+        color: #0d5fb2;
+      }
+      .intro-proof-note {
+        width: 100%;
+        text-align: right;
+        font-size: 13px;
+        font-weight: 700;
+        color: #4b6481;
+      }
+      .intro-proof-list {
+        margin: 10px 0 0;
+        padding-right: 18px;
+        color: #294d73;
+        line-height: 1.9;
+        font-size: 14px;
+      }
+      .intro-proof-list li {
+        margin-bottom: 4px;
+      }
+      .auth-shell {
+        width: min(520px, 100%);
+        margin: 0 auto;
+        display: block;
+      }
+      .auth-brand {
+        border: 1px solid #d7e5f7;
+        border-radius: 18px;
+        padding: 28px;
+        color: #153b68;
+        background:
+          radial-gradient(circle at 85% 18%, rgba(33, 126, 223, 0.19), transparent 42%),
+          linear-gradient(160deg, #f4f9ff 0%, #ebf3ff 100%);
+        box-shadow: 0 14px 30px rgba(13, 59, 107, 0.1);
+      }
+      .auth-brand h2 {
+        margin: 0;
+        font-size: 32px;
+        font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+      }
+      .auth-brand p {
+        margin: 10px 0 0;
+        color: #3c5f84;
+        line-height: 1.9;
+      }
+      .auth-feature-list {
+        margin: 18px 0 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: 10px;
+      }
+      .auth-feature-list li {
+        border: 1px solid #d6e3f5;
+        border-radius: 11px;
+        padding: 10px 12px;
+        background: rgba(255, 255, 255, 0.76);
+        color: #244a74;
+        font-size: 14px;
+      }
+      .auth-card {
+        border: 1px solid #d7e5f7;
+        border-radius: 18px;
+        background: #ffffff;
+        box-shadow: 0 14px 30px rgba(13, 59, 107, 0.1);
+        padding: 22px;
+        align-self: center;
+      }
+      .auth-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+      .auth-back {
+        border: 1px solid #cfe0f5;
+        background: #f3f8ff;
+        color: #1f4f83;
+      }
+      .auth-title {
+        margin: 0;
+        font-size: 26px;
+        color: #174573;
+      }
+      .auth-sub {
+        margin: 8px 0 0;
+        font-size: 14px;
+        color: #5a718c;
+      }
+      .auth-guest-note {
+        margin: 8px 0 0;
+        color: #1f5a91;
+        font-size: 13px;
+        font-weight: 700;
+      }
+      .auth-benefits {
+        margin: 10px 0 0;
+        padding-right: 18px;
+        color: #4a6380;
+        font-size: 13px;
+        line-height: 1.8;
+      }
+      .auth-benefits li {
+        margin-bottom: 3px;
+      }
+      .auth-tabs {
+        margin-top: 14px;
+        display: flex;
+        gap: 8px;
+        background: #f1f6ff;
+        border: 1px solid #d6e4f7;
+        border-radius: 11px;
+        padding: 6px;
+      }
+      .auth-tab {
+        flex: 1;
+        border-radius: 9px;
+        border: 1px solid transparent;
+        padding: 9px;
+        font-size: 14px;
+        color: #234b78;
+        background: transparent;
+        font-weight: 700;
+      }
+      .auth-tab.active {
+        background: #fff;
+        border-color: #cddff5;
+        box-shadow: 0 2px 8px rgba(19, 64, 112, 0.1);
+      }
+      .auth-form {
+        margin-top: 14px;
+        display: grid;
+        gap: 12px;
+      }
+      .auth-form.hidden {
+        display: none !important;
+      }
+      .auth-field {
+        display: grid;
+        gap: 6px;
+      }
+      .auth-field label {
+        font-size: 13px;
+        color: #4a6380;
+      }
+      .auth-field input {
+        border: 1px solid #cfdff3;
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 14px;
+        font-family: inherit;
+      }
+      .auth-field input:focus {
+        outline: none;
+        border-color: #0b6bcb;
+        box-shadow: 0 0 0 3px rgba(11, 107, 203, 0.14);
+      }
+      .auth-password-wrap {
+        position: relative;
+      }
+      .auth-password-wrap input {
+        width: 100%;
+        padding-left: 88px;
+      }
+      .toggle-pass {
+        position: absolute;
+        left: 8px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: 1px solid #d6e4f7;
+        background: #f3f8ff;
+        color: #234b78;
+        border-radius: 8px;
+        padding: 5px 8px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .auth-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: center;
+        font-size: 13px;
+        color: #4a6380;
+      }
+      .auth-link {
+        color: #0b6bcb;
+        text-decoration: none;
+      }
+      .auth-link:hover {
+        text-decoration: underline;
+      }
+      .auth-check {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+      }
+      .auth-check input {
+        width: 14px;
+        height: 14px;
+      }
+      .auth-submit {
+        margin-top: 2px;
+      }
+      .auth-submit-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+      }
+      .auth-submit[disabled] {
+        opacity: 0.65;
+        cursor: wait;
+      }
+      .btn-ghost {
+        border: 1px solid #cfe0f5;
+        background: #f3f8ff;
+        color: #1f4f83;
+      }
+      .btn-ghost:hover {
+        background: #e9f2ff;
+      }
+      .auth-message {
+        margin-top: 8px;
+        border-radius: 10px;
+        padding: 10px 12px;
+        font-size: 13px;
+        display: none;
+      }
+      .auth-message.success {
+        display: block;
+        border: 1px solid #b8dfc7;
+        background: #ecfaf1;
+        color: #1a7141;
+      }
+      .auth-message.error {
+        display: block;
+        border: 1px solid #f2c4c4;
+        background: #fff3f3;
+        color: #912f2f;
+      }
+      .strength {
+        display: grid;
+        gap: 6px;
+      }
+      .strength-bars {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
+      }
+      .strength-bars span {
+        height: 6px;
+        border-radius: 999px;
+        background: #e7edf7;
+      }
+      .strength-bars span.active[data-level="1"] {
+        background: #d9534f;
+      }
+      .strength-bars span.active[data-level="2"] {
+        background: #f0ad4e;
+      }
+      .strength-bars span.active[data-level="3"] {
+        background: #58a55c;
+      }
+      .strength-bars span.active[data-level="4"] {
+        background: #2b8a3e;
+      }
+      .strength-text {
+        font-size: 12px;
+        color: #5a718c;
+      }
+      .caps-warning {
+        display: none;
+        font-size: 12px;
+        color: #915d00;
+        background: #fff7e6;
+        border: 1px solid #f2cf7c;
+        border-radius: 8px;
+        padding: 6px 8px;
+      }
+      .app-userbar {
+        margin-top: 14px;
+        border: 1px solid #d6e4f6;
+        background: #f7fbff;
+        border-radius: 10px;
+        padding: 8px 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .welcome {
+        font-size: 14px;
+        color: #234969;
+      }
+      .logout-btn {
+        border: 1px solid #d4e3f7;
+        background: #edf4ff;
+        color: #1b4e86;
+      }
+      .logout-top-left {
+        position: absolute;
+        top: 14px;
+        left: 14px;
+        z-index: 2;
+      }
       @media (max-width: 700px) {
         body {
           padding: 12px;
         }
         h1 {
           font-size: 24px;
+        }
+        .auth-shell {
+          grid-template-columns: 1fr;
+        }
+        .intro-card {
+          padding: 20px;
+        }
+        .intro-title {
+          font-size: 28px;
+        }
+        .lexi-brand {
+          width: 100%;
+          justify-content: center;
+        }
+        .intro-layout {
+          grid-template-columns: 1fr;
+        }
+        .exam-start-row {
+          grid-template-columns: 1fr;
+        }
+        .entry-actions {
+          flex-direction: column;
+        }
+        .auth-brand {
+          padding: 20px;
+        }
+        .auth-card {
+          padding: 16px;
+        }
+        .logout-top-left {
+          top: 10px;
+          left: 10px;
+        }
+        .auth-submit-row {
+          grid-template-columns: 1fr;
         }
         .actions {
           flex-direction: column;
@@ -463,8 +1204,217 @@
     </style>
   </head>
   <body>
-    <div class="container">
+    <section class="intro-shell" id="introShell">
+      <div class="intro-card">
+        <div class="intro-layout">
+          <div>
+            <div class="lexi-brand" aria-label="LEXI Brand">
+              <span class="lexi-brand-word">LEXI</span>
+              <span class="lexi-brand-note">دوست یادگیری زبان شما</span>
+            </div>
+            <p class="intro-kicker">واقعاً B2 هستی؟ دامنه لغاتت چقدره؟ حدس نزن، اندازه بگیر.</p>
+            <div class="intro-badges">
+              <span class="intro-badge">استاندارد CEFR (A1 تا C2)</span>
+              <span class="intro-badge">گزارش تحلیلی دقیق</span>
+              <span class="intro-badge">تخمین دامنه واژگان</span>
+            </div>
+            <p class="intro-trust">
+              این آزمون بر پایه استاندارد بین‌المللی CEFR طراحی شده؛ چارچوبی که در سراسر
+              اروپا و بسیاری از آزمون‌های بین‌المللی استفاده می‌شود.
+            </p>
+            <div class="intro-cefr-map" aria-label="CEFR level map">
+              <span class="intro-cefr-item">A1-A2: پایه</span>
+              <span class="intro-cefr-item">B1-B2: متوسط</span>
+              <span class="intro-cefr-item">C1-C2: پیشرفته</span>
+            </div>
+            <div class="intro-cta-wrap">
+              <button class="btn-primary intro-cta" id="introStartBtn" type="button">
+                ورود به بخش آزمون‌ها
+              </button>
+              <button class="btn-light intro-secondary-cta" id="introSampleBtn" type="button">
+                نمونه کارنامه
+              </button>
+              <div class="entry-options hidden" id="introEntryOptions">
+                <p>نحوه ورود را انتخاب کنید:</p>
+                <div class="entry-actions">
+                  <button class="btn-primary" id="introGuestBtn" type="button">
+                    ورود به‌عنوان مهمان
+                  </button>
+                  <button class="btn-light" id="introSignupBtn" type="button">
+                    ثبت‌نام و ساخت حساب
+                  </button>
+                  <button class="btn-ghost" id="introLoginBtn" type="button">
+                    قبلا حساب دارم
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="intro-audience">
+          <h3>این سایت برای چه کسانی مناسب است؟</h3>
+          <ul>
+            <li>اگر نمی‌دانی در چه سطحی هستی → بدانی دقیقاً از کجا باید شروع کنی.</li>
+            <li>اگر برای آیلتس یا تافل آماده می‌شوی → برآورد واقع‌بینانه‌ای از سطح فعلی‌ات داشته باشی.</li>
+            <li>اگر مدرس زبان هستی → شاگردانت را سریع و استاندارد سطح‌بندی کنی.</li>
+            <li>اگر می‌خواهی پیشرفتت را دوره‌ای ببینی → تغییر سطح و رشد واژگانت را قابل اندازه‌گیری دنبال کنی.</li>
+          </ul>
+        </div>
+        <div class="intro-flow">
+          <h3>مسیر انجام آزمون</h3>
+          <ol class="intro-flow-steps">
+            <li>نوع آزمون را انتخاب کن: تعیین سطح یا دامنه لغت.</li>
+            <li>به سوال‌ها جواب بده (در آزمون تعیین سطح، تایمر فعال است).</li>
+            <li>نتیجه را فوری بگیر: سطح نهایی، عملکرد هر سطح، و پیشنهاد پیشرفت.</li>
+          </ol>
+          <div class="intro-flow-meta">
+            <span class="intro-flow-chip">تایمر: دارد (فقط تعیین سطح)</span>
+            <span class="intro-flow-chip">برگشت به سوال قبلی: دارد</span>
+            <span class="intro-flow-chip">نتیجه: فوری</span>
+          </div>
+          <div class="intro-flow-note">
+            کنترل دست شماست: هر زمان بخواهی می‌توانی آزمون را متوقف کنی و بعداً دوباره شروع کنی.
+          </div>
+        </div>
+        <div class="intro-sample-overlay hidden" id="introSampleOverlay">
+          <div class="intro-sample-card">
+            <div class="intro-sample-head">
+              <h3>نمونه خروجی کارنامه</h3>
+              <button class="intro-sample-close" id="introSampleCloseBtn" type="button">
+                بستن
+              </button>
+            </div>
+            <div class="intro-proof-top">
+              <div class="intro-proof-note">سطح تقریبی فعلی: B2</div>
+            </div>
+            <ul class="intro-proof-list">
+              <li>درست: 26 از 40 | غلط: 14</li>
+              <li>قوت‌ها: زمان‌های کامل، جملات شرطی</li>
+              <li>ضعف‌ها: حروف اضافه، وارونگی (Inversion)</li>
+              <li>دامنه واژگان: حدود 4600 (بازه 4500 تا 4700)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="auth-shell hidden" id="authShell">
+      <section class="auth-card">
+        <div class="auth-head">
+          <h2 class="auth-title">ورود / ساخت اکانت</h2>
+          <button class="auth-back" id="backToIntroBtn" type="button">بازگشت</button>
+        </div>
+        <p class="auth-sub">برای ادامه یکی از گزینه‌های زیر را انتخاب کنید.</p>
+        <p class="auth-guest-note">می‌توانید بدون ثبت‌نام هم شروع کنید.</p>
+        <ul class="auth-benefits">
+          <li>با ثبت‌نام، نتایج شما ذخیره می‌شود.</li>
+          <li>می‌توانید پیشرفت دوره‌ای خود را ببینید.</li>
+          <li>گزارش کامل‌تری از عملکردتان دریافت می‌کنید.</li>
+        </ul>
+        <div class="auth-tabs">
+          <button class="auth-tab active" id="tabLogin" type="button">ورود</button>
+          <button class="auth-tab" id="tabSignup" type="button">ساخت اکانت</button>
+        </div>
+
+        <form class="auth-form" id="loginForm" novalidate>
+          <div class="auth-field">
+            <label for="loginEmail">ایمیل</label>
+            <input id="loginEmail" type="email" autocomplete="email" required />
+          </div>
+          <div class="auth-field">
+            <label for="loginPassword">رمز عبور</label>
+            <div class="auth-password-wrap">
+              <input
+                id="loginPassword"
+                type="password"
+                autocomplete="current-password"
+                required
+              />
+              <button class="toggle-pass" data-target="loginPassword" type="button">
+                نمایش
+              </button>
+            </div>
+            <div class="caps-warning" id="capsWarning">Caps Lock روشن است.</div>
+          </div>
+          <div class="auth-row">
+            <label class="auth-check" for="rememberMe">
+              <input id="rememberMe" type="checkbox" />
+              <span>مرا به خاطر بسپار</span>
+            </label>
+            <a class="auth-link" href="#" id="forgotPasswordLink">فراموشی رمز عبور</a>
+          </div>
+          <div class="auth-submit-row">
+            <button class="btn-primary auth-submit" id="loginSubmit" type="submit">
+              ورود به حساب
+            </button>
+            <button class="btn-ghost auth-submit" id="guestEnterBtn" type="button">
+              ورود به‌عنوان مهمان
+            </button>
+          </div>
+          <div class="auth-message" id="loginMessage"></div>
+        </form>
+
+        <form class="auth-form hidden" id="signupForm" novalidate>
+          <div class="auth-field">
+            <label for="signupName">نام و نام خانوادگی</label>
+            <input id="signupName" type="text" autocomplete="name" required />
+          </div>
+          <div class="auth-field">
+            <label for="signupEmail">ایمیل</label>
+            <input id="signupEmail" type="email" autocomplete="email" required />
+          </div>
+          <div class="auth-field">
+            <label for="signupPassword">رمز عبور</label>
+            <div class="auth-password-wrap">
+              <input
+                id="signupPassword"
+                type="password"
+                autocomplete="new-password"
+                required
+              />
+              <button class="toggle-pass" data-target="signupPassword" type="button">
+                نمایش
+              </button>
+            </div>
+          </div>
+          <div class="strength">
+            <div class="strength-bars" id="strengthBars">
+              <span data-level="1"></span>
+              <span data-level="2"></span>
+              <span data-level="3"></span>
+              <span data-level="4"></span>
+            </div>
+            <div class="strength-text" id="strengthText">قدرت رمز: نامشخص</div>
+          </div>
+          <div class="auth-field">
+            <label for="signupConfirm">تکرار رمز عبور</label>
+            <div class="auth-password-wrap">
+              <input
+                id="signupConfirm"
+                type="password"
+                autocomplete="new-password"
+                required
+              />
+              <button class="toggle-pass" data-target="signupConfirm" type="button">
+                نمایش
+              </button>
+            </div>
+          </div>
+          <label class="auth-check" for="signupTerms">
+            <input id="signupTerms" type="checkbox" />
+            <span>قوانین و حریم خصوصی را می‌پذیرم.</span>
+          </label>
+          <button class="btn-primary auth-submit" id="signupSubmit" type="submit">
+            ساخت حساب
+          </button>
+          <div class="auth-message" id="signupMessage"></div>
+        </form>
+      </section>
+    </div>
+    <div class="container hidden" id="appContainer">
       <div class="card">
+        <button class="logout-btn logout-top-left" id="logoutBtn" type="button">
+          خروج
+        </button>
         <h1>lexi</h1>
         <p class="sub">
           جهت تعیین سطح زبان و یا تخمین دامنه لغت یکی از دکمه های زیر رو انتخاب کنید.
@@ -483,12 +1433,27 @@
         <section class="section" id="homeSection">
         </section>
         <section class="section hidden" id="placementSection">
-          <div class="vocab-config">
-            <button class="btn-primary" id="startPlacementBtn" type="button">
-              شروع آزمون تعیین سطح
-            </button>
+          <div class="exam-start-row">
+            <div class="exam-start-actions">
+              <button class="btn-primary btn-compact" id="startPlacementBtn" type="button">
+                شروع آزمون تعیین سطح
+              </button>
+              <button class="btn-light btn-compact hidden" id="viewReportBtn" type="button">
+                مشاهده کارنامه
+              </button>
+            </div>
+            <div class="intro-test-card exam-intro-card">
+              <h3>معرفی آزمون تعیین سطح</h3>
+              <p class="intro-test-meta">زمان تقریبی: حدود 20 دقیقه</p>
+              <ul class="intro-test-points">
+                <li>کاربرد: سنجش مهارت کلی زبان بر اساس CEFR.</li>
+                <li>خروجی: سطح نهایی (A1 تا C2).</li>
+                <li>خروجی: درصد عملکرد در هر سطح.</li>
+                <li>خروجی: پیشنهاد مشخص برای مسیر پیشرفت.</li>
+              </ul>
+            </div>
           </div>
-          <div class="topbar">
+          <div class="topbar hidden" id="placementMetaBar">
             <div class="pill" id="questionCounter">سوال 1 از 40</div>
             <div class="pill timer" id="timer">30:00</div>
           </div>
@@ -503,7 +1468,7 @@
           </div>
           <div class="question" id="questionText"></div>
           <div class="choices" id="choices"></div>
-          <div class="actions">
+          <div class="actions hidden" id="placementActions">
             <button class="btn-light" id="prevBtn" type="button">
               سوال قبلی
             </button>
@@ -521,14 +1486,22 @@
           </div>
         </section>
         <section class="section hidden" id="vocabSection">
-          <p class="sub">
-            در این بخش ۲۰ لغت انگلیسی نمایش داده می‌شود و شما معنی درست را از
-            بین ۴ گزینه انتخاب می‌کنید.
-          </p>
-          <div class="vocab-config">
-            <button class="btn-primary" id="startVocabBtn" type="button">
-              شروع تست دامنه لغت (20 کلمه)
-            </button>
+          <div class="exam-start-row">
+            <div class="exam-start-actions">
+              <button class="btn-primary btn-compact" id="startVocabBtn" type="button">
+                شروع تست دامنه لغت
+              </button>
+            </div>
+            <div class="intro-test-card exam-intro-card">
+              <h3>معرفی آزمون دامنه لغت</h3>
+              <p class="intro-test-meta">زمان تقریبی: حدود 10 دقیقه</p>
+              <ul class="intro-test-points">
+                <li>کاربرد: تخمین تعداد واژگان فعال و غیرفعال.</li>
+                <li>خروجی: برآورد عددی دامنه لغات.</li>
+                <li>خروجی: بازه تقریبی اندازه واژگان.</li>
+                <li>خروجی: پیشنهاد هدف واژگانی برای رشد سریع‌تر.</li>
+              </ul>
+            </div>
           </div>
           <div class="vocab-loading" id="vocabLoading">
             در حال آماده‌سازی تست دامنه لغت...
@@ -563,6 +1536,9 @@
               <div class="report-head-actions">
                 <button class="report-action" id="copyReportBtn" type="button">
                   کپی
+                </button>
+                <button class="report-action" id="downloadReportBtn" type="button">
+                  دانلود PDF
                 </button>
                 <button class="report-action" id="shareReportBtn" type="button">
                   اشتراک‌گذاری
@@ -647,7 +1623,7 @@
                   answer: 1,
                 },
                 {
-                  q: "___ is your teacher?",
+                  q: "A: ___ is your teacher?\nB: Mr. Hosseini is our teacher",
                   options: ["What", "Who", "Where", "How"],
                   answer: 1,
                 },
@@ -1495,6 +2471,7 @@
               placementState.timeLeft = 30 * 60;
               placementState.submitted = false;
               placementState.hintOpen = false;
+              placementState.reportClosedOnce = false;
               placementState.started = true;
               clearInterval(placementState.timerId);
               placementState.timerId = null;
@@ -1502,6 +2479,8 @@
               hintBtn.classList.add("hidden");
               hintBox.style.display = "none";
               reportOverlay.classList.add("hidden");
+              viewReportBtn.classList.add("hidden");
+              submitBtn.classList.remove("hidden");
             }
             function determineLevelFromStats(levelStats) {
               let estimated = "A1";
@@ -1534,6 +2513,7 @@
               started: false,
               submitted: false,
               hintOpen: false,
+              reportClosedOnce: false,
             };
             const menuHome = document.getElementById("menuHome");
             const menuPlacement = document.getElementById("menuPlacement");
@@ -1541,14 +2521,17 @@
             const homeSection = document.getElementById("homeSection");
             const placementSection = document.getElementById("placementSection");
             const vocabSection = document.getElementById("vocabSection");
+            const placementMetaBar = document.getElementById("placementMetaBar");
             const questionCounter = document.getElementById("questionCounter");
             const timerEl = document.getElementById("timer");
             const progressBar = document.getElementById("progressBar");
             const startPlacementBtn = document.getElementById("startPlacementBtn");
+            const viewReportBtn = document.getElementById("viewReportBtn");
             const hintBtn = document.getElementById("hintBtn");
             const hintBox = document.getElementById("hintBox");
             const questionText = document.getElementById("questionText");
             const choicesEl = document.getElementById("choices");
+            const placementActions = document.getElementById("placementActions");
             const prevBtn = document.getElementById("prevBtn");
             const nextBtn = document.getElementById("nextBtn");
             const submitBtn = document.getElementById("submitBtn");
@@ -1559,6 +2542,7 @@
             const reportSummary = document.getElementById("reportSummary");
             const reportLevelGrid = document.getElementById("reportLevelGrid");
             const copyReportBtn = document.getElementById("copyReportBtn");
+            const downloadReportBtn = document.getElementById("downloadReportBtn");
             const shareReportBtn = document.getElementById("shareReportBtn");
             const closeReportBtn = document.getElementById("closeReportBtn");
             let lastReportText = "";
@@ -1575,6 +2559,247 @@
             const vocabScoreLine = document.getElementById("vocabScoreLine");
             const vocabRangeLine = document.getElementById("vocabRangeLine");
             const vocabHintLine = document.getElementById("vocabHintLine");
+            const introShell = document.getElementById("introShell");
+            const introStartBtn = document.getElementById("introStartBtn");
+            const introSampleBtn = document.getElementById("introSampleBtn");
+            const introSampleOverlay = document.getElementById("introSampleOverlay");
+            const introSampleCloseBtn = document.getElementById("introSampleCloseBtn");
+            const introEntryOptions = document.getElementById("introEntryOptions");
+            const introGuestBtn = document.getElementById("introGuestBtn");
+            const introSignupBtn = document.getElementById("introSignupBtn");
+            const introLoginBtn = document.getElementById("introLoginBtn");
+            const authShell = document.getElementById("authShell");
+            const backToIntroBtn = document.getElementById("backToIntroBtn");
+            const appContainer = document.getElementById("appContainer");
+            const logoutBtn = document.getElementById("logoutBtn");
+            const tabLogin = document.getElementById("tabLogin");
+            const tabSignup = document.getElementById("tabSignup");
+            const loginForm = document.getElementById("loginForm");
+            const signupForm = document.getElementById("signupForm");
+            const loginEmail = document.getElementById("loginEmail");
+            const loginPassword = document.getElementById("loginPassword");
+            const rememberMe = document.getElementById("rememberMe");
+            const loginSubmit = document.getElementById("loginSubmit");
+            const guestEnterBtn = document.getElementById("guestEnterBtn");
+            const loginMessage = document.getElementById("loginMessage");
+            const capsWarning = document.getElementById("capsWarning");
+            const forgotPasswordLink = document.getElementById("forgotPasswordLink");
+            const signupName = document.getElementById("signupName");
+            const signupEmail = document.getElementById("signupEmail");
+            const signupPassword = document.getElementById("signupPassword");
+            const signupConfirm = document.getElementById("signupConfirm");
+            const signupTerms = document.getElementById("signupTerms");
+            const signupSubmit = document.getElementById("signupSubmit");
+            const signupMessage = document.getElementById("signupMessage");
+            const strengthBars = document.getElementById("strengthBars");
+            const strengthText = document.getElementById("strengthText");
+            const AUTH_USERS_KEY = "lexi_users_v1";
+            const AUTH_SESSION_KEY = "lexi_session_v1";
+            const HOME_PLACEMENT_RESULT_KEY = "lexi_last_placement_v1";
+            const HOME_VOCAB_RESULT_KEY = "lexi_last_vocab_v1";
+            let activeUser = null;
+            function normalizeEmail(value) {
+              return String(value || "")
+                .trim()
+                .toLowerCase();
+            }
+            function isValidEmail(value) {
+              return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(normalizeEmail(value));
+            }
+            function getUsers() {
+              try {
+                const raw = localStorage.getItem(AUTH_USERS_KEY);
+                const data = raw ? JSON.parse(raw) : [];
+                return Array.isArray(data) ? data : [];
+              } catch (err) {
+                return [];
+              }
+            }
+            function saveUsers(users) {
+              localStorage.setItem(AUTH_USERS_KEY, JSON.stringify(users));
+            }
+            function readSession() {
+              const temp = sessionStorage.getItem(AUTH_SESSION_KEY);
+              const persistent = localStorage.getItem(AUTH_SESSION_KEY);
+              const raw = temp || persistent;
+              if (!raw) return null;
+              try {
+                return JSON.parse(raw);
+              } catch (err) {
+                return null;
+              }
+            }
+            function writeSession(session, remember) {
+              if (remember) {
+                localStorage.setItem(AUTH_SESSION_KEY, JSON.stringify(session));
+                sessionStorage.removeItem(AUTH_SESSION_KEY);
+                return;
+              }
+              sessionStorage.setItem(AUTH_SESSION_KEY, JSON.stringify(session));
+              localStorage.removeItem(AUTH_SESSION_KEY);
+            }
+            function clearSession() {
+              sessionStorage.removeItem(AUTH_SESSION_KEY);
+              localStorage.removeItem(AUTH_SESSION_KEY);
+            }
+            function getResultOwnerKey() {
+              const session = readSession();
+              if (session && session.email) return normalizeEmail(session.email);
+              return "guest";
+            }
+            function saveHomeResult(type, payload) {
+              const key =
+                type === "placement" ? HOME_PLACEMENT_RESULT_KEY : HOME_VOCAB_RESULT_KEY;
+              let bucket = {};
+              try {
+                bucket = JSON.parse(localStorage.getItem(key) || "{}") || {};
+              } catch (err) {
+                bucket = {};
+              }
+              bucket[getResultOwnerKey()] = payload;
+              localStorage.setItem(key, JSON.stringify(bucket));
+            }
+            function readHomeResult(type) {
+              const key =
+                type === "placement" ? HOME_PLACEMENT_RESULT_KEY : HOME_VOCAB_RESULT_KEY;
+              try {
+                const bucket = JSON.parse(localStorage.getItem(key) || "{}") || {};
+                return bucket[getResultOwnerKey()] || null;
+              } catch (err) {
+                return null;
+              }
+            }
+            function setAuthMessage(element, message, type) {
+              element.className = "auth-message";
+              if (!message) {
+                element.textContent = "";
+                element.style.display = "none";
+                return;
+              }
+              element.textContent = message;
+              element.style.display = "";
+              element.classList.add(type);
+            }
+            function scorePassword(value) {
+              let score = 0;
+              if ((value || "").length >= 8) score += 1;
+              if (/[A-Z]/.test(value) && /[a-z]/.test(value)) score += 1;
+              if (/\d/.test(value)) score += 1;
+              if (/[^A-Za-z0-9]/.test(value)) score += 1;
+              return score;
+            }
+            function renderPasswordStrength(value) {
+              const score = scorePassword(value);
+              const bars = strengthBars.querySelectorAll("span");
+              bars.forEach((bar, idx) => {
+                bar.classList.toggle("active", idx < score);
+              });
+              const labels = ["خیلی ضعیف", "ضعیف", "متوسط", "قوی", "خیلی قوی"];
+              strengthText.textContent = `قدرت رمز: ${labels[score]}`;
+            }
+            function renderHomePanel(user) {
+              const placement = readHomeResult("placement");
+              const vocab = readHomeResult("vocab");
+              const isGuest = Boolean(user && user.guest);
+              const displayName = (user && user.name) || "کاربر";
+              const welcomeText = isGuest
+                ? "سلام خوش آمدید"
+                : `سلام ${displayName}، خوش آمدید`;
+              const placementText = placement
+                ? `آخرین سطح: ${placement.level} | امتیاز: ${placement.correct}/${placement.total} | تاریخ: ${new Date(placement.date).toLocaleDateString("fa-IR")}`
+                : "هنوز آزمون تعیین سطح ثبت نشده است.";
+              const vocabText = vocab
+                ? `آخرین تخمین واژگان: ${vocab.estimated} کلمه (بازه ${vocab.low} تا ${vocab.high}) | تاریخ: ${new Date(vocab.date).toLocaleDateString("fa-IR")}`
+                : "هنوز تست دامنه لغت ثبت نشده است.";
+              homeSection.innerHTML = `
+                <div class="home-panel">
+                  <h2>${welcomeText}</h2>
+                  <p>
+                    از منوی بالا می‌توانید آزمون تعیین سطح را آغاز کنید یا دامنه واژگان خود را بسنجید.
+                    پیشنهاد می‌شود ابتدا آزمون تعیین سطح را انجام دهید تا تحلیل دقیق‌تری از مهارت فعلی شما ثبت شود.
+                  </p>
+                  <div class="home-grid">
+                    <div class="home-card">
+                      <h3>وضعیت آخرین نتایج</h3>
+                      <p class="home-status-line">${placementText}</p>
+                      <p class="home-status-line">${vocabText}</p>
+                    </div>
+                    <div class="home-card">
+                      <h3>مسیر پیشنهادی شما</h3>
+                      <div class="home-steps">
+                        <div class="home-step">1) ابتدا آزمون تعیین سطح CEFR را انجام بده.</div>
+                        <div class="home-step">2) سپس تست واژگان را بزن تا تصویر کامل‌تری از سطح فعلی‌ات داشته باشی.</div>
+                      </div>
+                    </div>
+                    <div class="home-card">
+                      <h3>چرا این مسیر موثر است؟</h3>
+                      <ul class="home-points">
+                        <li>سطح فعلی‌ات با معیار بین‌المللی مشخص می‌شود.</li>
+                        <li>نقطه ضعف‌های گرامری‌ات در گزارش دیده می‌شود.</li>
+                        <li>دامنه واژگان فعال و غیرفعال‌ات بهتر تخمین زده می‌شود.</li>
+                      </ul>
+                    </div>
+                    ${
+                      isGuest
+                        ? `
+                    <div class="home-card">
+                      <h3>حساب مهمان</h3>
+                      <p>برای ذخیره دائمی نتایج و پیگیری پیشرفت دوره‌ای، ثبت‌نام کنید.</p>
+                      <div class="home-actions">
+                        <button class="btn-primary" id="homeGuestSignupBtn" type="button">ثبت‌نام و ذخیره نتایج</button>
+                      </div>
+                    </div>
+                    `
+                        : ""
+                    }
+                  </div>
+                </div>
+              `;
+              const homeGuestSignupBtn = document.getElementById("homeGuestSignupBtn");
+              if (homeGuestSignupBtn) {
+                homeGuestSignupBtn.addEventListener("click", () => {
+                  clearSession();
+                  appContainer.classList.add("hidden");
+                  openAuthShell("signup");
+                });
+              }
+            }
+            function switchAuthTab(mode) {
+              const isLogin = mode === "login";
+              tabLogin.classList.toggle("active", isLogin);
+              tabSignup.classList.toggle("active", !isLogin);
+              loginForm.classList.toggle("hidden", !isLogin);
+              signupForm.classList.toggle("hidden", isLogin);
+              setAuthMessage(loginMessage, "", "");
+              setAuthMessage(signupMessage, "", "");
+              if (isLogin) {
+                loginEmail.focus();
+              } else {
+                signupName.focus();
+              }
+            }
+            function openAuthShell(mode = "login") {
+              introShell.classList.add("hidden");
+              authShell.classList.remove("hidden");
+              switchAuthTab(mode);
+            }
+            function showIntroLanding() {
+              appContainer.classList.add("hidden");
+              authShell.classList.add("hidden");
+              introShell.classList.remove("hidden");
+              introEntryOptions.classList.add("hidden");
+            }
+            function setAuthenticated(user) {
+              activeUser = user || null;
+              appContainer.classList.remove("hidden");
+              introShell.classList.add("hidden");
+              authShell.classList.add("hidden");
+              showSection("home");
+            }
+            function setLoggedOut() {
+              activeUser = null;
+              showIntroLanding();
+            }
             const OFFLINE_WORD_BANK = [
               { word: "book", meanings: ["کتاب"], weight: 1, band: 1 },
               { word: "happy", meanings: ["خوشحال", "شاد"], weight: 1, band: 1 },
@@ -1709,12 +2934,41 @@
               const isHome = section === "home";
               const isPlacement = section === "placement";
               const isVocab = section === "vocab";
+              if (isHome && activeUser) {
+                renderHomePanel(activeUser);
+              }
               homeSection.classList.toggle("hidden", !isHome);
               placementSection.classList.toggle("hidden", !isPlacement);
               vocabSection.classList.toggle("hidden", !isVocab);
               menuHome.classList.toggle("active", isHome);
               menuPlacement.classList.toggle("active", isPlacement);
               menuVocab.classList.toggle("active", isVocab);
+            }
+            function handleExamEnterAdvance(event) {
+              const isEnter = event.key === "Enter" || event.code === "NumpadEnter";
+              if (!isEnter || event.isComposing) return;
+              if (appContainer.classList.contains("hidden")) return;
+              if (!placementSection.classList.contains("hidden")) {
+                if (!placementState.started || placementState.submitted) return;
+                event.preventDefault();
+                if (placementState.currentIndex < placementQuestions.length - 1) {
+                  placementState.currentIndex += 1;
+                  renderPlacementQuestion();
+                  return;
+                }
+                submitPlacementExam(false);
+                return;
+              }
+              if (!vocabSection.classList.contains("hidden")) {
+                if (!vocabState.started || vocabState.isBusy) return;
+                event.preventDefault();
+                if (vocabState.index < 19) {
+                  vocabState.index += 1;
+                  renderVocabQuestion();
+                  return;
+                }
+                finishVocabBtn.click();
+              }
             }
             function inferGrammarTopic(item) {
               const q = item.q.toLowerCase();
@@ -1808,7 +3062,7 @@
               ];
               CEFR_LEVELS.forEach((lvl) => {
                 const stats = levelStats[lvl];
-                if (!stats || stats.total === 0) return;
+                if (!stats || (stats.answered || 0) === 0) return;
                 const analysis = summarizeTopicPerformance(levelTopicStats[lvl] || {});
                 const weaknessText = analysis.weaknesses.length
                   ? analysis.weaknesses.join("، ")
@@ -1816,7 +3070,7 @@
                 const strengthText = analysis.strengths.length
                   ? analysis.strengths.join("، ")
                   : "مورد شاخصی ثبت نشد";
-                lines.push(`سطح ${lvl} (${stats.correct}/${stats.total})`);
+                lines.push(`سطح ${lvl} (${stats.correct}/${stats.answered})`);
                 lines.push(`- ضعف‌ها: ${weaknessText}`);
                 lines.push(`- قوت‌ها: ${strengthText}`);
                 lines.push("");
@@ -1831,12 +3085,12 @@
               reportLevelGrid.innerHTML = "";
               CEFR_LEVELS.forEach((lvl) => {
                 const stats = levelStats[lvl];
-                if (!stats || stats.total === 0) return;
+                if (!stats || (stats.answered || 0) === 0) return;
                 const analysis = summarizeTopicPerformance(levelTopicStats[lvl] || {});
                 const block = document.createElement("div");
                 block.className = "level-block";
                 const title = document.createElement("h3");
-                title.textContent = `سطح ${lvl} - عملکرد ${stats.correct}/${stats.total}`;
+                title.textContent = `سطح ${lvl} - عملکرد ${stats.correct}/${stats.answered}`;
                 const weakness = document.createElement("p");
                 weakness.className = "level-row";
                 weakness.innerHTML = `ضعف‌های گرامری: ${buildTopicBadges(analysis.weaknesses)}`;
@@ -1851,6 +3105,183 @@
               lastReportText = buildReportText(payload);
               reportOverlay.classList.remove("hidden");
             }
+            function closeReportOverlay() {
+              reportOverlay.classList.add("hidden");
+              if (
+                placementState.submitted &&
+                lastReportText &&
+                !placementState.reportClosedOnce
+              ) {
+                placementState.reportClosedOnce = true;
+                viewReportBtn.classList.remove("hidden");
+              }
+            }
+            function initAuth() {
+              const session = readSession();
+              const users = getUsers();
+              if (!session || !session.email) {
+                if (session && session.guest) {
+                  setAuthenticated({ name: session.name || "مهمان", guest: true });
+                  return;
+                }
+                setLoggedOut();
+                return;
+              }
+              const user = users.find((item) => item.email === session.email);
+              if (!user) {
+                clearSession();
+                setLoggedOut();
+                return;
+              }
+              setAuthenticated(user);
+            }
+            introStartBtn.addEventListener("click", () => {
+              introEntryOptions.classList.remove("hidden");
+              introGuestBtn.focus();
+            });
+            introSampleBtn.addEventListener("click", () => {
+              introSampleOverlay.classList.remove("hidden");
+            });
+            introSampleCloseBtn.addEventListener("click", () => {
+              introSampleOverlay.classList.add("hidden");
+            });
+            introSampleOverlay.addEventListener("click", (event) => {
+              if (event.target === introSampleOverlay) {
+                introSampleOverlay.classList.add("hidden");
+              }
+            });
+            introGuestBtn.addEventListener("click", () => {
+              writeSession({ guest: true, name: "مهمان" }, false);
+              setAuthenticated({ name: "مهمان", guest: true });
+            });
+            introSignupBtn.addEventListener("click", () => openAuthShell("signup"));
+            introLoginBtn.addEventListener("click", () => openAuthShell("login"));
+            backToIntroBtn.addEventListener("click", () => showIntroLanding());
+            tabLogin.addEventListener("click", () => switchAuthTab("login"));
+            tabSignup.addEventListener("click", () => switchAuthTab("signup"));
+            document.querySelectorAll(".toggle-pass").forEach((button) => {
+              button.addEventListener("click", () => {
+                const targetId = button.getAttribute("data-target");
+                const input = document.getElementById(targetId);
+                if (!input) return;
+                const isPassword = input.type === "password";
+                input.type = isPassword ? "text" : "password";
+                button.textContent = isPassword ? "مخفی" : "نمایش";
+              });
+            });
+            loginPassword.addEventListener("keyup", (event) => {
+              const caps = event.getModifierState && event.getModifierState("CapsLock");
+              capsWarning.style.display = caps ? "block" : "none";
+            });
+            signupPassword.addEventListener("input", () => {
+              renderPasswordStrength(signupPassword.value);
+            });
+            forgotPasswordLink.addEventListener("click", (event) => {
+              event.preventDefault();
+              setAuthMessage(
+                loginMessage,
+                "برای بازیابی رمز، فعلا اکانت جدید بسازید یا با مدیر سیستم تماس بگیرید.",
+                "error",
+              );
+            });
+            signupForm.addEventListener("submit", (event) => {
+              event.preventDefault();
+              setAuthMessage(signupMessage, "", "");
+              const name = signupName.value.trim();
+              const email = normalizeEmail(signupEmail.value);
+              const password = signupPassword.value;
+              const confirm = signupConfirm.value;
+              if (name.length < 3) {
+                setAuthMessage(signupMessage, "نام باید حداقل 3 کاراکتر باشد.", "error");
+                return;
+              }
+              if (!isValidEmail(email)) {
+                setAuthMessage(signupMessage, "ایمیل معتبر وارد کنید.", "error");
+                return;
+              }
+              if (scorePassword(password) < 3) {
+                setAuthMessage(
+                  signupMessage,
+                  "رمز باید حداقل 8 کاراکتر و شامل حروف بزرگ، عدد یا نماد باشد.",
+                  "error",
+                );
+                return;
+              }
+              if (password !== confirm) {
+                setAuthMessage(signupMessage, "تکرار رمز عبور یکسان نیست.", "error");
+                return;
+              }
+              if (!signupTerms.checked) {
+                setAuthMessage(signupMessage, "برای ادامه باید قوانین را بپذیرید.", "error");
+                return;
+              }
+              const users = getUsers();
+              if (users.some((item) => item.email === email)) {
+                setAuthMessage(signupMessage, "این ایمیل قبلا ثبت شده است.", "error");
+                return;
+              }
+              signupSubmit.disabled = true;
+              signupSubmit.textContent = "در حال ساخت اکانت...";
+              setTimeout(() => {
+                users.push({
+                  name,
+                  email,
+                  password,
+                  createdAt: new Date().toISOString(),
+                });
+                saveUsers(users);
+                signupSubmit.disabled = false;
+                signupSubmit.textContent = "ساخت حساب";
+                setAuthMessage(signupMessage, "اکانت با موفقیت ساخته شد. حالا وارد شوید.", "success");
+                switchAuthTab("login");
+                loginEmail.value = email;
+                loginPassword.value = "";
+                loginPassword.focus();
+              }, 700);
+            });
+            loginForm.addEventListener("submit", (event) => {
+              event.preventDefault();
+              setAuthMessage(loginMessage, "", "");
+              const email = normalizeEmail(loginEmail.value);
+              const password = loginPassword.value;
+              if (!isValidEmail(email)) {
+                setAuthMessage(loginMessage, "ایمیل معتبر وارد کنید.", "error");
+                return;
+              }
+              if (!password) {
+                setAuthMessage(loginMessage, "رمز عبور را وارد کنید.", "error");
+                return;
+              }
+              const users = getUsers();
+              const user = users.find(
+                (item) => item.email === email && item.password === password,
+              );
+              if (!user) {
+                setAuthMessage(
+                  loginMessage,
+                  "ایمیل یا رمز عبور اشتباه است.",
+                  "error",
+                );
+                return;
+              }
+              loginSubmit.disabled = true;
+              loginSubmit.textContent = "در حال ورود...";
+              setTimeout(() => {
+                writeSession({ email: user.email }, rememberMe.checked);
+                loginSubmit.disabled = false;
+                loginSubmit.textContent = "ورود به حساب";
+                setAuthenticated(user);
+              }, 650);
+            });
+            guestEnterBtn.addEventListener("click", () => {
+              setAuthMessage(loginMessage, "", "");
+              writeSession({ guest: true, name: "مهمان" }, false);
+              setAuthenticated({ name: "مهمان", guest: true });
+            });
+            logoutBtn.addEventListener("click", () => {
+              clearSession();
+              setLoggedOut();
+            });
             menuHome.addEventListener("click", () => showSection("home"));
             menuPlacement.addEventListener("click", () => showSection("placement"));
             menuVocab.addEventListener("click", () => showSection("vocab"));
@@ -1868,9 +3299,11 @@
             }
             function renderPlacementQuestion() {
               if (!placementState.started) {
+                placementMetaBar.classList.add("hidden");
+                placementActions.classList.add("hidden");
+                submitBtn.classList.remove("hidden");
                 questionCounter.textContent = `سوال 0 از ${CEFR_LEVELS.length * QUESTIONS_PER_LEVEL}`;
-                questionText.textContent =
-                  "برای شروع آزمون روی دکمه «شروع آزمون تعیین سطح» بزنید.";
+                questionText.textContent = "";
                 choicesEl.innerHTML = "";
                 prevBtn.disabled = true;
                 nextBtn.disabled = true;
@@ -1881,6 +3314,8 @@
                 timerEl.textContent = formatTime(placementState.timeLeft);
                 return;
               }
+              placementMetaBar.classList.remove("hidden");
+              placementActions.classList.remove("hidden");
               const idx = placementState.currentIndex;
               const item = placementQuestions[idx];
               questionCounter.textContent = `سوال ${idx + 1} از ${placementQuestions.length}`;
@@ -1922,6 +3357,7 @@
               nextBtn.disabled = idx === placementQuestions.length - 1;
               submitBtn.disabled =
                 placementState.submitted || !placementState.started;
+              submitBtn.classList.toggle("hidden", placementState.submitted);
               if (placementState.submitted) {
                 hintBtn.classList.remove("hidden");
                 hintBox.textContent = item.explanation || "توضیحی برای این سوال ثبت نشده است.";
@@ -1953,7 +3389,7 @@
               let correct = 0;
               let wrong = 0;
               const levelStats = CEFR_LEVELS.reduce((acc, level) => {
-                acc[level] = { correct: 0, total: 0 };
+                acc[level] = { correct: 0, total: 0, answered: 0 };
                 return acc;
               }, {});
               const levelTopicStats = CEFR_LEVELS.reduce((acc, level) => {
@@ -1964,6 +3400,7 @@
                 levelStats[item.level].total += 1;
                 const selectedAnswer = placementState.answers[i];
                 if (selectedAnswer === null) return;
+                levelStats[item.level].answered += 1;
                 const topic = item.topic || inferGrammarTopic(item);
                 if (!levelTopicStats[item.level][topic]) {
                   levelTopicStats[item.level][topic] = { total: 0, correct: 0, wrong: 0 };
@@ -1993,6 +3430,13 @@
               ).join(" | ");
               scoreLine.textContent = `امتیاز شما: ${correct} از ${placementQuestions.length} | پاسخ داده‌شده: ${answered}`;
               levelLine.textContent = `سطح تقریبی شما: ${level}${endReason} | ${breakdown}`;
+              saveHomeResult("placement", {
+                level,
+                correct,
+                total: placementQuestions.length,
+                answered,
+                date: new Date().toISOString(),
+              });
               resultBox.style.display = "none";
               renderPlacementReport({
                 correct,
@@ -2004,6 +3448,8 @@
                 levelTopicStats,
               });
               placementState.hintOpen = false;
+              placementState.reportClosedOnce = false;
+              viewReportBtn.classList.add("hidden");
               renderPlacementQuestion();
             }
             prevBtn.addEventListener("click", () => {
@@ -2025,13 +3471,17 @@
               renderPlacementQuestion();
               startPlacementTimer();
             });
+            viewReportBtn.addEventListener("click", () => {
+              if (!lastReportText || !placementState.submitted) return;
+              reportOverlay.classList.remove("hidden");
+            });
             hintBtn.addEventListener("click", () => {
               if (!placementState.submitted) return;
               placementState.hintOpen = !placementState.hintOpen;
               hintBox.style.display = placementState.hintOpen ? "block" : "none";
             });
             closeReportBtn.addEventListener("click", () => {
-              reportOverlay.classList.add("hidden");
+              closeReportOverlay();
             });
             copyReportBtn.addEventListener("click", async () => {
               if (!lastReportText) return;
@@ -2044,6 +3494,60 @@
               } catch (err) {
                 alert("امکان کپی خودکار وجود ندارد. لطفاً دستی کپی کنید.");
               }
+            });
+            downloadReportBtn.addEventListener("click", () => {
+              if (!lastReportText) return;
+              const printWindow = window.open("", "_blank", "width=900,height=700");
+              if (!printWindow) {
+                alert("پنجره دانلود باز نشد. لطفا Pop-up را فعال کنید.");
+                return;
+              }
+              const escapedReport = lastReportText
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/\n/g, "<br />");
+              const html = `
+                <!doctype html>
+                <html lang="fa" dir="rtl">
+                  <head>
+                    <meta charset="UTF-8" />
+                    <title>کارنامه آزمون lexi</title>
+                    <style>
+                      body {
+                        font-family: Tahoma, "Segoe UI", sans-serif;
+                        margin: 24px;
+                        color: #1f2a37;
+                        line-height: 1.9;
+                      }
+                      h1 {
+                        margin: 0 0 12px;
+                        color: #16487d;
+                        font-size: 24px;
+                      }
+                      .box {
+                        border: 1px solid #d6e4f5;
+                        border-radius: 12px;
+                        padding: 14px;
+                        background: #fbfdff;
+                        font-size: 14px;
+                      }
+                    </style>
+                  </head>
+                  <body>
+                    <h1>کارنامه آزمون تعیین سطح lexi</h1>
+                    <div class="box">${escapedReport}</div>
+                    <script>
+                      window.addEventListener("load", function () {
+                        window.print();
+                      });
+                    <\/script>
+                  </body>
+                </html>
+              `;
+              printWindow.document.open();
+              printWindow.document.write(html);
+              printWindow.document.close();
             });
             shareReportBtn.addEventListener("click", async () => {
               if (!lastReportText) return;
@@ -2067,9 +3571,10 @@
             });
             reportOverlay.addEventListener("click", (event) => {
               if (event.target === reportOverlay) {
-                reportOverlay.classList.add("hidden");
+                closeReportOverlay();
               }
             });
+            document.addEventListener("keydown", handleExamEnterAdvance);
             function renderVocabQuestion() {
               if (!vocabState.started || vocabState.words.length === 0) return;
               const idx = vocabState.index;
@@ -2192,6 +3697,14 @@
                   weightedScore,
                   maxScore,
                 );
+                saveHomeResult("vocab", {
+                  estimated,
+                  low,
+                  high,
+                  correctCount,
+                  total: 20,
+                  date: new Date().toISOString(),
+                });
                 vocabScoreLine.textContent = `تعداد پاسخ درست: ${correctCount} از 20`;
                 vocabRangeLine.textContent = `دامنه تقریبی واژگان: حدود ${estimated} کلمه (بازه: ${low} تا ${high})`;
                 vocabHintLine.textContent =
@@ -2207,7 +3720,9 @@
                 renderVocabQuestion();
               }
             });
+            renderPasswordStrength("");
             renderPlacementQuestion();
+            initAuth();
     </script>
   </body>
 </html>
