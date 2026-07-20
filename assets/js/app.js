@@ -1,0 +1,1500 @@
+const QUESTION_SOURCES = {
+  A1: window.A1_QUESTIONS,
+  A2: window.A2_QUESTIONS,
+  B1: window.B1_QUESTIONS,
+  B2: window.B2_QUESTIONS,
+  C1: window.C1_QUESTIONS,
+  C2: window.C2_QUESTIONS,
+};
+            let placementQuestions = [];
+                  const DOCX_EXPLANATION_TAILS = {
+          "A1-01":  "amچون فاعل «I» است، تنها شکل درست فعل to be برای آن «am» می‌باشد.",
+          "A1-02":  "isچون «She» سوم‌شخص مفرد است، فعل to be باید «is» باشد.",
+          "A1-03":  "areچون «They» جمع است، فعل مناسب آن «are» است.",
+          "A1-04":  "isچون «My name» مفرد محسوب می‌شود، فعل درست «is» است.",
+          "A1-05":  "studyچون «We» جمع است، فعل در حال ساده بدون s می‌آید.",
+          "A1-06":  "goesچون «He» سوم‌شخص مفرد است، فعل باید s/es بگیرد",
+          "A1-07":  "areچون «two books» جمع است، از «are» استفاده می‌کنیم.",
+          "A1-08":  "anyدر جملات منفی معمولاً از «any» (هیچ / مقداری) استفاده می‌کنیم.",
+          "A1-09":  "Doبرای ساخت سوال در حال ساده با «you» از «Do» استفاده می‌شود.",
+          "A1-10":  "myبرای نشان دادن مالکیت از «my» (مال من) استفاده می‌کنیم.",
+          "A1-11":  "on«On» یعنی «روی»، گربه روی میز است.",
+          "A1-12":  "runبعد از «can» همیشه فعل سادهبدون s یا ing می‌آید.",
+          "A1-13":  "yourچون مخاطب را خطاب می‌کنیم، «your» (کتاب تو) درست است.",
+          "A1-14":  "Who«Who» برای پرسیدن درباره شخص (چه کسی) به کار می‌رود.",
+          "A1-15":  "amبرای بیان سن با «I» از «am» استفاده می‌کنیم.",
+          "A1-16":  "aچون «car» مفرد و قابل شمارش است، «a»مناسب است.",
+          "A1-17":  "areچون «They» جمع است، فعل درست «are» می‌باشد.",
+          "A1-18":  "cheapبعد از «very» معمولاً صفت می‌آید. Cheapیعنی ارزان",
+          "A1-19":  "inبرای شهرها و کشورها از «in» استفاده می‌کنیم.",
+          "A1-20":  "amبرای معرفی ملیت یا محل تولد با «I» از «am» استفاده می‌شود.",
+          "A2-01":  "wentچون «Yesterday» گذشته را نشان می‌دهد و گذشته go می‌شود went.",
+          "A2-02":  "was watchingبرای عملی که در گذشته در حال انجام بوده از گذشته استمراری استفاده می‌کنیم.",
+          "A2-03":  "have seenچون تجربه تا زمان حال است، Present Perfectمناسب است.",
+          "A2-04":  "muchچون water غیرقابل شمارش است، از «much» استفاده می‌کنیم.",
+          "A2-05":  "a fewچون apples قابل شمارش جمع است، «a few»یعنی چند تا",
+          "A2-06":  "fasterبرای مقایسه از حالت comparative استفاده می‌کنیم.",
+          "A2-07":  "will stayاین ساختار شرطی نوع اول است (احتمال واقعی).",
+          "A2-08":  "since«Since» برای نقطه زمانی مشخص استفاده می‌شود.",
+          "A2-09":  "anyدر جملات منفی معمولاً «any» به کار می‌رود.",
+          "A2-10":  "shall weبرای Let’s در question tag از «shall we» استفاده می‌کنیم.",
+          "A2-11":  "wentچون زمان گذشته مشخص شده، فعل گذشته لازم است.",
+          "A2-12":  "leavesبرای برنامه‌های زمانی ثابت از حال ساده استفاده می‌کنیم.",
+          "A2-13":  "helpبعد از can فعل ساده می‌آید و help یعنی کمک کردن.",
+          "A2-14":  "inعبارت ثابت «interested in» به معنی علاقه‌مند بودن به چیزی",
+          "A2-15":  "toعبارت ثابت prefer X to Y یعنی ترجیح دادن.",
+          "A2-16":  "so«So»رابطه علت و نتیجه را نشان می‌دهد.",
+          "A2-17":  "atبرای ساعت مشخص از «at» استفاده می‌کنیم.",
+          "A2-18":  "best (superlative) چون بهترین را بیان می‌کند",
+          "A2-19":  "yet«Yet» معمولاً در جملات منفی Present Perfect می‌آید.",
+          "A2-20":  "doesچون سوم‌شخص مفرد است، do → does.",
+          "B1-01":  "have readچون تجربه‌ای را بیان می‌کند که تا زمان حال مرتبط است، Present Perfectاستفاده می‌کنیم.",
+          "B1-02":  "had leftچون ترک کردن قبل از رسیدن ما اتفاق افتاده، Past Perfectلازم است.",
+          "B1-03":  "hadچون شرطی نوع دوم است و درباره موقعیت فرضی صحبت می‌کند.",
+          "B1-04":  "whoچون برای توصیف شخص از «who» استفاده می‌کنیم.",
+          "B1-05":  "mustn\u0027tMustn’tبرای بیان ممنوعیت یا منع شدید به کار می‌رود.",
+          "B1-06":  "hadبعد از «wish» برای بیان حسرت، معمولاً گذشته ساده می‌آید.",
+          "B1-07":  "areفعل با نزدیک‌ترین فاعل هماهنگ می‌شود که اینجا «friends» جمع است.",
+          "B1-08":  "takingبعد از «deny» فعل به صورت ing می‌آید.",
+          "B1-09":  "wakingدر ساختار «used to» وقتی to حرف اضافه باشد، فعل ing می‌آید.",
+          "B1-10":  "soساختار so…that برای بیان شدت و نتیجه استفاده می‌شود.",
+          "B1-11":  "to doبعد از wh-word اغلب از «to + verb» استفاده می‌کنیم.",
+          "B1-12":  "would have comeچون شرطی نوع سوم است و درباره گذشته غیرواقعی صحبت می‌کند.",
+          "B1-13":  "whereWhereبرای اشاره به مکان استفاده می‌شود.",
+          "B1-14":  "to callبعد از «promise» معمولاً مصدر با to می‌آید.",
+          "B1-15":  "stayedبعد از would rather، فعل در گذشته ساده می‌آید.",
+          "B1-16":  "offCall offیک عبارت ثابت به معنی «لغو کردن» است.",
+          "B1-17":  "wasدر reported speech زمان فعل معمولاً یک مرحله به عقب می‌رود.",
+          "B1-18":  "more fluentlyبرای مقایسه قیدها از more + adverb استفاده می‌کنیم؛ fluently یعنی روان",
+          "B1-19":  "was heبعد از Not only ساختار جمله وارونه (inversion) می‌شود.",
+          "B1-20":  "finishingبعد از need در این ساختار معمولاً فعل ing می‌آید.",
+          "B2-01":  "had I sat downبعد از Hardly ساختار جمله وارونه می‌شود و از Past Perfect استفاده می‌کنیم.",
+          "B2-02":  "thanساختار ثابت No sooner … than است.",
+          "B2-03":  "to have livedچون عمل در گذشته کامل شده، perfect infinitive می‌آید.",
+          "B2-04":  "whichWhichبرای non-defining clause استفاده می‌شود.",
+          "B2-05":  "beingبعد از despite فعل ing می‌آید.",
+          "B2-06":  "tookبعد از It’s high time فعل گذشته ساده می‌آید.",
+          "B2-07":  "whenساختار ثابت Scarcely … when است.",
+          "B2-08":  "knewAs ifبرای موقعیت غیرواقعی → گذشته ساده.",
+          "B2-09":  "did we noticeبعد از Only ساختار inversion داریم.",
+          "B2-10":  "will have workedچون زمان مشخص در آینده داریم → Future Perfect.",
+          "B2-11":  "ofعبارت ثابتaccused ofبه معنی متهم شدن به",
+          "B2-12":  "did they knowبعد از Little جمله وارونه می‌شود.",
+          "B2-13":  "inعبارت ثابت result in به معنی منجر شدن به",
+          "B2-14":  "to beingچون object to با ing می‌آید.",
+          "B2-15":  "would makeاین ساختار شرطی رسمی نوع دوم است.",
+          "B2-16":  "cleaningNeed + gerundدر این ساختار رایج است.",
+          "B2-17":  "discussبعد از rather فعل ساده می‌آید.",
+          "B2-18":  "signingبعد از of فعل ing می‌آید.",
+          "B2-19":  "was heبعد از So ساختار وارونه داریم.",
+          "B2-20":  "had studiedچون شرطی نوع سوم است.",
+          "C1-01":  "would have lostاین جمله یک شرطی نوع سوم با ساختار وارونه است و نتیجه‌ی یک موقعیت غیرواقعی در گذشته را بیان می‌کند.",
+          "C1-02":  "which«Which» به کل جمله قبل اشاره می‌کند و نتیجه یا اثر آن را توضیح می‌دهد.",
+          "C1-03":  "did we understandوقتی جمله با عبارت منفی مثل Not until شروع شود، فعل کمکی قبل از فاعل می‌آید (inversion).",
+          "C1-04":  "apologizeبعد از افعال دستوری مثل demand از subjunctive استفاده می‌کنیم و فعل به شکل ساده می‌آید.",
+          "C1-05":  "do we seeعبارات منفی یا محدودکننده در ابتدای جمله باعث وارونگی ساختار جمله می‌شوند.",
+          "C1-06":  "should staff shareاین عبارت تأکیدی منفی است و به همین دلیل ساختار inversion لازم است.",
+          "C1-07":  "to have metچون کامل شدن عمل قبل از زمان حال را نشان می‌دهد، perfect infinitive استفاده می‌شود.",
+          "C1-08":  "but alsoاین یک ساختار ثابت برای اضافه کردن تأکید و اطلاعات دوم است.",
+          "C1-09":  "to be submittedچون گزارش دریافت‌کننده عمل است، ساختار مصدر مجهول (passive infinitive) لازم است.",
+          "C1-10":  "tryingبعد از «worth» همیشه فعل به صورت ing می‌آید.",
+          "C1-11":  "have I heardوقتی Rarely در ابتدای جمله بیاید، ساختار جمله وارونه می‌شود.",
+          "C1-12":  "should disturb«Lest» برای بیان جلوگیری از یک اتفاق به کار می‌رود و معمولاً با should می‌آید.",
+          "C1-13":  "reachبعد از modal verbs مثل could، فعل به شکل ساده (base form) استفاده می‌شود.",
+          "C1-14":  "would be madeچون درباره آینده از دیدگاه گذشته صحبت می‌کند، future in the past + passive داریم.",
+          "C1-15":  "forدر ساختار enough از «for» برای معرفی شخص یا گروه استفاده می‌کنیم.",
+          "C1-16":  "isفاعل اصلی «CEO» است و عبارت along with فقط اطلاعات اضافه می‌دهد.",
+          "C1-17":  "could have mitigatedاین جمله شرطی نوع سوم است و درباره نتیجه‌ی فرضی در گذشته صحبت می‌کند.",
+          "C1-18":  "forCall for یک عبارت ثابت به معنی «نیاز داشتن به / درخواست کردن» است.",
+          "C1-19":  "forSuitable for یک ترکیب رایج برای بیان تناسب یا شایستگی است.",
+          "C1-20":  "to solveساختار too … to برای بیان «بیش از حد برای انجام کاری» استفاده می‌شود.",
+          "C2-01":  "was the issueدر ساختار So + adjectiveاگر جمله با آن شروع شود، باید inversion  (وارونگی) انجام شود؛ یعنی verbقبل ازsubjectمی‌آید.",
+          "C2-02":  "would have failedاین شکل رسمی و معکوس Third Conditionalاست. نتیجه درباره گذشته با ساختار would have + past participleبیان می‌شود.",
+          "C2-03":  "had they announcedبعد از No soonerازpast perfect + inversionاستفاده می‌شود.الگوNo sooner + had + subject + pp + than",
+          "C2-04":  "onفعل hinge onیکfixed collocationبه معنی «وابسته بودن به» است.",
+          "C2-05":  "do we encounterوقتی جمله با negative adverbشروع شود، باید inversionانجام شود. چون زمان جمله present simpleاست، از doاستفاده می‌کنیم.",
+          "C2-06":  "fraughtعبارت fraught withیک ترکیب ثابت به معنی «آکنده از» (معمولاً با بار منفی) است.",
+          "C2-07":  "canوقتی جمله با Only + phraseشروع شود، ساختار جمله به صورت inversionمی‌آید و modal verbقبل از فاعل قرار می‌گیرد.",
+          "C2-08":  "asساختار not so much A as Bبرای مقایسه تأکیدی استفاده می‌شود؛ یعنی نه آن‌قدر A بلکه بیشتر B",
+          "C2-09":  "be evaluatedبعد از افعالی مانند insist / suggest / demandازsubjunctive formاستفاده می‌شود؛ یعنی فعل به شکل پایه (base form) می‌آید.",
+          "C2-10":  "had they graspedبعد از Scarcelyازpast perfect + inversionاستفاده می‌شود.الگوScarcely + had + subject + pp + when",
+          "C2-11":  "inعبارت couched inیکعبارت ثابت به معنی «بیان شدن در قالبِ» است.",
+          "C2-12":  "an openعبارت an open questionیعنی موضوعی که هنوز پاسخ قطعی ندارد.",
+          "C2-13":  "openعبارت open the floodgatesیکidiomبه معنی «باعث شروع گسترده چیزی شدن» است. وجود Littleدر ابتدای جمله باعث inversionشده است.",
+          "C2-14":  "wasدر ساختار Such + verb + subject + that-clauseاز وارونگی برای تأکید استفاده می‌شود.",
+          "C2-15":  "have beenاین جمله شکل معکوس Third Conditionalاست(if  حذفشده )نتیجه با might have been + ppساخته می‌شود.",
+          "C2-16":  "articulateبعد از ability toفعل به صورت base formمی‌آید.Articulateیعنی «شفاف و دقیق بیان کردن».",
+          "C2-17":  "a paragonعبارت a paragon ofیک ترکیب رسمی به معنی «نمونه کامل / الگوی عالیِ» است.",
+          "C2-18":  "a fewNotwithstandingبه معنی «با وجودِ» است و بعد از آن noun phraseمی‌آید.",
+          "C2-19":  "had servedبعد از as though / as ifبرای بیان حالت غیرواقعی در گذشته از past perfectاستفاده می‌شود.",
+          "C2-20":  "profoundlyProfoundlyیکintensifying adverbاست که شدت صفت را تقویت می‌کند."
+      }
+      ;
+            const CEFR_LEVELS = ["A1", "A2", "B1", "B2", "C1", "C2"];
+            const QUESTIONS_PER_LEVEL = 4;
+
+            function generateQuestionExplanation(item) {
+              const q = item.q.toLowerCase();
+              const correct = item.options[item.answer];
+              const parts = item.q.split("___");
+              const left = (parts[0] || "").trim();
+              const right = (parts[1] || "").trim();
+              const leftWords = left
+                .toLowerCase()
+                .replace(/[^a-z'\s]/g, " ")
+                .split(/\s+/)
+                .filter(Boolean);
+              const subject = leftWords[leftWords.length - 1] || "";
+
+              if (["am", "is", "are"].includes(correct.toLowerCase())) {
+                if (subject === "i") return "چون فاعل جمله I است، شکل درست فعل to be برابر am است.";
+                if (["he", "she", "it", "name"].includes(subject)) {
+                  return "چون فاعل جمله مفرد است، فعل to be باید به صورت مفرد یعنی is بیاید.";
+                }
+                if (["we", "they", "you"].includes(subject) || left.includes(" and ")) {
+                  return "چون فاعل جمله جمع است، فعل to be باید به صورت جمع یعنی are بیاید.";
+                }
+                return `گزینه «${correct}» درست است چون با نوع فاعل جمله، فرم درست فعل to be همین گزینه است.`;
+              }
+
+              if (["has", "have"].includes(correct.toLowerCase())) {
+                if (["he", "she", "it"].includes(subject)) {
+                  return "چون فاعل سوم‌شخص مفرد است، شکل درست have برابر has می‌شود.";
+                }
+                return "چون فاعل مفرد سوم‌شخص نیست، شکل درست have همان have است.";
+              }
+
+              if (["does", "do"].includes(correct.toLowerCase())) {
+                if (["he", "she", "it"].includes(subject)) {
+                  return "در حال ساده برای فاعل سوم‌شخص مفرد، فعل کمکی درست does است.";
+                }
+                return "در حال ساده برای فاعل غیرسوم‌شخص مفرد، فعل کمکی درست do است.";
+              }
+
+              if (
+                q.includes("hardly") ||
+                q.includes("no sooner") ||
+                q.includes("scarcely") ||
+                q.includes("seldom") ||
+                q.includes("little ")
+              ) {
+                return `گزینه «${correct}» درست است چون این ساختار به وارونگی (inversion) نیاز دارد و فقط این گزینه آن الگو را درست می‌سازد.`;
+              }
+
+              return `گزینه «${correct}» درست است چون در بافت «${left} ... ${right}» هم از نظر نقش دستوری با جای خالی سازگار است و هم معنی طبیعی و کامل جمله را می‌سازد.`;
+            }
+
+            function getQuestionId(level, index) {
+              return `${level}-${String(index + 1).padStart(2, "0")}`;
+            }
+
+            function resolveDocxMeta(item, level, index) {
+              const id = getQuestionId(level, index);
+              const rawTail = DOCX_EXPLANATION_TAILS[id];
+              if (!rawTail) {
+                return { answer: item.answer, explanation: generateQuestionExplanation(item) };
+              }
+
+              const optionMatches = item.options
+                .map((optionText, optionIndex) => ({ optionText, optionIndex }))
+                .sort((a, b) => b.optionText.length - a.optionText.length);
+
+              const matched = optionMatches.find(({ optionText }) => rawTail.startsWith(optionText));
+              if (!matched) {
+                return { answer: item.answer, explanation: rawTail.trim() || generateQuestionExplanation(item) };
+              }
+
+              const explanation = rawTail.slice(matched.optionText.length).trim();
+              return {
+                answer: matched.optionIndex,
+                explanation: explanation || generateQuestionExplanation(item),
+              };
+            }
+
+            const QUESTION_BANK = (() => {
+              const bank = {};
+              CEFR_LEVELS.forEach((level) => {
+                bank[level] = QUESTION_SOURCES[level].map((item, index) => {
+                  const meta = resolveDocxMeta(item, level, index);
+                  return {
+                    ...item,
+                    level,
+                    topic: inferGrammarTopic(item),
+                    answer: meta.answer,
+                    explanation: meta.explanation,
+                  };
+                });
+              });
+              return bank;
+            })();
+            function buildPlacementExam() {
+              const selected = [];
+              CEFR_LEVELS.forEach((level) => {
+                selected.push(
+                  ...shuffle(QUESTION_BANK[level]).slice(0, QUESTIONS_PER_LEVEL),
+                );
+              });
+              return selected;
+            }
+            function preparePlacementExam() {
+              placementQuestions = buildPlacementExam();
+              placementState.currentIndex = 0;
+              placementState.answers = Array(placementQuestions.length).fill(null);
+              placementState.timeLeft = 30 * 60;
+              placementState.submitted = false;
+              placementState.hintOpen = false;
+              placementState.reportClosedOnce = false;
+              placementState.started = true;
+              clearInterval(placementState.timerId);
+              placementState.timerId = null;
+              resultBox.style.display = "none";
+              hintBtn.classList.add("hidden");
+              hintBox.style.display = "none";
+              reportOverlay.classList.add("hidden");
+              viewReportBtn.classList.add("hidden");
+              submitBtn.classList.remove("hidden");
+            }
+            function determineLevelFromStats(levelStats) {
+              let estimated = "A1";
+              CEFR_LEVELS.forEach((level) => {
+                const stat = levelStats[level];
+                if (!stat || stat.total === 0) return;
+                if (stat.correct / stat.total >= 0.65) estimated = level;
+              });
+              return estimated;
+            }
+            function getEarlyStopLevel() {
+              let wrongStreak = 0;
+              for (let i = 0; i < placementQuestions.length; i += 1) {
+                const selected = placementState.answers[i];
+                if (selected === null) break;
+                if (selected === placementQuestions[i].answer) {
+                  wrongStreak = 0;
+                  continue;
+                }
+                wrongStreak += 1;
+                if (wrongStreak >= 3) return placementQuestions[i].level;
+              }
+              return null;
+            }
+            const placementState = {
+              currentIndex: 0,
+              answers: Array(placementQuestions.length).fill(null),
+              timeLeft: 30 * 60,
+              timerId: null,
+              started: false,
+              submitted: false,
+              hintOpen: false,
+              reportClosedOnce: false,
+            };
+            const menuHome = document.getElementById("menuHome");
+            const menuPlacement = document.getElementById("menuPlacement");
+            const menuVocab = document.getElementById("menuVocab");
+            const homeSection = document.getElementById("homeSection");
+            const placementSection = document.getElementById("placementSection");
+            const vocabSection = document.getElementById("vocabSection");
+            const placementMetaBar = document.getElementById("placementMetaBar");
+            const questionCounter = document.getElementById("questionCounter");
+            const timerEl = document.getElementById("timer");
+            const progressBar = document.getElementById("progressBar");
+            const startPlacementBtn = document.getElementById("startPlacementBtn");
+            const viewReportBtn = document.getElementById("viewReportBtn");
+            const hintBtn = document.getElementById("hintBtn");
+            const hintBox = document.getElementById("hintBox");
+            const questionText = document.getElementById("questionText");
+            const choicesEl = document.getElementById("choices");
+            const placementActions = document.getElementById("placementActions");
+            const prevBtn = document.getElementById("prevBtn");
+            const nextBtn = document.getElementById("nextBtn");
+            const submitBtn = document.getElementById("submitBtn");
+            const resultBox = document.getElementById("resultBox");
+            const scoreLine = document.getElementById("scoreLine");
+            const levelLine = document.getElementById("levelLine");
+            const reportOverlay = document.getElementById("reportOverlay");
+            const reportSummary = document.getElementById("reportSummary");
+            const reportLevelGrid = document.getElementById("reportLevelGrid");
+            const copyReportBtn = document.getElementById("copyReportBtn");
+            const downloadReportBtn = document.getElementById("downloadReportBtn");
+            const shareReportBtn = document.getElementById("shareReportBtn");
+            const closeReportBtn = document.getElementById("closeReportBtn");
+            let lastReportText = "";
+            const startVocabBtn = document.getElementById("startVocabBtn");
+            const vocabLoading = document.getElementById("vocabLoading");
+            const vocabQuestionBox = document.getElementById("vocabQuestionBox");
+            const vocabWord = document.getElementById("vocabWord");
+            const vocabCounter = document.getElementById("vocabCounter");
+            const vocabChoices = document.getElementById("vocabChoices");
+            const vocabStatus = document.getElementById("vocabStatus");
+            const nextVocabBtn = document.getElementById("nextVocabBtn");
+            const finishVocabBtn = document.getElementById("finishVocabBtn");
+            const vocabResultBox = document.getElementById("vocabResultBox");
+            const vocabScoreLine = document.getElementById("vocabScoreLine");
+            const vocabRangeLine = document.getElementById("vocabRangeLine");
+            const vocabHintLine = document.getElementById("vocabHintLine");
+            const introShell = document.getElementById("introShell");
+            const introStartBtn = document.getElementById("introStartBtn");
+            const introPlacementBtn = document.getElementById("introPlacementBtn");
+            const introVocabularyBtn = document.getElementById("introVocabularyBtn");
+            const introSampleBtn = document.getElementById("introSampleBtn");
+            const introSampleOverlay = document.getElementById("introSampleOverlay");
+            const introSampleCloseBtn = document.getElementById("introSampleCloseBtn");
+            const authShell = document.getElementById("authShell");
+            const backToIntroBtn = document.getElementById("backToIntroBtn");
+            const appContainer = document.getElementById("appContainer");
+            const logoutBtn = document.getElementById("logoutBtn");
+            const tabLogin = document.getElementById("tabLogin");
+            const tabSignup = document.getElementById("tabSignup");
+            const loginForm = document.getElementById("loginForm");
+            const signupForm = document.getElementById("signupForm");
+            const loginEmail = document.getElementById("loginEmail");
+            const loginPassword = document.getElementById("loginPassword");
+            const rememberMe = document.getElementById("rememberMe");
+            const loginSubmit = document.getElementById("loginSubmit");
+            const guestEnterBtn = document.getElementById("guestEnterBtn");
+            const loginMessage = document.getElementById("loginMessage");
+            const capsWarning = document.getElementById("capsWarning");
+            const forgotPasswordLink = document.getElementById("forgotPasswordLink");
+            const signupName = document.getElementById("signupName");
+            const signupEmail = document.getElementById("signupEmail");
+            const signupPassword = document.getElementById("signupPassword");
+            const signupConfirm = document.getElementById("signupConfirm");
+            const signupTerms = document.getElementById("signupTerms");
+            const signupSubmit = document.getElementById("signupSubmit");
+            const signupMessage = document.getElementById("signupMessage");
+            const strengthBars = document.getElementById("strengthBars");
+            const strengthText = document.getElementById("strengthText");
+            const AUTH_USERS_KEY = "lexi_users_v1";
+            const AUTH_SESSION_KEY = "lexi_session_v1";
+            const HOME_PLACEMENT_RESULT_KEY = "lexi_last_placement_v1";
+            const HOME_VOCAB_RESULT_KEY = "lexi_last_vocab_v1";
+            let activeUser = null;
+            function normalizeEmail(value) {
+              return String(value || "")
+                .trim()
+                .toLowerCase();
+            }
+            function isValidEmail(value) {
+              return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(normalizeEmail(value));
+            }
+            function getUsers() {
+              try {
+                const raw = localStorage.getItem(AUTH_USERS_KEY);
+                const data = raw ? JSON.parse(raw) : [];
+                return Array.isArray(data) ? data : [];
+              } catch (err) {
+                return [];
+              }
+            }
+            function saveUsers(users) {
+              localStorage.setItem(AUTH_USERS_KEY, JSON.stringify(users));
+            }
+            function readSession() {
+              const temp = sessionStorage.getItem(AUTH_SESSION_KEY);
+              const persistent = localStorage.getItem(AUTH_SESSION_KEY);
+              const raw = temp || persistent;
+              if (!raw) return null;
+              try {
+                return JSON.parse(raw);
+              } catch (err) {
+                return null;
+              }
+            }
+            function writeSession(session, remember) {
+              if (remember) {
+                localStorage.setItem(AUTH_SESSION_KEY, JSON.stringify(session));
+                sessionStorage.removeItem(AUTH_SESSION_KEY);
+                return;
+              }
+              sessionStorage.setItem(AUTH_SESSION_KEY, JSON.stringify(session));
+              localStorage.removeItem(AUTH_SESSION_KEY);
+            }
+            function clearSession() {
+              sessionStorage.removeItem(AUTH_SESSION_KEY);
+              localStorage.removeItem(AUTH_SESSION_KEY);
+            }
+            function getResultOwnerKey() {
+              const session = readSession();
+              if (session && session.email) return normalizeEmail(session.email);
+              return "guest";
+            }
+            function saveHomeResult(type, payload) {
+              const key =
+                type === "placement" ? HOME_PLACEMENT_RESULT_KEY : HOME_VOCAB_RESULT_KEY;
+              let bucket = {};
+              try {
+                bucket = JSON.parse(localStorage.getItem(key) || "{}") || {};
+              } catch (err) {
+                bucket = {};
+              }
+              bucket[getResultOwnerKey()] = payload;
+              localStorage.setItem(key, JSON.stringify(bucket));
+            }
+            function readHomeResult(type) {
+              const key =
+                type === "placement" ? HOME_PLACEMENT_RESULT_KEY : HOME_VOCAB_RESULT_KEY;
+              try {
+                const bucket = JSON.parse(localStorage.getItem(key) || "{}") || {};
+                return bucket[getResultOwnerKey()] || null;
+              } catch (err) {
+                return null;
+              }
+            }
+            function setAuthMessage(element, message, type) {
+              element.className = "auth-message";
+              if (!message) {
+                element.textContent = "";
+                element.style.display = "none";
+                return;
+              }
+              element.textContent = message;
+              element.style.display = "";
+              element.classList.add(type);
+            }
+            function scorePassword(value) {
+              let score = 0;
+              if ((value || "").length >= 8) score += 1;
+              if (/[A-Z]/.test(value) && /[a-z]/.test(value)) score += 1;
+              if (/\d/.test(value)) score += 1;
+              if (/[^A-Za-z0-9]/.test(value)) score += 1;
+              return score;
+            }
+            function renderPasswordStrength(value) {
+              const score = scorePassword(value);
+              const bars = strengthBars.querySelectorAll("span");
+              bars.forEach((bar, idx) => {
+                bar.classList.toggle("active", idx < score);
+              });
+              const labels = ["خیلی ضعیف", "ضعیف", "متوسط", "قوی", "خیلی قوی"];
+              strengthText.textContent = `قدرت رمز: ${labels[score]}`;
+            }
+            function renderHomePanel(user) {
+              const placement = readHomeResult("placement");
+              const vocab = readHomeResult("vocab");
+              const isGuest = Boolean(user && user.guest);
+              const displayName = (user && user.name) || "کاربر";
+              const welcomeText = isGuest
+                ? "سلام خوش آمدید"
+                : `سلام ${displayName}، خوش آمدید`;
+              const placementText = placement
+                ? `آخرین سطح: ${placement.level} | امتیاز: ${placement.correct}/${placement.total} | تاریخ: ${new Date(placement.date).toLocaleDateString("fa-IR")}`
+                : "هنوز آزمون تعیین سطح ثبت نشده است.";
+              const vocabText = vocab
+                ? `آخرین تخمین واژگان: ${vocab.estimated} کلمه (بازه ${vocab.low} تا ${vocab.high}) | تاریخ: ${new Date(vocab.date).toLocaleDateString("fa-IR")}`
+                : "هنوز تست دامنه لغت ثبت نشده است.";
+              homeSection.innerHTML = `
+                <div class="home-panel">
+                  <h2>${welcomeText}</h2>
+                  <p>
+                    از منوی بالا می‌توانید آزمون تعیین سطح را آغاز کنید یا دامنه واژگان خود را بسنجید.
+                    پیشنهاد می‌شود ابتدا آزمون تعیین سطح را انجام دهید تا تحلیل دقیق‌تری از مهارت فعلی شما ثبت شود.
+                  </p>
+                  <div class="home-grid">
+                    <div class="home-card">
+                      <h3>وضعیت آخرین نتایج</h3>
+                      <p class="home-status-line">${placementText}</p>
+                      <p class="home-status-line">${vocabText}</p>
+                    </div>
+                    <div class="home-card">
+                      <h3>مسیر پیشنهادی شما</h3>
+                      <div class="home-steps">
+                        <div class="home-step">1) ابتدا آزمون تعیین سطح CEFR را انجام بده.</div>
+                        <div class="home-step">2) سپس تست واژگان را بزن تا تصویر کامل‌تری از سطح فعلی‌ات داشته باشی.</div>
+                      </div>
+                    </div>
+                    <div class="home-card">
+                      <h3>چرا این مسیر موثر است؟</h3>
+                      <ul class="home-points">
+                        <li>سطح فعلی‌ات با معیار بین‌المللی مشخص می‌شود.</li>
+                        <li>نقطه ضعف‌های گرامری‌ات در گزارش دیده می‌شود.</li>
+                        <li>دامنه واژگان فعال و غیرفعال‌ات بهتر تخمین زده می‌شود.</li>
+                      </ul>
+                    </div>
+                    ${
+                      isGuest
+                        ? `
+                    <div class="home-card">
+                      <h3>حساب مهمان</h3>
+                      <p>برای ذخیره دائمی نتایج و پیگیری پیشرفت دوره‌ای، ثبت‌نام کنید.</p>
+                      <div class="home-actions">
+                        <button class="btn-primary" id="homeGuestSignupBtn" type="button">ثبت‌نام و ذخیره نتایج</button>
+                      </div>
+                    </div>
+                    `
+                        : ""
+                    }
+                  </div>
+                </div>
+              `;
+              const homeGuestSignupBtn = document.getElementById("homeGuestSignupBtn");
+              if (homeGuestSignupBtn) {
+                homeGuestSignupBtn.addEventListener("click", () => {
+                  clearSession();
+                  appContainer.classList.add("hidden");
+                  openAuthShell("signup");
+                });
+              }
+            }
+            function switchAuthTab(mode) {
+              const isLogin = mode === "login";
+              tabLogin.classList.toggle("active", isLogin);
+              tabSignup.classList.toggle("active", !isLogin);
+              loginForm.classList.toggle("hidden", !isLogin);
+              signupForm.classList.toggle("hidden", isLogin);
+              setAuthMessage(loginMessage, "", "");
+              setAuthMessage(signupMessage, "", "");
+              if (isLogin) {
+                loginEmail.focus();
+              } else {
+                signupName.focus();
+              }
+            }
+            function openAuthShell(mode = "login") {
+              introShell.classList.add("hidden");
+                        authShell.classList.remove("hidden");
+              switchAuthTab(mode);
+            }
+            function showIntroLanding() {
+            appContainer.classList.add("hidden");
+            authShell.classList.add("hidden");
+            introShell.classList.remove("hidden");
+            }
+            function setAuthenticated(user) {
+              activeUser = user || null;
+              appContainer.classList.remove("hidden");
+              introShell.classList.add("hidden");
+              authShell.classList.add("hidden");
+              showSection("home");
+            }
+            function setLoggedOut() {
+              activeUser = null;
+              showIntroLanding();
+            }
+            const OFFLINE_WORD_BANK = [
+              { word: "book", meanings: ["کتاب"], weight: 1, band: 1 },
+              { word: "happy", meanings: ["خوشحال", "شاد"], weight: 1, band: 1 },
+              { word: "house", meanings: ["خانه"], weight: 1, band: 1 },
+              { word: "water", meanings: ["آب"], weight: 1, band: 1 },
+              { word: "quick", meanings: ["سریع", "تند"], weight: 1, band: 1 },
+              { word: "teacher", meanings: ["معلم", "دبیر"], weight: 1, band: 1 },
+              {
+                word: "decide",
+                meanings: ["تصمیم گرفتن", "تصمیم"],
+                weight: 2,
+                band: 2,
+              },
+              {
+                word: "improve",
+                meanings: ["بهبود دادن", "بهبود یافتن", "بهبود"],
+                weight: 2,
+                band: 2,
+              },
+              {
+                word: "despite",
+                meanings: ["با وجود", "علی رغم", "علی‌رغم"],
+                weight: 2,
+                band: 2,
+              },
+              {
+                word: "available",
+                meanings: ["در دسترس", "موجود"],
+                weight: 2,
+                band: 2,
+              },
+              {
+                word: "increase",
+                meanings: ["افزایش", "افزایش دادن", "زیاد شدن"],
+                weight: 2,
+                band: 2,
+              },
+              {
+                word: "consider",
+                meanings: ["در نظر گرفتن", "بررسی کردن"],
+                weight: 2,
+                band: 2,
+              },
+              { word: "accurate", meanings: ["دقیق"], weight: 3, band: 3 },
+              {
+                word: "attempt",
+                meanings: ["تلاش", "تلاش کردن"],
+                weight: 3,
+                band: 3,
+              },
+              {
+                word: "beneficial",
+                meanings: ["مفید", "سودمند"],
+                weight: 3,
+                band: 3,
+              },
+              {
+                word: "maintain",
+                meanings: ["حفظ کردن", "نگهداری کردن"],
+                weight: 3,
+                band: 3,
+              },
+              { word: "complex", meanings: ["پیچیده"], weight: 3, band: 3 },
+              {
+                word: "requirement",
+                meanings: ["نیاز", "الزام", "شرط"],
+                weight: 3,
+                band: 3,
+              },
+              {
+                word: "substantial",
+                meanings: ["قابل توجه", "چشمگیر", "اساسی"],
+                weight: 4,
+                band: 4,
+              },
+              {
+                word: "nevertheless",
+                meanings: ["با این حال", "بااین حال"],
+                weight: 4,
+                band: 4,
+              },
+              {
+                word: "consequently",
+                meanings: ["در نتیجه", "بنابراین"],
+                weight: 4,
+                band: 4,
+              },
+              {
+                word: "comprehensive",
+                meanings: ["جامع", "کامل"],
+                weight: 4,
+                band: 4,
+              },
+              {
+                word: "implement",
+                meanings: ["اجرا کردن", "پیاده سازی", "پیاده‌سازی"],
+                weight: 4,
+                band: 4,
+              },
+              { word: "sufficient", meanings: ["کافی"], weight: 4, band: 4 },
+              {
+                word: "meticulous",
+                meanings: ["بسیار دقیق", "موشکاف", "موشکافانه"],
+                weight: 5,
+                band: 5,
+              },
+              { word: "ambiguous", meanings: ["مبهم", "دوپهلو"], weight: 5, band: 5 },
+              { word: "coherent", meanings: ["منسجم"], weight: 5, band: 5 },
+              {
+                word: "feasible",
+                meanings: ["عملی", "شدنی", "امکان پذیر", "امکان‌پذیر"],
+                weight: 5,
+                band: 5,
+              },
+              {
+                word: "intricate",
+                meanings: ["پیچیده", "دشوار"],
+                weight: 5,
+                band: 5,
+              },
+              { word: "hypothesis", meanings: ["فرضیه"], weight: 5, band: 5 },
+            ];
+            const vocabState = {
+              words: [],
+              answers: Array(20).fill(null),
+              index: 0,
+              started: false,
+              finished: false,
+              isBusy: false,
+            };
+            function showSection(section) {
+              const isHome = section === "home";
+              const isPlacement = section === "placement";
+              const isVocab = section === "vocab";
+              if (isHome && activeUser) {
+                renderHomePanel(activeUser);
+              }
+              homeSection.classList.toggle("hidden", !isHome);
+              placementSection.classList.toggle("hidden", !isPlacement);
+              vocabSection.classList.toggle("hidden", !isVocab);
+              menuHome.classList.toggle("active", isHome);
+              menuPlacement.classList.toggle("active", isPlacement);
+              menuVocab.classList.toggle("active", isVocab);
+            }
+            function handleExamEnterAdvance(event) {
+              const isEnter = event.key === "Enter" || event.code === "NumpadEnter";
+              if (!isEnter || event.isComposing) return;
+              if (appContainer.classList.contains("hidden")) return;
+              if (!placementSection.classList.contains("hidden")) {
+                if (!placementState.started || placementState.submitted) return;
+                event.preventDefault();
+                if (placementState.currentIndex < placementQuestions.length - 1) {
+                  placementState.currentIndex += 1;
+                  renderPlacementQuestion();
+                  return;
+                }
+                submitPlacementExam(false);
+                return;
+              }
+              if (!vocabSection.classList.contains("hidden")) {
+                if (!vocabState.started || vocabState.isBusy) return;
+                event.preventDefault();
+                if (vocabState.index < 19) {
+                  vocabState.index += 1;
+                  renderVocabQuestion();
+                  return;
+                }
+                finishVocabBtn.click();
+              }
+            }
+            function inferGrammarTopic(item) {
+              const q = item.q.toLowerCase();
+              const answerText = (item.options[item.answer] || "").toLowerCase();
+              if (["am", "is", "are", "was", "were", "be", "been", "being"].includes(answerText)) {
+                return "افعال to be و تطابق فاعل-فعل";
+              }
+              if (q.includes("if ") || q.includes("had ") || q.includes("were ")) {
+                return "جملات شرطی";
+              }
+              if (
+                q.includes("hardly") ||
+                q.includes("scarcely") ||
+                q.includes("no sooner") ||
+                q.includes("rarely") ||
+                q.includes("seldom") ||
+                q.includes("little ")
+              ) {
+                return "وارونگی (Inversion)";
+              }
+              if (
+                q.includes("who") ||
+                q.includes("which") ||
+                q.includes("where") ||
+                q.includes("whose")
+              ) {
+                return "جملات موصولی";
+              }
+              if (q.includes("since") || q.includes("for") || q.includes("already") || q.includes("yet")) {
+                return "زمان‌های کامل (Perfect)";
+              }
+              if (q.includes("yesterday") || q.includes("last year") || q.includes("when i called")) {
+                return "زمان گذشته";
+              }
+              if (q.includes("than") || q.includes("most") || q.includes("best")) {
+                return "مقایسه‌ای و عالی";
+              }
+              if (q.includes("must") || q.includes("can ") || q.includes("could") || q.includes("should")) {
+                return "افعال وجهی (Modals)";
+              }
+              if (
+                q.includes("interested") ||
+                q.includes("prefer") ||
+                q.includes("resulted") ||
+                q.includes("accused") ||
+                q.includes("call ")
+              ) {
+                return "حروف اضافه و ترکیب‌های ثابت";
+              }
+              if (q.includes("to ") || q.includes("ing") || q.includes("used to") || q.includes("worth")) {
+                return "مصدر و gerund";
+              }
+              return "کاربرد عمومی گرامر";
+            }
+            function buildTopicBadges(topics) {
+              if (!topics.length) {
+                return "پاسخ کافی برای تحلیل این بخش ثبت نشده است.";
+              }
+              return topics
+                .map((t) => `<span class="topic-chip">${t}</span>`)
+                .join("");
+            }
+            function summarizeTopicPerformance(topicStats) {
+              const rows = Object.keys(topicStats).map((topic) => {
+                const stat = topicStats[topic];
+                const acc = stat.total > 0 ? stat.correct / stat.total : 0;
+                return { topic, ...stat, acc };
+              });
+              const strengths = rows
+                .filter((r) => r.total > 0 && r.acc >= 0.7)
+                .sort((a, b) => b.acc - a.acc || b.total - a.total)
+                .slice(0, 3)
+                .map((r) => r.topic);
+              const weaknesses = rows
+                .filter((r) => r.wrong > 0)
+                .sort((a, b) => a.acc - b.acc || b.wrong - a.wrong)
+                .slice(0, 3)
+                .map((r) => r.topic);
+              return { strengths, weaknesses };
+            }
+            function buildReportText(payload) {
+              const { correct, wrong, answered, level, endReason, levelStats, levelTopicStats } =
+                payload;
+              const lines = [
+                "کارنامه آزمون تعیین سطح lexi",
+                `پاسخ داده‌شده: ${answered}`,
+                `تعداد درست: ${correct}`,
+                `تعداد غلط: ${wrong}`,
+                `سطح تقریبی: ${level}${endReason}`,
+                "",
+              ];
+              CEFR_LEVELS.forEach((lvl) => {
+                const stats = levelStats[lvl];
+                if (!stats || (stats.answered || 0) === 0) return;
+                const analysis = summarizeTopicPerformance(levelTopicStats[lvl] || {});
+                const weaknessText = analysis.weaknesses.length
+                  ? analysis.weaknesses.join("، ")
+                  : "مورد شاخصی ثبت نشد";
+                const strengthText = analysis.strengths.length
+                  ? analysis.strengths.join("، ")
+                  : "مورد شاخصی ثبت نشد";
+                lines.push(`سطح ${lvl} (${stats.correct}/${stats.answered})`);
+                lines.push(`- ضعف‌ها: ${weaknessText}`);
+                lines.push(`- قوت‌ها: ${strengthText}`);
+                lines.push("");
+              });
+              return lines.join("\n").trim();
+            }
+            function renderPlacementReport(payload) {
+              const { correct, wrong, answered, level, endReason, levelStats, levelTopicStats } =
+                payload;
+              reportSummary.textContent =
+                `پاسخ داده‌شده: ${answered} | درست: ${correct} | غلط: ${wrong} | سطح تقریبی: ${level}${endReason}`;
+              reportLevelGrid.innerHTML = "";
+              CEFR_LEVELS.forEach((lvl) => {
+                const stats = levelStats[lvl];
+                if (!stats || (stats.answered || 0) === 0) return;
+                const analysis = summarizeTopicPerformance(levelTopicStats[lvl] || {});
+                const block = document.createElement("div");
+                block.className = "level-block";
+                const title = document.createElement("h3");
+                title.textContent = `سطح ${lvl} - عملکرد ${stats.correct}/${stats.answered}`;
+                const weakness = document.createElement("p");
+                weakness.className = "level-row";
+                weakness.innerHTML = `ضعف‌های گرامری: ${buildTopicBadges(analysis.weaknesses)}`;
+                const strength = document.createElement("p");
+                strength.className = "level-row";
+                strength.innerHTML = `نقاط قوت گرامری: ${buildTopicBadges(analysis.strengths)}`;
+                block.appendChild(title);
+                block.appendChild(weakness);
+                block.appendChild(strength);
+                reportLevelGrid.appendChild(block);
+              });
+              lastReportText = buildReportText(payload);
+              reportOverlay.classList.remove("hidden");
+            }
+            function closeReportOverlay() {
+              reportOverlay.classList.add("hidden");
+              if (
+                placementState.submitted &&
+                lastReportText &&
+                !placementState.reportClosedOnce
+              ) {
+                placementState.reportClosedOnce = true;
+                viewReportBtn.classList.remove("hidden");
+              }
+            }
+            function initAuth() {
+              const session = readSession();
+              const users = getUsers();
+              if (!session || !session.email) {
+                if (session && session.guest) {
+                  setAuthenticated({ name: session.name || "مهمان", guest: true });
+                  return;
+                }
+                setLoggedOut();
+                return;
+              }
+              const user = users.find((item) => item.email === session.email);
+              if (!user) {
+                clearSession();
+                setLoggedOut();
+                return;
+              }
+              setAuthenticated(user);
+            }
+            introPlacementBtn.addEventListener("click", () => {
+             writeSession({ guest: true, name: "مهمان" }, false);
+             setAuthenticated({ name: "مهمان", guest: true });
+             setTimeout(() => {
+            startPlacementBtn.click();
+             }, 150);
+            });
+            introVocabularyBtn.addEventListener("click", () => {
+            writeSession({ guest: true, name: "مهمان" }, false);
+            setAuthenticated({ name: "مهمان", guest: true });
+            setTimeout(() => {
+            startVocabBtn.click();
+            }, 150);
+            });
+
+            introSampleBtn.addEventListener("click", () => {
+              introSampleOverlay.classList.remove("hidden");
+            });
+            introSampleCloseBtn.addEventListener("click", () => {
+              introSampleOverlay.classList.add("hidden");
+            });
+            introSampleOverlay.addEventListener("click", (event) => {
+              if (event.target === introSampleOverlay) {
+                introSampleOverlay.classList.add("hidden");
+              }
+            });
+            
+            backToIntroBtn.addEventListener("click", () => showIntroLanding());
+            tabLogin.addEventListener("click", () => switchAuthTab("login"));
+            tabSignup.addEventListener("click", () => switchAuthTab("signup"));
+            document.querySelectorAll(".toggle-pass").forEach((button) => {
+              button.addEventListener("click", () => {
+                const targetId = button.getAttribute("data-target");
+                const input = document.getElementById(targetId);
+                if (!input) return;
+                const isPassword = input.type === "password";
+                input.type = isPassword ? "text" : "password";
+                button.textContent = isPassword ? "مخفی" : "نمایش";
+              });
+            });
+            loginPassword.addEventListener("keyup", (event) => {
+              const caps = event.getModifierState && event.getModifierState("CapsLock");
+              capsWarning.style.display = caps ? "block" : "none";
+            });
+            signupPassword.addEventListener("input", () => {
+              renderPasswordStrength(signupPassword.value);
+            });
+            forgotPasswordLink.addEventListener("click", (event) => {
+              event.preventDefault();
+              setAuthMessage(
+                loginMessage,
+                "برای بازیابی رمز، فعلا اکانت جدید بسازید یا با مدیر سیستم تماس بگیرید.",
+                "error",
+              );
+            });
+            signupForm.addEventListener("submit", (event) => {
+              event.preventDefault();
+              setAuthMessage(signupMessage, "", "");
+              const name = signupName.value.trim();
+              const email = normalizeEmail(signupEmail.value);
+              const password = signupPassword.value;
+              const confirm = signupConfirm.value;
+              if (name.length < 3) {
+                setAuthMessage(signupMessage, "نام باید حداقل 3 کاراکتر باشد.", "error");
+                return;
+              }
+              if (!isValidEmail(email)) {
+                setAuthMessage(signupMessage, "ایمیل معتبر وارد کنید.", "error");
+                return;
+              }
+              if (scorePassword(password) < 3) {
+                setAuthMessage(
+                  signupMessage,
+                  "رمز باید حداقل 8 کاراکتر و شامل حروف بزرگ، عدد یا نماد باشد.",
+                  "error",
+                );
+                return;
+              }
+              if (password !== confirm) {
+                setAuthMessage(signupMessage, "تکرار رمز عبور یکسان نیست.", "error");
+                return;
+              }
+              if (!signupTerms.checked) {
+                setAuthMessage(signupMessage, "برای ادامه باید قوانین را بپذیرید.", "error");
+                return;
+              }
+              const users = getUsers();
+              if (users.some((item) => item.email === email)) {
+                setAuthMessage(signupMessage, "این ایمیل قبلا ثبت شده است.", "error");
+                return;
+              }
+              signupSubmit.disabled = true;
+              signupSubmit.textContent = "در حال ساخت اکانت...";
+              setTimeout(() => {
+                users.push({
+                  name,
+                  email,
+                  password,
+                  createdAt: new Date().toISOString(),
+                });
+                saveUsers(users);
+                signupSubmit.disabled = false;
+                signupSubmit.textContent = "ساخت حساب";
+                setAuthMessage(signupMessage, "اکانت با موفقیت ساخته شد. حالا وارد شوید.", "success");
+                switchAuthTab("login");
+                loginEmail.value = email;
+                loginPassword.value = "";
+                loginPassword.focus();
+              }, 700);
+            });
+            loginForm.addEventListener("submit", (event) => {
+              event.preventDefault();
+              setAuthMessage(loginMessage, "", "");
+              const email = normalizeEmail(loginEmail.value);
+              const password = loginPassword.value;
+              if (!isValidEmail(email)) {
+                setAuthMessage(loginMessage, "ایمیل معتبر وارد کنید.", "error");
+                return;
+              }
+              if (!password) {
+                setAuthMessage(loginMessage, "رمز عبور را وارد کنید.", "error");
+                return;
+              }
+              const users = getUsers();
+              const user = users.find(
+                (item) => item.email === email && item.password === password,
+              );
+              if (!user) {
+                setAuthMessage(
+                  loginMessage,
+                  "ایمیل یا رمز عبور اشتباه است.",
+                  "error",
+                );
+                return;
+              }
+              loginSubmit.disabled = true;
+              loginSubmit.textContent = "در حال ورود...";
+              setTimeout(() => {
+                writeSession({ email: user.email }, rememberMe.checked);
+                loginSubmit.disabled = false;
+                loginSubmit.textContent = "ورود به حساب";
+                setAuthenticated(user);
+              }, 650);
+            });
+            guestEnterBtn.addEventListener("click", () => {
+              setAuthMessage(loginMessage, "", "");
+              writeSession({ guest: true, name: "مهمان" }, false);
+              setAuthenticated({ name: "مهمان", guest: true });
+            });
+            logoutBtn.addEventListener("click", () => {
+              clearSession();
+              setLoggedOut();
+            });
+            menuHome.addEventListener("click", () => showSection("home"));
+            menuPlacement.addEventListener("click", () => showSection("placement"));
+            menuVocab.addEventListener("click", () => showSection("vocab"));
+            function formatTime(seconds) {
+              const m = Math.floor(seconds / 60)
+                .toString()
+                .padStart(2, "0");
+              const s = (seconds % 60).toString().padStart(2, "0");
+              return `${m}:${s}`;
+            }
+            function updatePlacementProgress() {
+              const total = placementQuestions.length || 1;
+              const percent = ((placementState.currentIndex + 1) / total) * 100;
+              progressBar.style.width = `${percent}%`;
+            }
+            function renderPlacementQuestion() {
+              if (!placementState.started) {
+                placementMetaBar.classList.add("hidden");
+                placementActions.classList.add("hidden");
+                submitBtn.classList.remove("hidden");
+                questionCounter.textContent = `سوال 0 از ${CEFR_LEVELS.length * QUESTIONS_PER_LEVEL}`;
+                questionText.textContent = "";
+                choicesEl.innerHTML = "";
+                prevBtn.disabled = true;
+                nextBtn.disabled = true;
+                submitBtn.disabled = true;
+                hintBtn.classList.add("hidden");
+                hintBox.style.display = "none";
+                progressBar.style.width = "0%";
+                timerEl.textContent = formatTime(placementState.timeLeft);
+                return;
+              }
+              placementMetaBar.classList.remove("hidden");
+              placementActions.classList.remove("hidden");
+              const idx = placementState.currentIndex;
+              const item = placementQuestions[idx];
+              questionCounter.textContent = `سوال ${idx + 1} از ${placementQuestions.length}`;
+              questionText.textContent = item.q;
+              choicesEl.innerHTML = "";
+              item.options.forEach((opt, optionIndex) => {
+                const label = document.createElement("label");
+                label.className = "choice";
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = "choice";
+                input.value = String(optionIndex);
+                input.checked = placementState.answers[idx] === optionIndex;
+                input.disabled = placementState.submitted || !placementState.started;
+                input.addEventListener("change", () => {
+                  placementState.answers[idx] = optionIndex;
+                  const earlyStopLevel = getEarlyStopLevel();
+                  if (earlyStopLevel) {
+                    submitPlacementExam(false, earlyStopLevel);
+                  }
+                });
+                const span = document.createElement("span");
+                span.textContent = opt;
+                label.appendChild(input);
+                label.appendChild(span);
+                if (placementState.submitted) {
+                  if (optionIndex === item.answer) {
+                    label.classList.add("correct");
+                  } else if (
+                    placementState.answers[idx] === optionIndex &&
+                    optionIndex !== item.answer
+                  ) {
+                    label.classList.add("wrong");
+                  }
+                }
+                choicesEl.appendChild(label);
+              });
+              prevBtn.disabled = idx === 0;
+              nextBtn.disabled = idx === placementQuestions.length - 1;
+              submitBtn.disabled =
+                placementState.submitted || !placementState.started;
+              submitBtn.classList.toggle("hidden", placementState.submitted);
+              if (placementState.submitted) {
+                hintBtn.classList.remove("hidden");
+                hintBox.textContent = item.explanation || "توضیحی برای این سوال ثبت نشده است.";
+                hintBox.style.display = placementState.hintOpen ? "block" : "none";
+              } else {
+                hintBtn.classList.add("hidden");
+                hintBox.style.display = "none";
+              }
+              updatePlacementProgress();
+            }
+            function startPlacementTimer() {
+              if (placementState.timerId) return;
+              timerEl.textContent = formatTime(placementState.timeLeft);
+              placementState.timerId = setInterval(() => {
+                placementState.timeLeft -= 1;
+                timerEl.textContent = formatTime(
+                  Math.max(placementState.timeLeft, 0),
+                );
+                if (placementState.timeLeft <= 0) {
+                  submitPlacementExam(true);
+                }
+              }, 1000);
+            }
+            function submitPlacementExam(isTimeout = false, earlyStopLevel = null) {
+              if (!placementState.started || placementState.submitted) return;
+              placementState.submitted = true;
+              clearInterval(placementState.timerId);
+              placementState.timerId = null;
+              let correct = 0;
+              let wrong = 0;
+              const levelStats = CEFR_LEVELS.reduce((acc, level) => {
+                acc[level] = { correct: 0, total: 0, answered: 0 };
+                return acc;
+              }, {});
+              const levelTopicStats = CEFR_LEVELS.reduce((acc, level) => {
+                acc[level] = {};
+                return acc;
+              }, {});
+              placementQuestions.forEach((item, i) => {
+                levelStats[item.level].total += 1;
+                const selectedAnswer = placementState.answers[i];
+                if (selectedAnswer === null) return;
+                levelStats[item.level].answered += 1;
+                const topic = item.topic || inferGrammarTopic(item);
+                if (!levelTopicStats[item.level][topic]) {
+                  levelTopicStats[item.level][topic] = { total: 0, correct: 0, wrong: 0 };
+                }
+                levelTopicStats[item.level][topic].total += 1;
+                if (selectedAnswer === item.answer) {
+                  correct += 1;
+                  levelStats[item.level].correct += 1;
+                  levelTopicStats[item.level][topic].correct += 1;
+                } else {
+                  wrong += 1;
+                  levelTopicStats[item.level][topic].wrong += 1;
+                }
+              });
+              const answered = placementState.answers.filter(
+                (v) => v !== null,
+              ).length;
+              const level = earlyStopLevel || determineLevelFromStats(levelStats);
+              const endReason = isTimeout
+                ? " (پایان زمان آزمون)"
+                : earlyStopLevel
+                  ? " (پایان زودهنگام: 3 پاسخ غلط پشت‌سرهم)"
+                  : "";
+              const breakdown = CEFR_LEVELS.map(
+                (lvl) =>
+                  `${lvl}: ${levelStats[lvl].correct}/${levelStats[lvl].total}`,
+              ).join(" | ");
+              scoreLine.textContent = `امتیاز شما: ${correct} از ${placementQuestions.length} | پاسخ داده‌شده: ${answered}`;
+              levelLine.textContent = `سطح تقریبی شما: ${level}${endReason} | ${breakdown}`;
+              saveHomeResult("placement", {
+                level,
+                correct,
+                total: placementQuestions.length,
+                answered,
+                date: new Date().toISOString(),
+              });
+              resultBox.style.display = "none";
+              renderPlacementReport({
+                correct,
+                wrong,
+                answered,
+                level,
+                endReason,
+                levelStats,
+                levelTopicStats,
+              });
+              placementState.hintOpen = false;
+              placementState.reportClosedOnce = false;
+              viewReportBtn.classList.add("hidden");
+              renderPlacementQuestion();
+            }
+            prevBtn.addEventListener("click", () => {
+              if (placementState.currentIndex > 0) {
+                placementState.currentIndex -= 1;
+                renderPlacementQuestion();
+              }
+            });
+            nextBtn.addEventListener("click", () => {
+              if (placementState.currentIndex < placementQuestions.length - 1) {
+                placementState.currentIndex += 1;
+                renderPlacementQuestion();
+              }
+            });
+            submitBtn.addEventListener("click", () => submitPlacementExam(false));
+            startPlacementBtn.addEventListener("click", () => {
+              preparePlacementExam();
+              startPlacementBtn.textContent = "شروع آزمون جدید";
+              renderPlacementQuestion();
+              startPlacementTimer();
+            });
+            viewReportBtn.addEventListener("click", () => {
+              if (!lastReportText || !placementState.submitted) return;
+              reportOverlay.classList.remove("hidden");
+            });
+            hintBtn.addEventListener("click", () => {
+              if (!placementState.submitted) return;
+              placementState.hintOpen = !placementState.hintOpen;
+              hintBox.style.display = placementState.hintOpen ? "block" : "none";
+            });
+            closeReportBtn.addEventListener("click", () => {
+              closeReportOverlay();
+            });
+            copyReportBtn.addEventListener("click", async () => {
+              if (!lastReportText) return;
+              try {
+                await navigator.clipboard.writeText(lastReportText);
+                copyReportBtn.textContent = "کپی شد";
+                setTimeout(() => {
+                  copyReportBtn.textContent = "کپی";
+                }, 1200);
+              } catch (err) {
+                alert("امکان کپی خودکار وجود ندارد. لطفاً دستی کپی کنید.");
+              }
+            });
+            downloadReportBtn.addEventListener("click", () => {
+              if (!lastReportText) return;
+              const printWindow = window.open("", "_blank", "width=900,height=700");
+              if (!printWindow) {
+                alert("پنجره دانلود باز نشد. لطفا Pop-up را فعال کنید.");
+                return;
+              }
+              const escapedReport = lastReportText
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/\n/g, "<br />");
+              const html = `
+                <!doctype html>
+                <html lang="fa" dir="rtl">
+                  <head>
+                    <meta charset="UTF-8" />
+                    <title>کارنامه آزمون lexi</title>
+                    <style>
+                      body {
+                        font-family: Tahoma, "Segoe UI", sans-serif;
+                        margin: 24px;
+                        color: #1f2a37;
+                        line-height: 1.9;
+                      }
+                      h1 {
+                        margin: 0 0 12px;
+                        color: #16487d;
+                        font-size: 24px;
+                      }
+                      .box {
+                        border: 1px solid #d6e4f5;
+                        border-radius: 12px;
+                        padding: 14px;
+                        background: #fbfdff;
+                        font-size: 14px;
+                      }
+                    </style>
+                  </head>
+                  <body>
+                    <h1>کارنامه آزمون تعیین سطح lexi</h1>
+                    <div class="box">${escapedReport}</div>
+                    <script>
+                      window.addEventListener("load", function () {
+                        window.print();
+                      });
+                    <\/script>
+                  </body>
+                </html>
+              `;
+              printWindow.document.open();
+              printWindow.document.write(html);
+              printWindow.document.close();
+            });
+            shareReportBtn.addEventListener("click", async () => {
+              if (!lastReportText) return;
+              try {
+                if (navigator.share) {
+                  await navigator.share({
+                    title: "کارنامه آزمون تعیین سطح lexi",
+                    text: lastReportText,
+                  });
+                  return;
+                }
+                if (navigator.clipboard) {
+                  await navigator.clipboard.writeText(lastReportText);
+                  alert("اشتراک‌گذاری مستقیم پشتیبانی نشد. متن کارنامه کپی شد.");
+                  return;
+                }
+                alert("اشتراک‌گذاری در این مرورگر پشتیبانی نمی‌شود.");
+              } catch (err) {
+                alert("اشتراک‌گذاری انجام نشد.");
+              }
+            });
+            reportOverlay.addEventListener("click", (event) => {
+              if (event.target === reportOverlay) {
+                closeReportOverlay();
+              }
+            });
+            document.addEventListener("keydown", handleExamEnterAdvance);
+            function renderVocabQuestion() {
+              if (!vocabState.started || vocabState.words.length === 0) return;
+              const idx = vocabState.index;
+              const item = vocabState.words[idx];
+              vocabWord.textContent = item.word;
+              vocabCounter.textContent = `${idx + 1} / 20`;
+              vocabChoices.innerHTML = "";
+              item.options.forEach((opt, optionIndex) => {
+                const label = document.createElement("label");
+                label.className = "vocab-choice";
+                const input = document.createElement("input");
+                input.type = "radio";
+                input.name = "vocabChoice";
+                input.value = String(optionIndex);
+                input.checked = vocabState.answers[idx] === optionIndex;
+                input.disabled = vocabState.isBusy;
+                input.addEventListener("change", () => {
+                  vocabState.answers[idx] = optionIndex;
+                  renderVocabQuestion();
+                });
+                const span = document.createElement("span");
+                span.textContent = opt;
+                label.appendChild(input);
+                label.appendChild(span);
+                vocabChoices.appendChild(label);
+              });
+              vocabStatus.textContent = `پاسخ‌های ثبت‌شده: ${vocabState.answers.filter((x) => x !== null).length} از 20`;
+              nextVocabBtn.disabled = idx === 19;
+              finishVocabBtn.disabled = vocabState.isBusy;
+            }
+            function shuffle(array) {
+              const copy = array.slice();
+              for (let i = copy.length - 1; i > 0; i -= 1) {
+                const j = Math.floor(Math.random() * (i + 1));
+                const temp = copy[i];
+                copy[i] = copy[j];
+                copy[j] = temp;
+              }
+              return copy;
+            }
+            function pickOfflineWords() {
+              const chosen = [];
+              for (let band = 1; band <= 5; band += 1) {
+                const pool = OFFLINE_WORD_BANK.filter((item) => item.band === band);
+                chosen.push(...shuffle(pool).slice(0, 4));
+              }
+              return shuffle(chosen);
+            }
+            function buildVocabQuestions(words) {
+              return words.map((item) => {
+                const correct = item.meanings[0];
+                const distractorPool = OFFLINE_WORD_BANK.filter(
+                  (w) => w.word !== item.word,
+                ).map((w) => w.meanings[0]);
+                const distractors = shuffle(distractorPool).slice(0, 3);
+                const options = shuffle([correct, ...distractors]);
+                return {
+                  word: item.word,
+                  weight: item.weight,
+                  options,
+                  correctIndex: options.indexOf(correct),
+                };
+              });
+            }
+            function evaluateOfflineAnswers() {
+              let correctCount = 0;
+              let weightedScore = 0;
+              let maxScore = 0;
+              vocabState.words.forEach((item, i) => {
+                maxScore += item.weight;
+                if (vocabState.answers[i] === item.correctIndex) {
+                  correctCount += 1;
+                  weightedScore += item.weight;
+                }
+              });
+              return { correctCount, weightedScore, maxScore };
+            }
+            function estimateVocabularySize(weightedScore, maxScore) {
+              const ratio = maxScore > 0 ? weightedScore / maxScore : 0;
+              const estimated = Math.round(500 + ratio * 7500);
+              const low = Math.max(0, estimated - 100);
+              const high = estimated + 100;
+              return { estimated, low, high };
+            }
+            startVocabBtn.addEventListener("click", () => {
+              if (vocabState.isBusy) return;
+              vocabState.isBusy = true;
+              vocabLoading.style.display = "block";
+              vocabResultBox.style.display = "none";
+              try {
+                vocabState.words = buildVocabQuestions(pickOfflineWords());
+                vocabState.answers = Array(20).fill(null);
+                vocabState.index = 0;
+                vocabState.started = true;
+                vocabState.finished = false;
+                vocabQuestionBox.style.display = "block";
+                renderVocabQuestion();
+              } catch (err) {
+                alert(`خطا در شروع تست دامنه لغت:\n${err.message}`);
+              } finally {
+                vocabState.isBusy = false;
+                vocabLoading.style.display = "none";
+              }
+            });
+            nextVocabBtn.addEventListener("click", () => {
+              if (vocabState.index < 19) {
+                vocabState.index += 1;
+                renderVocabQuestion();
+              }
+            });
+            finishVocabBtn.addEventListener("click", () => {
+              if (!vocabState.started || vocabState.isBusy) return;
+              vocabState.isBusy = true;
+              vocabLoading.textContent = "در حال ارزیابی پاسخ‌ها...";
+              vocabLoading.style.display = "block";
+              try {
+                const evalData = evaluateOfflineAnswers();
+                const { correctCount, weightedScore, maxScore } = evalData;
+                const { estimated, low, high } = estimateVocabularySize(
+                  weightedScore,
+                  maxScore,
+                );
+                saveHomeResult("vocab", {
+                  estimated,
+                  low,
+                  high,
+                  correctCount,
+                  total: 20,
+                  date: new Date().toISOString(),
+                });
+                vocabScoreLine.textContent = `تعداد پاسخ درست: ${correctCount} از 20`;
+                vocabRangeLine.textContent = `دامنه تقریبی واژگان: حدود ${estimated} کلمه (بازه: ${low} تا ${high})`;
+                vocabHintLine.textContent =
+                  "این عدد تخمینی آفلاین است و با توجه به 20 لغت نمونه محاسبه شده است.";
+                vocabResultBox.style.display = "block";
+                vocabState.finished = true;
+              } catch (err) {
+                alert(`خطا در ارزیابی پاسخ‌ها:\n${err.message}`);
+              } finally {
+                vocabState.isBusy = false;
+                vocabLoading.textContent = "در حال آماده‌سازی تست دامنه لغت...";
+                vocabLoading.style.display = "none";
+                renderVocabQuestion();
+              }
+            });
+            renderPasswordStrength("");
+            renderPlacementQuestion();
+            initAuth();
